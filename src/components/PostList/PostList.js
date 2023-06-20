@@ -1,33 +1,54 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './PostList.sass'
 import Post from '../Post/Post';
+import Spinner from '../UI/Spinner/Spinner';
 
-const PostList = (props) => {
+export default class PostList extends Component {
 
-    if (!props.data) {
-        return;
+    renderItems = (data) => {
+        return data.map((item) => {
+            const { id, visible, ...itemProps } = item;
+            if (this.props.new) {
+                if (visible === false) {
+                    return;
+                }
+                return (
+                    <li key={item.id} className='planner-list'>
+                        <Post {...itemProps} onDelete={() => this.props.onDelete(id)} />
+                    </li>
+                );
+            } else {
+                if (!visible === false) {
+                    return;
+                }
+                return (
+                    <li key={item.id} className='planner-list'>
+                        <Post {...itemProps} onDelete={() => this.props.onDelete(id)} />
+                    </li>
+                );
+            }
+
+        });
     }
-    const content = props.data.map((item) => {
-        const { id, visible, ...itemProps } = item;
-        if (visible === false) {
-            return;
+
+    render() {
+
+        const { data } = this.props;
+
+        if (!data.length) {
+            return <Spinner />;
         }
+
+        const items = this.renderItems(data);
+
         return (
-            <li key={item.id} className='planner-list'>
-                <Post {...itemProps} onDelete={() => props.onDelete(id)} />
-            </li>
-        );
-    });
-
-    return (
-        <div className='planner'>
-            <div className='app-container'>
-                <ul className='planner-container'>
-                    {content}
-                </ul>
+            <div className='planner'>
+                <div className='app-container'>
+                    <ul className='planner-container'>
+                        {items}
+                    </ul>
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
-
-export default PostList;

@@ -31,13 +31,13 @@ export default class ItemAddForm extends Component {
             <div className='add-wrapper'>
                 <div className='add-form-container'>
                     <form
-                        lassName='add-form'
+                        className='add-form'
                         onSubmit={this.onSubmit}
                     >
                         <label name='body' className='add-form-label'>What should be done?</label>
                         <textarea
                             type='text'
-                            wrap name='body'
+                            name='body'
                             className='add-form-input'
                             onChange={this.onBodyChange}
                         ></textarea>
@@ -47,6 +47,7 @@ export default class ItemAddForm extends Component {
                                 type='datetime-local'
                                 name='deadline'
                                 className='add-form-date'
+                                formatValue='dd-MM-yyyyTHH:mm'
                                 onChange={this.onDateChange}
                             ></input>
                             <button

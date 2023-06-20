@@ -11,7 +11,7 @@ export default class Post extends Component {
     componentDidMount() {
         this.timer = setInterval(() => {
             this.updateItem();
-        }, 5000);
+        }, 500);
     }
     componentWillUnmount() {
         clearInterval(this.timer);
@@ -47,28 +47,23 @@ export default class Post extends Component {
 
         return `${hours}:${minutes}:${seconds}`;
     }
-    getNumber = (number) => {
-        if(number < 10){
-            return `0${number}`;
-        }
-        return number;
-    }
+
+    getNumber = (number) => number < 10 ? `0${number}` : number;
 
     getDeadline = (deadline) => {
-        const data = Date.parse(deadline);
 
-        const years = this.getNumber(Math.floor(data / (1000 * 60 * 60 * 24 * 30 * 12))),
-            months = this.getNumber(Math.floor(data / (1000 * 60 * 60 * 24 * 30) % 12)),
-            days = this.getNumber(Math.floor(data / (1000 * 60 * 60 * 24) % 30)),
-            hours = this.getNumber(Math.floor((data / (1000 * 60 * 60)) % 24)),
-            minutes = this.getNumber(Math.floor((data / (1000 * 60)) % 60));
-        
-        return `${days}.${months}.${years} ${hours}:${minutes}`;
+        const date = new Date(deadline),
+              day = date.getDate(),
+              month = String(date.getMonth() + 1).padStart(2, "0"),
+              year = date.getFullYear(),
+              hour = this.getNumber(date.getHours()), 
+              minute = this.getNumber(date.getMinutes());
+        return `${day}.${month}.${year} ${hour}:${minute}`;
     }
 
     render() {
 
-        const { body, create, deadline, visible } = this.props;
+        const { body, create, deadline } = this.props;
 
         const deadlineDate = Date.parse(deadline);
 
