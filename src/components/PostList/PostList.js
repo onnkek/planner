@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./PostList.sass";
 import Post from "../Post/Post";
 import Spinner from "../UI/Spinner/Spinner";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 export default class PostList extends Component {
   renderItems = (data) => {
@@ -15,18 +16,22 @@ export default class PostList extends Component {
           return;
         }
         return (
-          <li key={item.id} className="planner-list">
-            <Post {...itemProps} onDelete={() => this.props.onDelete(id)} />
-          </li>
+          <CSSTransition key={id} timeout={200} classNames="item">
+            <li key={item.id} className="planner-list">
+              <Post {...itemProps} onDelete={() => this.props.onDelete(id)} />
+            </li>
+          </CSSTransition>
         );
       } else {
         if (!visible === false) {
           return;
         }
         return (
-          <li key={item.id} className="planner-list">
-            <Post {...itemProps} onDelete={() => this.props.onDelete(id)} />
-          </li>
+          <CSSTransition key={id} timeout={200} classNames="item">
+            <li key={item.id} className="planner-list">
+              <Post {...itemProps} onDelete={() => this.props.onDelete(id)} />
+            </li>
+          </CSSTransition>
         );
       }
     });
@@ -44,7 +49,9 @@ export default class PostList extends Component {
     return (
       <div className="planner">
         <div className="app-container">
-          <ul className="planner-container">{items}</ul>
+          <ul className="planner-container">
+            <TransitionGroup className="todo-list">{items}</TransitionGroup>
+          </ul>
         </div>
       </div>
     );
