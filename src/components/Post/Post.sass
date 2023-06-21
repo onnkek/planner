@@ -1,12 +1,23 @@
 .item
-    display: flex
-    justify-content: space-between
-    align-items: center
+    
     margin: 10px
     padding: 10px 15px
     border-radius: 5px
     border: 1px solid #30363d
     background-color: #0d1117
+    transition: all 0.5s ease-in-out
+    
+.item-short
+    display: flex
+    width: 100%
+    justify-content: space-between
+    align-items: center   
+
+.item-full
+    padding: 20px 5px 10px 5px
+    display: flex
+    justify-content: space-between
+    
 .active
     color: red
 .item-title
@@ -28,3 +39,29 @@
 .spinner-border
     margin-right: 7px
     
+    
+.arrow
+    display: block
+    flex-shrink: 0
+    width: 20px
+    height: 20px
+    margin-right: 10px
+    transition: background-color 0.08s ease-in-out
+    &::before
+        content: ''
+        display: block
+        background-color: white
+        width: 1px
+        height: 13px
+        transform: translateX(14px) translateY(5px) rotate(45deg)
+    &::after
+        content: ''
+        display: block
+        background-color: white
+        width: 1px
+        height: 13px
+        transform: translateX(5px) translateY(-8px) rotate(-45deg)
+    &:hover
+        background-color: rgba(255, 255, 255, 0.2)
+        border-radius: 5px
+        cursor: pointer
