@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "./Post.sass";
 
 export default class Post extends Component {
@@ -66,10 +67,14 @@ export default class Post extends Component {
       spinner: true,
     });
   };
+  isShow = false;
   openItem = () => {
-    this.setState({
-      open: !this.state.open,
-    });
+    this.isShow = !this.isShow;
+    setTimeout(() => {
+      this.setState({
+        open: !this.state.open,
+      });
+    }, 0);
   };
   render() {
     const { body, create, deadline } = this.props;
@@ -101,17 +106,23 @@ export default class Post extends Component {
     }
     const prog = (currentTime / fullTime) * 100;
 
-    const open = this.state.open ? (
-      <div className="item-full">
-        <div>Дата создания: ....</div>
-        <div>Дата удаления: ....</div>
-        <div>Time lost: ....</div>
-      </div>
-    ) : null;
+    // const open = this.state.open ? (
+    //   <div className="item-full">
+    //     <div>Дата создания: ....</div>
+    //     <div>Дата удаления: ....</div>
+    //     <div>Time lost: ....</div>
+    //   </div>
+    // ) : (
+    //   <h6>123</h6>
+    // );
 
     return (
       <>
-        <div className="item">
+        <div
+          className={`item ${
+            this.state.open ? "item-active" : "item-inactive"
+          }`}
+        >
           <div className="item-short">
             <div className="arrow" onClick={this.openItem}></div>
             <div className="item-title">{body}</div>
@@ -134,7 +145,15 @@ export default class Post extends Component {
             </div>
             <div className="delete-button">{button}</div>
           </div>
-          {open}
+          <div
+            className={`item-full ${
+              this.state.open ? "item-full-active" : "item-full-inactive"
+            }`}
+          >
+            <div>Дата создания: ....</div>
+            <div>Дата удаления: ....</div>
+            <div>Time lost: ....</div>
+          </div>
         </div>
       </>
     );

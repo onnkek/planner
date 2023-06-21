@@ -1,5 +1,9 @@
+.planner-list
+    transition: all 0.5s ease-in-out
+
 .item
-    
+    display: flex
+    flex-direction: column
     margin: 10px
     padding: 10px 15px
     border-radius: 5px
@@ -7,6 +11,85 @@
     background-color: #0d1117
     transition: all 0.5s ease-in-out
     
+    
+.item-enter 
+    height: 50%
+.item-enter-active 
+    height: 100%
+    transition: all 500ms ease-in
+
+.item-exit
+    height: 50%
+
+.item-exit-active
+    height: 100%
+    transition: all 500ms ease-in
+
+
+.item-active
+    animation: show 1s
+    animation-fill-mode: forwards
+
+.item-inactive
+    animation: hide 1s
+    animation-fill-mode: forwards
+
+@keyframes show
+    0%
+        transform: scaleY(1)
+    100%
+        transform: scaleY(1.2)
+
+@keyframes hide 
+    0% 
+        transform: scaleY(1.2)
+    100% 
+        transform: scaleY(1)
+  
+.item-full-active
+    animation: show1 1s
+    animation-fill-mode: forwards
+
+.item-full-inactive
+    animation: hide1 1s
+    animation-fill-mode: forwards
+
+@keyframes show1
+    0%
+        opacity: 0
+    100%
+        opacity: 1
+
+@keyframes hide1 
+    0% 
+        opacity: 1
+    100% 
+        opacity: 0
+
+
+// .item-enter 
+//     height: 100%
+//     opacity: 0
+
+// .item-enter-active 
+//     height: 100%
+//     opacity: 1
+//     transition: all 500ms ease-in
+
+// .item-exit 
+//     height: 100%
+//     opacity: 1
+
+// .item-exit-active 
+//     height: 100%
+//     opacity: 0
+//     transition: all 500ms ease-in
+
+    
+    
+    
+
+
 .item-short
     display: flex
     width: 100%
