@@ -6,6 +6,7 @@ export default class Post extends Component {
     progress: 0,
     active: "",
     spinner: false,
+    open: false,
   };
 
   componentDidMount() {
@@ -65,6 +66,11 @@ export default class Post extends Component {
       spinner: true,
     });
   };
+  openItem = () => {
+    this.setState({
+      open: !this.state.open,
+    });
+  };
   render() {
     const { body, create, deadline } = this.props;
 
@@ -95,28 +101,42 @@ export default class Post extends Component {
     }
     const prog = (currentTime / fullTime) * 100;
 
-    return (
-      <div className="item">
-        <div className="item-title">{body}</div>
-        <div className="item-progress">
-          <div
-            className="progress"
-            role="progressbar"
-            aria-label="Info example"
-            aria-valuenow="50"
-            aria-valuemin="0"
-            aria-valuemax="100"
-          >
-            <div className="progress-bar" style={{ width: `${prog}%` }}>
-              {this.getDate()}
-            </div>
-          </div>
-        </div>
-        <div className={`item-deadline ${this.state.active}`}>
-          {this.getDeadline(deadline)}
-        </div>
-        <div className="delete-button">{button}</div>
+    const open = this.state.open ? (
+      <div className="item-full">
+        <div>Дата создания: ....</div>
+        <div>Дата удаления: ....</div>
+        <div>Time lost: ....</div>
       </div>
+    ) : null;
+
+    return (
+      <>
+        <div className="item">
+          <div className="item-short">
+            <div className="arrow" onClick={this.openItem}></div>
+            <div className="item-title">{body}</div>
+            <div className="item-progress">
+              <div
+                className="progress"
+                role="progressbar"
+                aria-label="Info example"
+                aria-valuenow="50"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                <div className="progress-bar" style={{ width: `${prog}%` }}>
+                  {this.getDate()}
+                </div>
+              </div>
+            </div>
+            <div className={`item-deadline ${this.state.active}`}>
+              {this.getDeadline(deadline)}
+            </div>
+            <div className="delete-button">{button}</div>
+          </div>
+          {open}
+        </div>
+      </>
     );
   }
 }
