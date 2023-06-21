@@ -1,112 +1,68 @@
 .planner-list
-    transition: all 0.5s ease-in-out
+    // transition: all 0.5s ease-in-out
+
+
+
+
+
+
+.wr
+    display: flex
+    justify-content: center
+    align-items: center
+
+
+.accord
+    width: 500px
+
+.item-desc 
+    &.item-desc-show
+        height: auto
+        max-height: 9999px
+        transition: all 0.3s cubic-bezier(1,0,1,0)
+
+.item-desc
+    
+    max-height: 0
+    overflow: hidden
+    transition: all 0.3s cubic-bezier(0,1,0,1)
+
+    
+
+.item-desc-container
+    display: flex
+    justify-content: space-between
+    margin: 20px 5px 10px 5px
+
+
+
+.item-title-container
+    display: flex
+    align-items: center
+    width: 40%
+    &:hover
+        background-color: rgba(255, 255, 255, 0.065)
+        border-radius: 5px
+        cursor: pointer
+
+
+.item-wrapper
+    margin-bottom: 10px
+    padding: 10px 15px 10px 15px
+    background-color: #0d1117
+    border: 1px solid #30363d
+    border-radius: 5px
 
 .item
-    display: flex
-    flex-direction: column
-    margin: 10px
-    padding: 10px 15px
-    border-radius: 5px
-    border: 1px solid #30363d
-    background-color: #0d1117
-    transition: all 0.5s ease-in-out
-    
-    
-.item-enter 
-    height: 50%
-.item-enter-active 
-    height: 100%
-    transition: all 500ms ease-in
-
-.item-exit
-    height: 50%
-
-.item-exit-active
-    height: 100%
-    transition: all 500ms ease-in
-
-
-.item-active
-    animation: show 1s
-    animation-fill-mode: forwards
-
-.item-inactive
-    animation: hide 1s
-    animation-fill-mode: forwards
-
-@keyframes show
-    0%
-        transform: scaleY(1)
-    100%
-        transform: scaleY(1.2)
-
-@keyframes hide 
-    0% 
-        transform: scaleY(1.2)
-    100% 
-        transform: scaleY(1)
-  
-.item-full-active
-    animation: show1 1s
-    animation-fill-mode: forwards
-
-.item-full-inactive
-    animation: hide1 1s
-    animation-fill-mode: forwards
-
-@keyframes show1
-    0%
-        opacity: 0
-    100%
-        opacity: 1
-
-@keyframes hide1 
-    0% 
-        opacity: 1
-    100% 
-        opacity: 0
-
-
-// .item-enter 
-//     height: 100%
-//     opacity: 0
-
-// .item-enter-active 
-//     height: 100%
-//     opacity: 1
-//     transition: all 500ms ease-in
-
-// .item-exit 
-//     height: 100%
-//     opacity: 1
-
-// .item-exit-active 
-//     height: 100%
-//     opacity: 0
-//     transition: all 500ms ease-in
-
-    
-    
-    
-
-
-.item-short
     display: flex
     width: 100%
     justify-content: space-between
     align-items: center   
 
-.item-full
-    padding: 20px 5px 10px 5px
-    display: flex
-    justify-content: space-between
+
     
-.active
-    color: red
-.item-title
-    display: flex
-    align-items: center
-    width: 40%
+// .active
+//     color: red
 
 .item-progress
     width: 20%
@@ -144,7 +100,4 @@
         width: 1px
         height: 13px
         transform: translateX(5px) translateY(-8px) rotate(-45deg)
-    &:hover
-        background-color: rgba(255, 255, 255, 0.2)
-        border-radius: 5px
-        cursor: pointer
+    

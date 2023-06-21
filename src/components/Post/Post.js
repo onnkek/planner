@@ -1,19 +1,20 @@
 import React, { Component } from "react";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
+
 import "./Post.sass";
+import { Button, Card, CardBody, Collapse } from "reactstrap";
 
 export default class Post extends Component {
   state = {
     progress: 0,
     active: "",
     spinner: false,
-    open: false,
+    selected: false
   };
 
   componentDidMount() {
     this.timer = setInterval(() => {
       this.updateItem();
-    }, 500);
+    }, 1000);
   }
   componentWillUnmount() {
     clearInterval(this.timer);
@@ -67,15 +68,14 @@ export default class Post extends Component {
       spinner: true,
     });
   };
-  isShow = false;
-  openItem = () => {
-    this.isShow = !this.isShow;
-    setTimeout(() => {
-      this.setState({
-        open: !this.state.open,
-      });
-    }, 0);
-  };
+
+  toggle = () => {
+    this.setState({
+      selected: !this.state.selected
+    });
+  }
+
+
   render() {
     const { body, create, deadline } = this.props;
 
@@ -106,53 +106,41 @@ export default class Post extends Component {
     }
     const prog = (currentTime / fullTime) * 100;
 
-    // const open = this.state.open ? (
-    //   <div className="item-full">
-    //     <div>Дата создания: ....</div>
-    //     <div>Дата удаления: ....</div>
-    //     <div>Time lost: ....</div>
-    //   </div>
-    // ) : (
-    //   <h6>123</h6>
-    // );
-
     return (
       <>
-        <div
-          className={`item ${
-            this.state.open ? "item-active" : "item-inactive"
-          }`}
-        >
-          <div className="item-short">
-            <div className="arrow" onClick={this.openItem}></div>
-            <div className="item-title">{body}</div>
-            <div className="item-progress">
-              <div
-                className="progress"
-                role="progressbar"
-                aria-label="Info example"
-                aria-valuenow="50"
-                aria-valuemin="0"
-                aria-valuemax="100"
-              >
-                <div className="progress-bar" style={{ width: `${prog}%` }}>
-                  {this.getDate()}
+        <div className="item-wrapper">
+          <div className=''>
+            <div className="item">
+              <div className="item-title-container" onClick={this.toggle}>
+                <div className="arrow"></div>
+                <div className="item-title">{body}</div>
+              </div>
+              <div className="item-progress">
+                <div
+                  className="progress"
+                  role="progressbar"
+                  aria-label="Info example"
+                  aria-valuenow="50"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  <div className="progress-bar" style={{ width: `${prog}%` }}>
+                    {this.getDate()}
+                  </div>
                 </div>
               </div>
+              <div className={`item-deadline ${this.state.active}`}>
+                {this.getDeadline(deadline)}
+              </div>
+              <div className="delete-button">{button}</div>
             </div>
-            <div className={`item-deadline ${this.state.active}`}>
-              {this.getDeadline(deadline)}
-            </div>
-            <div className="delete-button">{button}</div>
           </div>
-          <div
-            className={`item-full ${
-              this.state.open ? "item-full-active" : "item-full-inactive"
-            }`}
-          >
-            <div>Дата создания: ....</div>
-            <div>Дата удаления: ....</div>
-            <div>Time lost: ....</div>
+          <div className={`item-desc ${this.state.selected ? "item-desc-show" : ""}`}>
+            <div className='item-desc-container'>
+              <div>Дата создания: {this.getDeadline(this.props.create)}</div>
+              <div>Дата удаления: ....</div>
+              <div>Time lost: ....</div>
+            </div>
           </div>
         </div>
       </>
