@@ -37,8 +37,10 @@ export default class App extends Component {
       id: maxId,
       body: body,
       create: Date.now(),
+      remove: "",
+      timeleft: "",
       deadline: deadline,
-      visible: true,
+      visible: true
     };
     const newData = this.state.data ? [...this.state.data, newItem] : [newItem];
     this.jsonService.updateData(newData, this.updateState);
@@ -53,10 +55,13 @@ export default class App extends Component {
   };
   hideItem = (id) => {
     const index = this.state.data.findIndex((item) => item.id === id);
+    console.log(`dl ${Date.parse(this.state.data[index].deadline)}, now ${Date.now()}, left ${Date.parse(this.state.data[index].deadline) - Date.now()}`);
     const newItem = {
       id: this.state.data[index].id,
       body: this.state.data[index].body,
       create: this.state.data[index].create,
+      remove: Date.now(),
+      timeleft: Date.parse(this.state.data[index].deadline) - Date.now(),
       deadline: this.state.data[index].deadline,
       visible: false,
     };

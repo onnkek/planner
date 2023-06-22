@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 
 import "./Post.sass";
-import { Button, Card, CardBody, Collapse } from "reactstrap";
+import Arrow from "../UI/Icons/Arrow";
+import Trash from "../UI/Icons/Trash";
 
 export default class Post extends Component {
   state = {
@@ -43,14 +44,25 @@ export default class Post extends Component {
   getDate = () => {
     const deadlineDate = Date.parse(this.props.deadline);
     const currentTime = deadlineDate - Date.now();
-
+    let result = "";
     const hours = this.getNumber(Math.floor(currentTime / (1000 * 60 * 60))),
       minutes = this.getNumber(Math.floor((currentTime / (1000 * 60)) % 60)),
       seconds = this.getNumber(Math.floor((currentTime / 1000) % 60));
-
-    return `${hours}:${minutes}:${seconds}`;
+    result += hours > 0 ? `${hours}:` : "00:";
+    result += minutes > 0 ? `${minutes}:` : "00:";
+    result += seconds > 0 ? seconds : "00";
+    return result;
   };
-
+  getTimeLeft = (time) => {
+    let result = "";
+    const hours = this.getNumber(Math.floor(time / (1000 * 60 * 60))),
+      minutes = this.getNumber(Math.floor((time / (1000 * 60)) % 60)),
+      seconds = this.getNumber(Math.floor((time / 1000) % 60));
+    result += hours > 0 ? `${hours}:` : "00:";
+    result += minutes > 0 ? `${minutes}:` : "00:";
+    result += seconds > 0 ? seconds : "00";
+    return result;
+  };
   getNumber = (number) => (number < 10 ? `0${number}` : number);
 
   getDeadline = (deadline) => {
@@ -81,65 +93,65 @@ export default class Post extends Component {
 
     const deadlineDate = Date.parse(deadline);
     const button = this.state.spinner ? (
-      <button class="btn btn-primary" type="button" disabled>
-        <span
+      <button class="btn-icon btn btn-primary"
+        type="button"
+        disabled>
+        <div
           class="spinner-border spinner-border-sm"
           role="status"
           aria-hidden="true"
-        ></span>
-        Removing...
+        />
       </button>
     ) : (
       <button
         type="button"
-        className="item-delete btn btn-primary"
-        onClick={this.delete}
+        className="btn-icon btn btn-primary"
+        onClick={(e) => {
+          e.stopPropagation();
+          this.delete();
+        }}
       >
-        Remove
+        <Trash />
       </button>
     );
     const fullTime = deadlineDate - create;
 
     let currentTime = deadlineDate - Date.now();
+
     if (currentTime < 0) {
       currentTime = 0;
     }
     const prog = (currentTime / fullTime) * 100;
 
+    const oldPageContent = this.props.visible ||
+      (<><div className="item-desc-item">Дата удаления: {this.getDeadline(this.props.remove)}</div>
+        <div className="item-desc-item">Time left: {this.getTimeLeft(this.props.timeleft)}</div></>);
+
     return (
       <>
         <div className="item-wrapper">
-          <div className=''>
-            <div className="item">
-              <div className="item-title-container" onClick={this.toggle}>
-                <div className="arrow"></div>
-                <div className="item-title">{body}</div>
+          <div className="row">
+            <div className="item-title-container col-6">
+              <div className="btn-icon-outline" onClick={this.toggle}>
+                <Arrow />
               </div>
-              <div className="item-progress">
-                <div
-                  className="progress"
-                  role="progressbar"
-                  aria-label="Info example"
-                  aria-valuenow="50"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                >
-                  <div className="progress-bar" style={{ width: `${prog}%` }}>
-                    {this.getDate()}
-                  </div>
-                </div>
-              </div>
-              <div className={`item-deadline ${this.state.active}`}>
-                {this.getDeadline(deadline)}
-              </div>
-              <div className="delete-button">{button}</div>
+              <span>{body}</span>
             </div>
+            <div className="item-progress col-3">
+              <div class="progress" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style={{ width: `${prog}%` }}></div>
+              </div>
+              <div>{this.getDate()}</div>
+            </div>
+            <div className={`col-2 ${this.state.active}`}>
+              {this.getDeadline(deadline)}
+            </div>
+            <div className="delete-button col-1">{button}</div>
           </div>
           <div className={`item-desc ${this.state.selected ? "item-desc-show" : ""}`}>
-            <div className='item-desc-container'>
-              <div>Дата создания: {this.getDeadline(this.props.create)}</div>
-              <div>Дата удаления: ....</div>
-              <div>Time lost: ....</div>
+            <div className='item-desc-wrapper'>
+              <div className="item-desc-body">Дата создания: {this.getDeadline(this.props.create)}</div>
+              {oldPageContent}
             </div>
           </div>
         </div>

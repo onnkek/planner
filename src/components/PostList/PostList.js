@@ -18,7 +18,7 @@ export default class PostList extends Component {
         return (
           <CSSTransition key={id} timeout={200} classNames="item">
             <li key={item.id} className="planner-list">
-              <Post {...itemProps} onDelete={() => this.props.onDelete(id)} />
+              <Post {...item} onDelete={() => this.props.onDelete(id)} />
             </li>
           </CSSTransition>
         );
@@ -29,7 +29,7 @@ export default class PostList extends Component {
         return (
           <CSSTransition key={id} timeout={200} classNames="item">
             <li key={item.id} className="planner-list">
-              <Post {...itemProps} onDelete={() => this.props.onDelete(id)} />
+              <Post {...item} onDelete={() => this.props.onDelete(id)} />
             </li>
           </CSSTransition>
         );

@@ -16,7 +16,6 @@ export default class JSONBinService {
       },
     });
     const res = await response.json();
-    // res.record.map(item => console.log(item));
     return res.record;
   };
 
