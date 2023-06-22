@@ -27,46 +27,37 @@ export default class ItemAddForm extends Component {
   };
   render() {
     return (
-      <div className="add-wrapper">
-        <div className="add-form-container">
-          <form className="add-form" onSubmit={this.onSubmit}>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-            <label name="body" className="add-form-label">
-              What should be done?
-            </label>
-            <textarea
-              type="text"
-              name="body"
-              className="add-form-input"
-              onChange={this.onBodyChange}
-            ></textarea>
-            <label name="body" className="add-form-label">
-              When is the deadline?
-            </label>
-            <div className="add-form-bottom">
-              <input
-                type="datetime-local"
-                name="deadline"
-                className="add-form-date"
-                formatValue="dd-MM-yyyyTHH:mm"
-                onChange={this.onDateChange}
-              ></input>
-              <button
-                type="submit"
-                className="btn btn-primary btn-lg"
-                value={"Add"}
-              >
-                Add
-              </button>
-            </div>
-          </form>
+      <form className="form-1" onSubmit={this.onSubmit}>
+        <div className="mb-3">
+          <label className="form-label" name="body">
+            Post description
+          </label>
+          <textarea
+            className="form-control"
+            name="body"
+            rows="5"
+            placeholder="What should be done?"
+            onChange={this.onBodyChange}
+          ></textarea>
         </div>
-      </div>
+        <div className="mb-3">
+          <label className="form-label" name="deadline">
+            Set deadline
+          </label>
+
+          <input
+            type="datetime-local"
+            name="deadline"
+            className="form-control add-form-date"
+            onChange={this.onDateChange}
+          />
+        </div>
+        <div className="form-footer">
+          <button type="submit" className="btn btn-primary">
+            Add
+          </button>
+        </div>
+      </form>
     );
   }
 }
