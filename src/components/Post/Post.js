@@ -93,11 +93,11 @@ export default class Post extends Component {
 
     const deadlineDate = Date.parse(deadline);
     const button = this.state.spinner ? (
-      <button class="btn-icon btn btn-primary"
+      <button className="btn-icon btn btn-primary"
         type="button"
         disabled>
         <div
-          class="spinner-border spinner-border-sm"
+          className="spinner-border spinner-border-sm"
           role="status"
           aria-hidden="true"
         />
@@ -138,8 +138,8 @@ export default class Post extends Component {
               <span>{body}</span>
             </div>
             <div className="item-progress col-3">
-              <div class="progress" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style={{ width: `${prog}%` }}></div>
+              <div className="progress" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                <div className="progress-bar" style={{ width: `${prog}%` }}></div>
               </div>
               <div>{this.getDate()}</div>
             </div>

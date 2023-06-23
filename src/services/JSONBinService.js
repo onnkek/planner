@@ -19,7 +19,7 @@ export default class JSONBinService {
     return res.record;
   };
 
-  updateData = async (data, updateState) => {
+  updateData = async (data) => {
     const response = await fetch(`${this._apiBase}/${this._binId}`, {
       method: "PUT",
       headers: {
@@ -28,6 +28,6 @@ export default class JSONBinService {
       },
       body: JSON.stringify(data),
     });
-    updateState(data);
+    // updateState(data);
   };
 }

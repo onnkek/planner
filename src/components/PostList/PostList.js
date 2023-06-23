@@ -5,6 +5,8 @@ import Spinner from "../UI/Spinner/Spinner";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 export default class PostList extends Component {
+  
+  
   renderItems = (data) => {
     data = data.sort((item1, item2) =>
       item1.deadline > item2.deadline ? 1 : -1

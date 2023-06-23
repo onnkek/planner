@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 import "./App.sass";
-import Post from "../Post/Post";
-import PostList from "../PostList/PostList";
 import Header from "../Header/Header";
-import ControlPanel from "../ControlPanel/ControlPanel";
-import ItemAddForm from "../ItemAddForm";
 import JSONBinService from "../../services/JSONBinService";
-import { Route, Routes, NavLink, Link } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import MainPage from "../pages/MainPage/MainPage";
 import OldItemsPage from "../pages/OldItemsPage/OldItemsPage";
+import ControlPanelContainer from "../ControlPanel/ControlPanelContainer";
 
 // 6493dff09d312622a373a407
 
@@ -25,26 +22,6 @@ export default class App extends Component {
     });
   }
 
-  addItem = (body, deadline) => {
-    let maxId = 1;
-    if (this.state.data.length) {
-      maxId = this.state.data.reduce((prev, cur) =>
-        prev.id > cur.id ? prev : cur
-      ).id++;
-    }
-
-    const newItem = {
-      id: maxId,
-      body: body,
-      create: Date.now(),
-      remove: "",
-      timeleft: "",
-      deadline: deadline,
-      visible: true
-    };
-    const newData = this.state.data ? [...this.state.data, newItem] : [newItem];
-    this.jsonService.updateData(newData, this.updateState);
-  };
   deleteItem = (id) => {
     const index = this.state.data.findIndex((item) => item.id === id);
     const newData = [
@@ -82,7 +59,7 @@ export default class App extends Component {
     return (
       <>
         <Header />
-        <ControlPanel onChange={this.addItem} />
+        <ControlPanelContainer />
         <Routes>
           <Route
             path="/"
