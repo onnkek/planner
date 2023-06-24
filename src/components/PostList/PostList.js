@@ -7,20 +7,10 @@ import PostContainer from "../Post/PostContainer";
 
 export default class PostList extends Component {
 
-  
 
-  jsonService = new JSONBinService();
   componentDidMount() {
-    this.jsonService.getData().then(response => {
-      console.log('response')
-      console.log(response)
-      this.props.setPosts(response.record);
-    });
+    this.props.setPosts();
   }
-
-
-
-
 
   renderItems = (data) => {
     data = data.sort((item1, item2) =>
@@ -29,16 +19,16 @@ export default class PostList extends Component {
     return data.map((item) => {
       const { id, visible } = item;
       if (this.props.new) {
-      if (visible === false) {
-        return;
-      }
-      return (
-        <CSSTransition key={id} timeout={200} classNames="item">
-          <li key={item.id} className="planner-list">
-            <PostContainer {...item} onDelete={() => this.props.onDelete(id)} />
-          </li>
-        </CSSTransition>
-      );
+        if (visible === false) {
+          return;
+        }
+        return (
+          <CSSTransition key={id} timeout={200} classNames="item">
+            <li key={item.id} className="planner-list">
+              <PostContainer {...item} onDelete={() => this.props.onDelete(id)} />
+            </li>
+          </CSSTransition>
+        );
       } else {
         if (!visible === false) {
           return;
@@ -55,13 +45,12 @@ export default class PostList extends Component {
   };
 
   render() {
-    const { data } = this.props;
-    console.log(data);
-    if (!data.length) {
+
+    if (this.props.isLoading) {
       return <Spinner />;
     }
 
-    const items = this.renderItems(data);
+    const items = this.renderItems(this.props.data);
     return (
       <div className="planner">
         <div className="app-container">

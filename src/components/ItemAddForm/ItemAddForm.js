@@ -1,5 +1,6 @@
 import React from "react";
 import "./ItemAddForm.sass";
+import Spinner from "../UI/Spinner/Spinner";
 
 const ItemAddForm = (props) => {
 
@@ -14,7 +15,12 @@ const ItemAddForm = (props) => {
     props.onAddPost();
   }
 
+  if (props.isAdding) {
+    return <Spinner />
+  }
+
   return (
+
     <form className="form-1" onSubmit={onSubmit}>
       <div className="mb-3">
         <label className="form-label" name="body">

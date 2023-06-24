@@ -1,4 +1,4 @@
-import { changeDeadlineAC, addPostAC, changeBodyAC } from "../../redux/PostListReducer";
+import { changeDeadlineAC, addPostAC, changeBodyAC, addPostTC } from "../../redux/PostListReducer";
 import { connect } from "react-redux";
 import ItemAddForm from "./ItemAddForm";
 
@@ -8,7 +8,8 @@ import ItemAddForm from "./ItemAddForm";
   const mapStateToProps = (state) => {
     return {
       body: state.postList.body,
-      deadline: state.postList.deadline
+      deadline: state.postList.deadline,
+      isAdding: state.postList.isAddingPost
     }
   }
   const mapDispatchToProps = (dispatch) => {
@@ -20,7 +21,7 @@ import ItemAddForm from "./ItemAddForm";
         dispatch(changeDeadlineAC(deadline));
       },
       onAddPost: () => {
-        dispatch(addPostAC());
+        dispatch(addPostTC());
       }
     }
   }

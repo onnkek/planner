@@ -1,20 +1,21 @@
 import { connect } from "react-redux"
 import PostList from "./PostList";
-import { setPostAC } from "../../redux/PostListReducer";
+import { setDataTC } from "../../redux/PostListReducer";
 
 
 const mapStateToProps = (state) => {
-  console.log('mstp');
-  console.log(state.postList.data)
+  // console.log('mstp');
+  // console.log(state.postList.data)
   return {
-    data: state.postList.data
+    data: state.postList.data,
+    isLoading: state.postList.isLoadingData
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setPosts: (posts) => {
-      dispatch(setPostAC(posts))
+    setPosts: () => {
+      dispatch(setDataTC());
     }
   }
 }
