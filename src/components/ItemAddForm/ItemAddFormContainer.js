@@ -1,4 +1,4 @@
-import { changeDeadlineAC, addPostAC, changeBodyAC } from "../redux/PostListReducer";
+import { changeDeadlineAC, addPostAC, changeBodyAC } from "../../redux/PostListReducer";
 import { connect } from "react-redux";
 import ItemAddForm from "./ItemAddForm";
 

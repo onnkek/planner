@@ -15,11 +15,12 @@ export default class JSONBinService {
         "X-Master-Key": this._masterKey,
       },
     });
-    const res = await response.json();
-    return res.record;
+    return await response.json();
   };
 
   updateData = async (data) => {
+    // console.log('request')
+    // console.log(data);
     const response = await fetch(`${this._apiBase}/${this._binId}`, {
       method: "PUT",
       headers: {
@@ -28,6 +29,5 @@ export default class JSONBinService {
       },
       body: JSON.stringify(data),
     });
-    // updateState(data);
   };
 }

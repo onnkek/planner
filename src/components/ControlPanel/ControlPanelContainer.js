@@ -1,6 +1,6 @@
 import { connect } from "react-redux"
 import ControlPanel from "./ControlPanel";
-import { createPostAC } from "../redux/PostListReducer";
+import { createPostAC } from "../../redux/PostListReducer";
 
 
 const mapStateToProps = (state) => {

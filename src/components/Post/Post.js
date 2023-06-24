@@ -86,10 +86,13 @@ export default class Post extends Component {
       selected: !this.state.selected
     });
   }
-
+  
+  hidePost = (postId, postVisible) => {
+    postVisible ? this.props.hidePost(postId) : this.props.removePost(postId);
+  }
 
   render() {
-    const { body, create, deadline } = this.props;
+    const { body, create, deadline, id, visible } = this.props;
 
     const deadlineDate = Date.parse(deadline);
     const button = this.state.spinner ? (
@@ -108,7 +111,7 @@ export default class Post extends Component {
         className="btn-icon btn btn-primary"
         onClick={(e) => {
           e.stopPropagation();
-          this.delete();
+          this.hidePost(id, visible);
         }}
       >
         <Trash />
