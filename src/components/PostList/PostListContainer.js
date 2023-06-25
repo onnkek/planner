@@ -4,8 +4,6 @@ import { setDataTC } from "../../redux/PostListReducer";
 
 
 const mapStateToProps = (state) => {
-  // console.log('mstp');
-  // console.log(state.postList.data)
   return {
     data: state.postList.data,
     isLoading: state.postList.isLoadingData

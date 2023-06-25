@@ -1,17 +1,17 @@
 import { connect } from "react-redux"
 import Post from "./Post"
-import { hidePostAC, removePostAC } from "../../redux/PostListReducer";
+import { hidePostAC, hidePostTC, removePostAC, removePostTC } from "../../redux/PostListReducer";
 
 const mapStateToProps = (state) => {
   return {
-
+    isRemoving: state.postList.isRemovingPost
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    hidePost: (postId) => { dispatch(hidePostAC(postId)) },
-    removePost: (postId) => { dispatch(removePostAC(postId)) }
+    hidePost: (postId) => { dispatch(hidePostTC(postId)) },
+    removePost: (postId) => { dispatch(removePostTC(postId)) }
   }
 }
 

@@ -95,7 +95,7 @@ export default class Post extends Component {
     const { body, create, deadline, id, visible } = this.props;
 
     const deadlineDate = Date.parse(deadline);
-    const button = this.state.spinner ? (
+    const button = this.props.isRemoving.some(postId => postId === id) ? (
       <button className="btn-icon btn btn-primary"
         type="button"
         disabled>
@@ -127,14 +127,14 @@ export default class Post extends Component {
     const prog = (currentTime / fullTime) * 100;
 
     const oldPageContent = this.props.visible ||
-      (<><div className="item-desc-item">Дата удаления: {this.getDeadline(this.props.remove)}</div>
-        <div className="item-desc-item">Time left: {this.getTimeLeft(this.props.timeleft)}</div></>);
+      (<><div className="item-desc-body">Дата удаления: {this.getDeadline(this.props.remove)}</div>
+        <div className="item-desc-body">Time left: {this.getTimeLeft(this.props.timeleft)}</div></>);
 
     return (
       <>
         <div className="item-wrapper">
           <div className="row">
-            <div className="item-title-container col-6">
+            <div className="item-title-container col-5">
               <div className="btn-icon-outline" onClick={this.toggle}>
                 <Arrow />
               </div>
@@ -146,7 +146,7 @@ export default class Post extends Component {
               </div>
               <div>{this.getDate()}</div>
             </div>
-            <div className={`col-2 ${this.state.active}`}>
+            <div className={`col-3 ${this.state.active}`}>
               {this.getDeadline(deadline)}
             </div>
             <div className="delete-button col-1">{button}</div>

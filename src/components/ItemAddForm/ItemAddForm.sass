@@ -1,3 +1,5 @@
+@import '../../main.sass'
+    
 .form-footer
     display: flex
     justify-content: start
@@ -5,10 +7,10 @@
 
 
 .form-control
-    --bs-body-bg: #0d1117
-    --bs-border-color: #30363d
-    --bs-secondary-color: #787a7c
-    --bs-body-color: white
+    background-color: $main-bg-color
+    border-color: $main-border-color
+    &::placeholder
+        color: $main-ph-color
 
 .add-wrapper
     position: absolute
@@ -24,15 +26,15 @@
     padding: 20px
     min-height: 40%
     min-width: 40%
-    background-color: #0d1117
+    background-color: $main-bg-color
     border-radius: 10px
-    border: 1px solid #30363d
+    border: 1px solid $main-border-color
 
 .add-form
     font-size: 20px
     input
-        background-color: #0d1117
-        border: 1px solid #30363d
+        background-color: $main-bg-color
+        border: 1px solid $main-border-color
         display: block
 
 .add-form-bottom
@@ -41,23 +43,23 @@
     align-items: center
 
 .add-form-input
-    background-color: #0d1117
+    background-color: $main-bg-color
     margin-bottom: 15px
     padding: 10px
     height: 200px
     width: 100%
     resize: none
-    border: 1px solid #30363d
+    border: 1px solid $main-border-color
     border-radius: 5px
 
 .add-form-date
-    background-color: #0d1117
+    background-color: $main-bg-color
     color-scheme: dark
     padding: 5px 10px 5px 10px
     resize: none
     color: white
     
-    border: 1px solid #30363d
+    border: 1px solid $main-border-color
     border-radius: 5px
     font-size: 20px
     font-family: 'Calibri'

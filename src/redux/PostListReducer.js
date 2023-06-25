@@ -8,6 +8,7 @@ const CHANGE_DEADLINE = "CHANGE_DEADLINE";
 const HIDE_POST = "HIDE_POST";
 const REMOVE_POST = "REMOVE_POST";
 const IS_LOADING_DATA = "IS_LOADING_DATA";
+const SORT_DATA = "SORT_DATA";
 const IS_ADDING_POST = "IS_ADDING_POST";
 const IS_REMOVING_POST = "IS_REMOVING_POST";
 
@@ -18,16 +19,21 @@ const initialState = {
     isShowModal: false,
     isLoadingData: false,
     isAddingPost: false,
-    isRemovingPost: false
+    isRemovingPost: []
 };
 const PostListReducer = (state = initialState, action) => {
-    const jsonService = new JSONBinService();
     let newState = {};
-    let index = null;
     switch (action.type) {
         case IS_LOADING_DATA:
             newState = { ...state };
             newState.isLoadingData = !newState.isLoadingData;
+            return newState;
+
+        case SORT_DATA:
+            newState = { ...state };
+            newState.data = state.data.sort((item1, item2) =>
+                item1.deadline > item2.deadline ? 1 : -1
+            );
             return newState;
 
         case IS_ADDING_POST:
@@ -36,14 +42,18 @@ const PostListReducer = (state = initialState, action) => {
             return newState;
 
         case IS_REMOVING_POST:
-            newState = { ...state };
-            newState.isRemovingPost = !newState.isRemovingPost;
-            return newState;
+            console.log(state.isRemovingPost);
+            const test = action.isFetching
+                ? [...state.isRemovingPost, action.postId]
+                : state.isRemovingPost.filter(id => id !== action.postId);
+            console.log(state.isRemovingPost);
+            return {
+                ...state,
+                isRemovingPost: test
+            };
 
         case SET_POSTS:
             newState = { ...state, data: action.data };
-            // console.log("newstate_setposts");
-            // console.log(newState);
             return newState;
 
         case CREATE_POST:
@@ -66,21 +76,13 @@ const PostListReducer = (state = initialState, action) => {
             return newState;
 
         case HIDE_POST:
-            index = state.data.findIndex((post) => post.id === action.postId);
             newState = { ...state };
-            newState.data = [...state.data];
-            newState.data[index].visible = !state.data[index].visible;
-            jsonService.updateData(newState.data);
+            newState.data = action.data;
             return newState;
 
         case REMOVE_POST:
-            index = state.data.findIndex((post) => post.id === action.postId);
             newState = { ...state };
-            newState.data = [
-                ...state.data.slice(0, index),
-                ...state.data.slice(index + 1),
-            ];
-            jsonService.updateData(newState.data);
+            newState.data = action.data;
             return newState;
 
         default:
@@ -88,23 +90,24 @@ const PostListReducer = (state = initialState, action) => {
     }
 }
 
+export const sortDataAC = () => ({ type: SORT_DATA });
 export const loadingDataAC = () => ({ type: IS_LOADING_DATA });
 export const addingPostAC = () => ({ type: IS_ADDING_POST });
-export const removingPostAC = () => ({ type: IS_REMOVING_POST });
+export const removingPostAC = (postId, isFetching) => ({ type: IS_REMOVING_POST, postId, isFetching });
 export const setPostAC = (data) => ({ type: SET_POSTS, data });
 export const addPostAC = (data) => ({ type: ADD_POST, data });
 export const createPostAC = () => ({ type: CREATE_POST });
 export const changeBodyAC = (body) => ({ type: CHANGE_BODY, body: body });
 export const changeDeadlineAC = (deadline) => ({ type: CHANGE_DEADLINE, deadline: deadline });
-export const hidePostAC = (postId) => ({ type: HIDE_POST, postId });
-export const removePostAC = (postId) => ({ type: REMOVE_POST, postId });
+export const hidePostAC = (data) => ({ type: HIDE_POST, data });
+export const removePostAC = (data) => ({ type: REMOVE_POST, data });
 
 
 export const setDataTC = () => {
     return (dispatch) => {
         dispatch(loadingDataAC());
         new JSONBinService().getData().then(response => {
-            // console.log(response.record)
+            dispatch(sortDataAC());
             dispatch(setPostAC(response.record));
             dispatch(loadingDataAC());
         });
@@ -116,7 +119,6 @@ export const addPostTC = () => {
         dispatch(addingPostAC());
         let maxId = 1;
         const state = getState().postList;
-        console.log(state);
         if (state.data.length) {
             maxId = state.data.reduce((prev, cur) =>
                 prev.id > cur.id ? prev : cur
@@ -135,23 +137,37 @@ export const addPostTC = () => {
 
         new JSONBinService().updateData(newData).then(() => {
             dispatch(addPostAC(newData));
+            dispatch(sortDataAC());
             dispatch(addingPostAC());
             dispatch(createPostAC());
         });
     }
 }
 
-export const hidePostTC = () => {
-    return (dispatch) => {
-        dispatch(removingPostAC());
-
+export const hidePostTC = (postId) => {
+    return (dispatch, getState) => {
+        const state = getState().postList;
+        dispatch(removingPostAC(postId, true));
+        const index = state.data.findIndex((post) => post.id === postId);
+        const newData = [...state.data];
+        newData[index].visible = !state.data[index].visible;
+        new JSONBinService().updateData(newData).then(() => {
+            dispatch(hidePostAC(newData));
+            dispatch(removingPostAC(postId, false));
+        });
     }
 }
 
-export const removePostTC = () => {
-    return (dispatch) => {
-        dispatch(removingPostAC());
+export const removePostTC = (postId) => {
+    return (dispatch, getState) => {
+        const state = getState().postList;
 
+        dispatch(removingPostAC(postId, true));
+        const newData = state.data.filter(post => post.id !== postId);
+        new JSONBinService().updateData(newData).then(() => {
+            dispatch(removePostAC(newData));
+            dispatch(removingPostAC(postId, false));
+        });
     }
 }
 

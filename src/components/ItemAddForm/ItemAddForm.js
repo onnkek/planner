@@ -16,7 +16,7 @@ const ItemAddForm = (props) => {
   }
 
   if (props.isAdding) {
-    return <Spinner />
+    return <Spinner small />
   }
 
   return (
@@ -27,6 +27,7 @@ const ItemAddForm = (props) => {
           Post description
         </label>
         <textarea
+          autoFocus
           className="form-control"
           name="body"
           rows="5"
