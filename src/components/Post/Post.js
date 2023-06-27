@@ -9,7 +9,7 @@ export default class Post extends Component {
     progress: 0,
     active: "",
     spinner: false,
-    selected: false
+    selected: false,
   };
 
   componentDidMount() {
@@ -83,22 +83,20 @@ export default class Post extends Component {
 
   toggle = () => {
     this.setState({
-      selected: !this.state.selected
+      selected: !this.state.selected,
     });
-  }
-  
+  };
+
   hidePost = (postId, postVisible) => {
     postVisible ? this.props.hidePost(postId) : this.props.removePost(postId);
-  }
+  };
 
   render() {
     const { body, create, deadline, id, visible } = this.props;
 
     const deadlineDate = Date.parse(deadline);
-    const button = this.props.isRemoving.some(postId => postId === id) ? (
-      <button className="btn-icon btn btn-primary"
-        type="button"
-        disabled>
+    const button = this.props.isRemoving.some((postId) => postId === id) ? (
+      <button className="btn-icon btn btn-primary" type="button" disabled>
         <div
           className="spinner-border spinner-border-sm"
           role="status"
@@ -126,9 +124,16 @@ export default class Post extends Component {
     }
     const prog = (currentTime / fullTime) * 100;
 
-    const oldPageContent = this.props.visible ||
-      (<><div className="item-desc-body">Дата удаления: {this.getDeadline(this.props.remove)}</div>
-        <div className="item-desc-body">Time left: {this.getTimeLeft(this.props.timeleft)}</div></>);
+    const oldPageContent = this.props.visible || (
+      <>
+        <div className="item-desc-body">
+          Дата удаления: {this.getDeadline(this.props.remove)}
+        </div>
+        <div className="item-desc-body">
+          Time left: {this.getTimeLeft(this.props.timeleft)}
+        </div>
+      </>
+    );
 
     return (
       <>
@@ -138,11 +143,21 @@ export default class Post extends Component {
               <div className="btn-icon-outline" onClick={this.toggle}>
                 <Arrow />
               </div>
-              <span>{body}</span>
+              <div className="item-title">
+                <p>{body}</p>
+              </div>
             </div>
             <div className="item-progress col-3">
-              <div className="progress" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                <div className="progress-bar" style={{ width: `${prog}%` }}></div>
+              <div
+                className="progress"
+                aria-valuenow="25"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                <div
+                  className="progress-bar"
+                  style={{ width: `${prog}%` }}
+                ></div>
               </div>
               <div>{this.getDate()}</div>
             </div>
@@ -151,9 +166,15 @@ export default class Post extends Component {
             </div>
             <div className="delete-button col-1">{button}</div>
           </div>
-          <div className={`item-desc ${this.state.selected ? "item-desc-show" : ""}`}>
-            <div className='item-desc-wrapper'>
-              <div className="item-desc-body">Дата создания: {this.getDeadline(this.props.create)}</div>
+          <div
+            className={`item-desc ${
+              this.state.selected ? "item-desc-show" : ""
+            }`}
+          >
+            <div className="item-desc-wrapper">
+              <div className="item-desc-body">
+                Дата создания: {this.getDeadline(this.props.create)}
+              </div>
               {oldPageContent}
             </div>
           </div>
