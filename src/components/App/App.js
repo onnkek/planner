@@ -32,7 +32,7 @@ export default class App extends Component {
               />
             }
           />
-          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/settings/*" element={<SettingsPage />} />
         </Routes>
       </>
     );
