@@ -4,16 +4,15 @@ import { NavLink } from "react-router-dom";
 import ItemAddFormContainer from "../ItemAddForm/ItemAddFormContainer";
 
 const ControlPanel = (props) => {
-
-  
-  
   const setActive = ({ isActive }) => (isActive ? "tab active-tab" : "tab");
   return (
     <>
       <div
         className={`modal fade ${props.isShowModal ? "show" : ""}`}
         tabIndex="-1"
-        onClick={(e) => e.currentTarget === e.target && props.toggleCreatePost()}
+        onClick={(e) =>
+          e.currentTarget === e.target && props.toggleCreatePost()
+        }
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
@@ -45,6 +44,11 @@ const ControlPanel = (props) => {
                   <div className="tab-link">Old</div>
                 </NavLink>
               </li>
+              <li>
+                <NavLink to="/settings" className={setActive}>
+                  <div className="tab-link">Settings</div>
+                </NavLink>
+              </li>
             </ul>
           </div>
 
@@ -62,6 +66,6 @@ const ControlPanel = (props) => {
       </div>
     </>
   );
-}
+};
 
 export default ControlPanel;

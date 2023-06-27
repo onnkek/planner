@@ -5,11 +5,11 @@ import { Route, Routes } from "react-router-dom";
 import MainPage from "../pages/MainPage/MainPage";
 import OldItemsPage from "../pages/OldItemsPage/OldItemsPage";
 import ControlPanelContainer from "../ControlPanel/ControlPanelContainer";
+import SettingsPage from "../pages/SettingsPage/SettingsPage";
 
 // 6493dff09d312622a373a407 FakeBin
 
 export default class App extends Component {
-  
   render() {
     return (
       <>
@@ -19,10 +19,7 @@ export default class App extends Component {
           <Route
             path="/"
             element={
-              <MainPage
-                state={this.state}
-                updateData={this.updateData}
-              />
+              <MainPage state={this.state} updateData={this.updateData} />
             }
           />
           <Route
@@ -35,6 +32,7 @@ export default class App extends Component {
               />
             }
           />
+          <Route path="/settings" element={<SettingsPage />} />
         </Routes>
       </>
     );
