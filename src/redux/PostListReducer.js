@@ -108,7 +108,7 @@ export const setDataTC = () => {
         dispatch(loadingDataAC());
         new JSONBinService().getData().then(response => {
             dispatch(sortDataAC());
-            dispatch(setPostAC(response.record));
+            dispatch(setPostAC(response));
             dispatch(loadingDataAC());
         });
     }

@@ -2,30 +2,25 @@ import config from "../config.json";
 
 export default class JSONBinService {
   constructor() {
-    this._apiBase = "https://api.jsonbin.io/v3/b";
-    this._binId = config.binId;
-    this._masterKey = config.masterKey;
+    this._apiBase = "https://jsonbin.org/me/main";
+    this._apiKey = config.apiKey;
   }
 
   getData = async () => {
-    const response = await fetch(`${this._apiBase}/${this._binId}`, {
+    const response = await fetch(this._apiBase, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
-        "X-Master-Key": this._masterKey,
+        authorization: `token ${this._apiKey}`,
       },
     });
     return await response.json();
   };
 
   updateData = async (data) => {
-    // console.log('request')
-    // console.log(data);
-    const response = await fetch(`${this._apiBase}/${this._binId}`, {
-      method: "PUT",
+    const response = await fetch(this._apiBase, {
+      method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "X-Master-Key": this._masterKey,
+        authorization: `token ${this._apiKey}`,
       },
       body: JSON.stringify(data),
     });
