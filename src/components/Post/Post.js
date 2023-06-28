@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 
 import "./Post.sass";
-import Arrow from "../UI/Icons/Arrow";
-import Trash from "../UI/Icons/Trash";
+import { ChevronDown, Trash3 } from "react-bootstrap-icons";
 
 export default class Post extends Component {
   state = {
@@ -112,7 +111,7 @@ export default class Post extends Component {
           this.hidePost(id, visible);
         }}
       >
-        <Trash />
+        <Trash3 className="icon-trash-3"/>
       </button>
     );
     const fullTime = deadlineDate - create;
@@ -141,7 +140,7 @@ export default class Post extends Component {
           <div className="row">
             <div className="item-title-container col-5">
               <div className="btn-icon-outline" onClick={this.toggle}>
-                <Arrow />
+                <ChevronDown className="main-icon"/>
               </div>
               <div className="item-title">
                 <p>{body}</p>

@@ -41,7 +41,7 @@ export default class PostList extends Component {
   render() {
 
     if (this.props.isLoading) {
-      return <Spinner />;
+      return <Spinner className='spinner-big' />;
     }
 
     const items = this.renderItems(this.props.data);

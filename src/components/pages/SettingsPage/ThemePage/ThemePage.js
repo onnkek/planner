@@ -64,6 +64,9 @@ const ThemePage = (props) => {
                                             <div className="theme-card-color">
                                                 <div className="color-item color-item-3"></div>
                                             </div>
+                                            <div className="theme-card-color">
+                                                <div className="color-item color-item-4"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -116,6 +119,9 @@ const ThemePage = (props) => {
                                             </div>
                                             <div className="theme-card-color">
                                                 <div className="color-item color-item-3"></div>
+                                            </div>
+                                            <div className="theme-card-color">
+                                                <div className="color-item color-item-4"></div>
                                             </div>
                                         </div>
                                     </div>

@@ -8,7 +8,7 @@
     height: 70px
     margin: 0px 10px
     // padding: 10px 0
-    border-block-end: 1px solid $main-border-color
+    border-block-end: 1px solid var(--main-border-color)
 
 .modal.show
     transition: all 0.1s ease-in-out
@@ -16,14 +16,14 @@
     max-height: 9999px
 
 .modal-content
-    background-color: $main-bg-color
-    border-color: $main-border-color
+    // background-color: var(--main-bg-color)
+    border-color: var(--main-border-color)
 
 .form-control
-    color: white
+    // color: white
     &:focus
-        color: white
-        background-color: $main-bg-color
+        // color: white
+        // background-color: var(--main-bg-color)
 
 .modal-dialog
     --bs-modal-width: 50%
@@ -38,14 +38,14 @@
     transition: all 0.2s ease-in-out
 
 .modal-header
-    border-bottom: 1px solid $main-border-color
+    border-bottom: 1px solid var(--main-border-color)
 
-.modal-footer
-    border-top: 1px solid $main-border-color
+// .modal-footer
+//     border-top: 1px solid var(--main-border-color)
 
-.btn-close
-    --bs-btn-close-white-filter: invert(1) grayscale(100%) brightness(200%)
-    filter: var(--bs-btn-close-white-filter)
+// .btn-close
+//     --bs-btn-close-white-filter: invert(1) grayscale(100%) brightness(200%)
+//     filter: var(--bs-btn-close-white-filter)
 
 .control-filter
     button
@@ -86,9 +86,9 @@
     display: block
     padding: 6px 15px
     width: 100%
-    color: white
+    // color: white
     font-size: 20px
     border-radius: 8px
     transition: background-color 0.08s ease-in-out
     &:hover
-        background-color: rgba(255, 255, 255, 0.095)
+        background-color: var(--tab-bg)

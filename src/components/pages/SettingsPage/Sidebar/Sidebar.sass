@@ -14,7 +14,7 @@
     transition: all 0.08s ease-in-out
     &:hover
         border-radius: 8px
-        background-color: rgba(255, 255, 255, 0.095)
+        background-color: var(--tab-bg)
         cursor: pointer
 
 .sidebar-item-icon
@@ -29,7 +29,7 @@
 .sidebar-item-link-active
     position: relative
     border-radius: 8px
-    background-color: rgba(255, 255, 255, 0.095)
+    background-color: var(--tab-bg)
     &::before
         content: ''
         position: absolute
@@ -39,4 +39,4 @@
         width: 5px
         height: 32px
         border-radius: 6px
-        background-color: #1f6feb
+        background-color: var(--current-color)

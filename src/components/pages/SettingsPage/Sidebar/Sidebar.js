@@ -1,10 +1,7 @@
 import React from 'react';
 import './Sidebar.sass'
-import Profile from "../../../UI/Icons/Profile";
-import Appearance from "../../../UI/Icons/Appearance";
-import Time from "../../../UI/Icons/Time";
-import Notifications from "../../../UI/Icons/Notifications";
 import { NavLink } from 'react-router-dom';
+import { Bell, Brush, ClockHistory, Person } from 'react-bootstrap-icons';
 
 const Sidebar = (props) => {
     const setActive = ({ isActive }) => isActive ? "sidebar-item-link sidebar-item-link-active" : "sidebar-item-link";
@@ -17,7 +14,7 @@ const Sidebar = (props) => {
                         to='/settings/profile'>
                         <li className='sidebar-list-item'>
                             <div className='sidebar-item-icon'>
-                                <Profile />
+                                <Person className="main-icon" size={20}/>
                             </div>
                             <span>Profile</span>
                         </li>
@@ -27,7 +24,7 @@ const Sidebar = (props) => {
                         to='/settings/appearance'>
                         <li className='sidebar-list-item'>
                             <div className='sidebar-item-icon'>
-                                <Appearance />
+                                <Brush className="main-icon" />
                             </div>
                             <span>Appearance</span>
                         </li>
@@ -37,7 +34,7 @@ const Sidebar = (props) => {
                         to='/settings/time'>
                         <li className='sidebar-list-item'>
                             <div className='sidebar-item-icon'>
-                                <Time />
+                                <ClockHistory className="main-icon" />
                             </div>
                             <span>Time task</span>
                         </li>
@@ -47,7 +44,7 @@ const Sidebar = (props) => {
                         to='/settings/notifications'>
                         <li className='sidebar-list-item'>
                             <div className='sidebar-item-icon'>
-                                <Notifications />
+                                <Bell className="main-icon" />
                             </div>
                             <span>Notifications</span>
                         </li>

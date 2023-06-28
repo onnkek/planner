@@ -1,6 +1,7 @@
 import React from "react";
-import Check from "../../../UI/Icons/Check";
 import "./NotificationsPage.sass";
+import { CheckLg } from "react-bootstrap-icons";
+import Spinner from "../../../UI/Spinner/Spinner";
 
 const NotificationsPage = (props) => {
   return (
@@ -9,12 +10,9 @@ const NotificationsPage = (props) => {
         <div className="settings-header-container">
           <h2 className="settings-header">Notifications preferences</h2>
           <div className="settings-check">
-            <div
-              className="settings-check-spinner spinner-border"
-              role="status"
-            ></div>
+            <Spinner className='spinner-small'/>
             <div className="settings-check-icon">
-              <Check />
+              <CheckLg className="icon-check" />
             </div>
             <span className="settings-check-title">Saved</span>
           </div>
@@ -42,7 +40,7 @@ const NotificationsPage = (props) => {
                   aria-label="Text input with dropdown button"
                 />
                 <button
-                  class="noti-dropdown btn btn-outline-secondary dropdown-toggle"
+                  class="noti-dropdown btn dropdown-toggle"
                   type="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"

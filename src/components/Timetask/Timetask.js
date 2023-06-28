@@ -1,6 +1,6 @@
 import React from 'react';
 import './Timetask.sass'
-import Trash from '../UI/Icons/Trash';
+import { Trash3 } from 'react-bootstrap-icons';
 
 const Timetask = (props) => {
 
@@ -9,7 +9,7 @@ const Timetask = (props) => {
             type="button"
             className="btn-icon btn btn-primary"
         >
-            <Trash />
+            <Trash3 className="icon-trash-3"/>
         </button>)
 
     return (

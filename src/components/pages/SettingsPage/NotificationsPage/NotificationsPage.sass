@@ -24,47 +24,66 @@
     justify-content: space-between
     align-items: center
 
+.icon-check
+    color: #34D058
 
+// .checkbox:checked
+//     background-color: $primary
+//     border-color: $primary
 
-
-
+.checkbox:focus
+    // border-color: $primary-focus
+    outline: 0
+    // box-shadow: 0 0 0 0.25rem $primary-focus-shadow
 
 .noti-wrapper
     
 
 .noti-item
     border-radius: 8px
-    border: 1px solid $main-border-color
+    border: 1px solid var(--main-border-color)
     padding: 10px
 
 .noti-header
     
+.noti-dropdown
+    transition-duration: 0.08s
+    width: 35%
+    --bs-btn-active-color: var(--main-color)
+    --bs-btn-active-border-color: var(--main-border-color)
+    --bs-btn-active-bg: var(--tab-bg)
+    --bs-btn-hover-color: var(--main-color)
+    --bs-btn-hover-border-color: var(--main-border-color)
+    --bs-btn-color: var(--main-color)
+    --bs-btn-hover-bg: var(--tab-bg)
+
+.dropdown-item:hover
+    background-color: var(--tab-bg)
 
 .noti-body
 
 
-.noti-dropdown
-    width: 35%
-    color: white
+
+    // color: white
 
 .noti-options-label
-    display: flex
-    justify-content: center
-    width: 10%
-    background-color: $main-bg-color
-    border: 1px solid $main-border-color
-    color: white
+    // display: flex
+    // justify-content: center
+    // width: 10%
+    // background-color: var(--main-bg-color)
+    // border: 1px solid var(--main-border-color)
+    // color: white
     
 .noti-options
     margin-bottom: 3px
     
 
 .checkbox
-    background-color: $main-bg-color
-    border: 1px solid $main-border-color
+    // background-color: var(--main-bg-color)
+    // border: 1px solid var(--main-border-color)
 
 .checkbox-wrapper
-    background-color: $main-bg-color
-    border: 1px solid $main-border-color
+    // background-color: var(--main-bg-color)
+    // border: 1px solid var(--main-border-color)
 
         
