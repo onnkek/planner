@@ -25,154 +25,156 @@ const NotificationsPage = (props) => {
               tasks marked with tags.
             </div>
             <div className="noti-options">
-              <div class="input-group mt-3">
-                <div class="checkbox-wrapper input-group-text">
+              <div className="input-group mt-3">
+                <div className="checkbox-wrapper input-group-text">
                   <input
-                    class="checkbox form-check-input mt-0"
+                    className="checkbox form-check-input mt-0"
                     type="checkbox"
                     value=""
                     aria-label="Checkbox for following text input"
+                    onChange={() => {}}
                   />
                 </div>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   aria-label="Text input with dropdown button"
                 />
                 <button
-                  class="noti-dropdown btn dropdown-toggle"
+                  className="noti-dropdown btn dropdown-toggle"
                   type="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
                   time before
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end">
+                <ul className="dropdown-menu dropdown-menu-end">
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       minut(es) before
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       hour(s) before
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       day(s) before
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       month(s) before
                     </a>
                   </li>
                 </ul>
-                <span class="noti-options-label input-group-text">for</span>
+                <span className="noti-options-label input-group-text">for</span>
                 <button
-                  class="noti-dropdown btn btn-outline-secondary dropdown-toggle"
+                  className="noti-dropdown btn btn-outline-secondary dropdown-toggle"
                   type="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
                   task
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end">
+                <ul className="dropdown-menu dropdown-menu-end">
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       All
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       Red badge
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       Green badge
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       Blue badge
                     </a>
                   </li>
                 </ul>
               </div>
-              <div class="input-group mt-3">
-                <div class="checkbox-wrapper input-group-text">
+              <div className="input-group mt-3">
+                <div className="checkbox-wrapper input-group-text">
                   <input
-                    class="checkbox form-check-input mt-0"
+                    className="checkbox form-check-input mt-0"
                     type="checkbox"
                     checked
                     value=""
                     aria-label="Checkbox for following text input"
+                    onChange={() => {}}
                   />
                 </div>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   aria-label="Text input with dropdown button"
                 />
                 <button
-                  class="noti-dropdown btn btn-outline-secondary dropdown-toggle"
+                  className="noti-dropdown btn btn-outline-secondary dropdown-toggle"
                   type="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
                   time before
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end">
+                <ul className="dropdown-menu dropdown-menu-end">
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       minut(es) before
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       hour(s) before
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       day(s) before
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       month(s) before
                     </a>
                   </li>
                 </ul>
-                <span class="noti-options-label input-group-text">for</span>
+                <span className="noti-options-label input-group-text">for</span>
                 <button
-                  class="noti-dropdown btn btn-outline-secondary dropdown-toggle"
+                  className="noti-dropdown btn btn-outline-secondary dropdown-toggle"
                   type="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
                   task
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end">
+                <ul className="dropdown-menu dropdown-menu-end">
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       All
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       Red badge
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       Green badge
-                    </a>
+                    </a> 
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       Blue badge
                     </a>
                   </li>

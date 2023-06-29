@@ -50,7 +50,7 @@ const ItemAddForm = (props) => {
         />
       </div>
       <div className="form-footer">
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">
           Add
         </button>
       </div>

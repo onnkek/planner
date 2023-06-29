@@ -33,9 +33,7 @@ export default class App extends Component {
   render() {
     return (
       <>
-        <button className="testbtnDELETE" onClick={this.toggleMode}>THEME</button>
         <Header />
-        <ControlPanelContainer />
         <Routes>
           <Route
             path="/"

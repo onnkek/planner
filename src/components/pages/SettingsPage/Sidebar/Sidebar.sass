@@ -11,7 +11,7 @@
 .sidebar-list-item
     display: flex
     padding: 8px
-    transition: all 0.08s ease-in-out
+    transition: background-color 0.08s ease-in-out
     &:hover
         border-radius: 8px
         background-color: var(--tab-bg)
@@ -24,12 +24,13 @@
 .sidebar-item-link
     display: block
     text-decoration: none
-    transition: all 0.2s ease-in-out
+    transition: background-color 0.2s ease-in-out
     
 .sidebar-item-link-active
     position: relative
     border-radius: 8px
     background-color: var(--tab-bg)
+    transition: all 0.4s ease-in-out
     &::before
         content: ''
         position: absolute
@@ -40,3 +41,4 @@
         height: 32px
         border-radius: 6px
         background-color: var(--current-color)
+        transition: all 0.4s ease-in-out

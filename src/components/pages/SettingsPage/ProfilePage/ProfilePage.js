@@ -16,6 +16,7 @@ const ProfilePage = (props) => {
             <input
               className="profile-form-group-input form-control"
               value="username"
+              onChange={() => {}}
             />
             <div className="profile-from-group-descr">
               Your username in the glider system and in the header of the site
@@ -27,6 +28,7 @@ const ProfilePage = (props) => {
             <input
               className="profile-form-group-input form-control"
               value="email@email.com"
+              onChange={() => {}}
             />
             <div className="profile-from-group-descr">
               Your e-mail in the planner's system for the possibility of account

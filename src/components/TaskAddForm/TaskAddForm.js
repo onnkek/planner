@@ -30,14 +30,14 @@ const TaskAddForm = (props) => {
             Autocreate task every
           </label>
 
-          <div class="input-group mb-3">
+          <div className="input-group mb-3">
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               aria-label="Text input with dropdown button"
             />
             <button
-              class={`btn btn-outline-secondary dropdown-toggle ${
+              className={`btn btn-outline-secondary dropdown-toggle ${
                 state && "show"
               }`}
               type="button"
@@ -47,18 +47,18 @@ const TaskAddForm = (props) => {
             >
               Every
             </button>
-            <ul class={`dropdown-menu dropdown-menu-end ${state && "show"}`}>
+            <ul className={`dropdown-menu dropdown-menu-end ${state && "show"}`}>
               <li className="dropdowm-list-item">
-                <p class="dropdown-item">Month</p>
+                <p className="dropdown-item">Month</p>
               </li>
               <li className="dropdowm-list-item">
-                <p class="dropdown-item">Week</p>
+                <p className="dropdown-item">Week</p>
               </li>
               <li className="dropdowm-list-item">
-                <p class="dropdown-item">Day</p>
+                <p className="dropdown-item">Day</p>
               </li>
               <li className="dropdowm-list-item">
-                <p class="dropdown-item">Hour</p>
+                <p className="dropdown-item">Hour</p>
               </li>
             </ul>
           </div>

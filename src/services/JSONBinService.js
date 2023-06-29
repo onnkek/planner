@@ -22,7 +22,7 @@ export default class JSONBinService {
       headers: {
         authorization: `token ${this._apiKey}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     });
   };
 }

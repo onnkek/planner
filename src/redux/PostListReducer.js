@@ -59,6 +59,8 @@ const PostListReducer = (state = initialState, action) => {
     case CREATE_POST:
       newState = { ...state };
       newState.isShowModal = !newState.isShowModal;
+      newState.body = '';
+      newState.deadline = '';
       return newState;
 
     case ADD_POST:
