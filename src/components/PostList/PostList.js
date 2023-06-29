@@ -47,11 +47,9 @@ export default class PostList extends Component {
     const items = this.renderItems(this.props.data);
     return (
       <div className="planner">
-        <div className="app-container">
-          <ul className="planner-container">
-            <TransitionGroup className="todo-list">{items}</TransitionGroup>
-          </ul>
-        </div>
+        <ul className="planner-container">
+          <TransitionGroup className="todo-list">{items}</TransitionGroup>
+        </ul>
       </div>
     );
   }

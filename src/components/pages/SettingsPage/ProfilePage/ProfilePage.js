@@ -1,13 +1,12 @@
 import React from "react";
 import "./ProfilePage.sass";
+import SettingsHeader from "../SettingsHeader/SettingsHeader";
 
 const ProfilePage = (props) => {
   return (
     <>
       <div className="settings-item">
-        <div className="settings-header-container">
-          <h2 className="settings-header">Profile preferences</h2>
-        </div>
+        <SettingsHeader title='Profile preferences' />
         <form className="form-1 col-8">
           <div className="profile-form-group">
             <label className="profile-form-group-label form-label">
@@ -16,7 +15,7 @@ const ProfilePage = (props) => {
             <input
               className="profile-form-group-input form-control"
               value="username"
-              onChange={() => {}}
+              onChange={() => { }}
             />
             <div className="profile-from-group-descr">
               Your username in the glider system and in the header of the site
@@ -28,7 +27,7 @@ const ProfilePage = (props) => {
             <input
               className="profile-form-group-input form-control"
               value="email@email.com"
-              onChange={() => {}}
+              onChange={() => { }}
             />
             <div className="profile-from-group-descr">
               Your e-mail in the planner's system for the possibility of account

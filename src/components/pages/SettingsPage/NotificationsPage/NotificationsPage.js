@@ -1,22 +1,12 @@
 import React from "react";
 import "./NotificationsPage.sass";
-import { CheckLg } from "react-bootstrap-icons";
-import Spinner from "../../../UI/Spinner/Spinner";
+import SettingsHeader from "../SettingsHeader/SettingsHeader";
 
 const NotificationsPage = (props) => {
   return (
     <>
       <div className="settings-item">
-        <div className="settings-header-container">
-          <h2 className="settings-header">Notifications preferences</h2>
-          <div className="settings-check">
-            <Spinner className='spinner-small'/>
-            <div className="settings-check-icon">
-              <CheckLg className="icon-check" />
-            </div>
-            <span className="settings-check-title">Saved</span>
-          </div>
-        </div>
+        <SettingsHeader title='Notifications preferences'/>
         <div className="noti-wrapper">
           <div className="noti-item">
             <h3 className="settings-subheader">Default notifications task</h3>
@@ -32,7 +22,7 @@ const NotificationsPage = (props) => {
                     type="checkbox"
                     value=""
                     aria-label="Checkbox for following text input"
-                    onChange={() => {}}
+                    onChange={() => { }}
                   />
                 </div>
                 <input
@@ -110,7 +100,7 @@ const NotificationsPage = (props) => {
                     checked
                     value=""
                     aria-label="Checkbox for following text input"
-                    onChange={() => {}}
+                    onChange={() => { }}
                   />
                 </div>
                 <input
@@ -171,7 +161,7 @@ const NotificationsPage = (props) => {
                   <li>
                     <a className="dropdown-item" href="#">
                       Green badge
-                    </a> 
+                    </a>
                   </li>
                   <li>
                     <a className="dropdown-item" href="#">

@@ -31,18 +31,9 @@ const ControlPanel = (props) => {
             </li>
           </ul>
         </div>
-
         <div className="control-filter">
           <div className="app-container"></div>
         </div>
-        <button
-          type="button"
-          className="add-button btn btn-primary outline"
-          data-bs-target="#add-modal"
-          data-bs-toggle="modal"
-        >
-          +
-        </button>
       </div>
     </>
   );
