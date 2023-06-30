@@ -2,7 +2,7 @@ import React from 'react';
 import './Header.sass'
 import { Link } from 'react-router-dom';
 import { YinYang } from 'react-bootstrap-icons';
-import ControlPanelContainer from '../ControlPanel/ControlPanelContainer';
+import ControlPanel from '../ControlPanel/ControlPanel';
 
 const Header = (props) => {
     return (
@@ -16,7 +16,7 @@ const Header = (props) => {
                 </div>
             </div>
             <div className='header-local'>
-                <ControlPanelContainer />
+                <ControlPanel />
             </div>
         </div>
     );

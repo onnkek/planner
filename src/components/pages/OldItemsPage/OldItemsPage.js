@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./OldItemsPage.sass";
-import PostListContainer from "../../PostList/PostListContainer";
 import Search from "../../Search/Search";
+import PostList from "../../PostList/PostList";
 
 export default class OldItemsPage extends Component {
   render() {
@@ -10,7 +10,7 @@ export default class OldItemsPage extends Component {
         <div className="search-containter">
           <Search />
         </div>
-        <PostListContainer
+        <PostList
           new={false}
           onDelete={this.props.deleteItem}
         />

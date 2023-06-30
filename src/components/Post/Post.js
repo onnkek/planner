@@ -94,26 +94,26 @@ export default class Post extends Component {
     const { body, create, deadline, id, visible } = this.props;
 
     const deadlineDate = Date.parse(deadline);
-    const button = this.props.isRemoving.some((postId) => postId === id) ? (
-      <button className="btn-icon btn btn-primary" type="button" disabled>
-        <div
-          className="spinner-border spinner-border-sm"
-          role="status"
-          aria-hidden="true"
-        />
-      </button>
-    ) : (
-      <button
-        type="button"
-        className="btn-icon btn btn-primary"
-        onClick={(e) => {
-          e.stopPropagation();
-          this.hidePost(id, visible);
-        }}
-      >
-        <Trash3 className="icon-trash-3"/>
-      </button>
-    );
+    // const button = this.props.isRemoving.some((postId) => postId === id) ? (
+    //   <button className="btn-icon btn btn-primary" type="button" disabled>
+    //     <div
+    //       className="spinner-border spinner-border-sm"
+    //       role="status"
+    //       aria-hidden="true"
+    //     />
+    //   </button>
+    // ) : (
+    //   <button
+    //     type="button"
+    //     className="btn-icon btn btn-primary"
+    //     onClick={(e) => {
+    //       e.stopPropagation();
+    //       this.hidePost(id, visible);
+    //     }}
+    //   >
+    //     <Trash3 className="icon-trash-3"/>
+    //   </button>
+    // );
     const fullTime = deadlineDate - create;
 
     let currentTime = deadlineDate - Date.now();
@@ -163,7 +163,7 @@ export default class Post extends Component {
             <div className={`col-3 ${this.state.active}`}>
               {this.getDeadline(deadline)}
             </div>
-            <div className="delete-button col-1">{button}</div>
+            {/* <div className="delete-button col-1">{button}</div> */}
           </div>
           <div
             className={`item-desc ${

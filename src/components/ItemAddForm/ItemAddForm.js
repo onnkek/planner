@@ -1,23 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ItemAddForm.sass";
 import Spinner from "../UI/Spinner/Spinner";
+import { useDispatch } from "react-redux";
+import { addNewPost } from "../../redux/PostListReducer";
 
 const ItemAddForm = (props) => {
 
+  const dispatch = useDispatch()
+
+  const [body, setBody] = useState('')
+  const [deadline, setDeadline] = useState('')
+  const [status, setStatus] = useState('idle')
+
+
   const onBodyChange = (e) => {
-    props.onBodyChange(e.target.value);
+    setBody(e.target.value)
+    console.log(body);
   }
   const onDeadlineChange = (e) => {
-    props.onDeadlineChange(e.target.value);
-  }
-  const onSubmit = (e) => {
-    e.preventDefault();
-    props.onAddPost();
+    setDeadline(e.target.value)
+    console.log(deadline);
   }
 
-  if (props.isAdding) {
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    console.log('SUBMIT!')
+    await dispatch(addNewPost({ body, deadline })).unwrap()
+    setBody('')
+    setDeadline('')
+  }
+
+  if (status === 'loading') {
     return <Spinner small />
   }
+
 
   return (
 
@@ -32,7 +48,7 @@ const ItemAddForm = (props) => {
           name="body"
           rows="5"
           placeholder="What should be done?"
-          value={props.body}
+          value={body}
           onChange={onBodyChange}
         ></textarea>
       </div>
@@ -45,7 +61,7 @@ const ItemAddForm = (props) => {
           type="datetime-local"
           name="deadline"
           className="form-control add-form-date"
-          value={props.deadline}
+          value={deadline}
           onChange={onDeadlineChange}
         />
       </div>

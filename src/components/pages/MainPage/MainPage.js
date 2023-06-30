@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./MainPage.sass";
-import PostListContainer from "../../PostList/PostListContainer";
 import Search from "../../Search/Search";
 import { PlusLg } from "react-bootstrap-icons";
+import PostList from "../../PostList/PostList";
 
 export default class MainPage extends Component {
 
@@ -15,7 +15,7 @@ export default class MainPage extends Component {
             data-bs-target="#add-modal" data-bs-toggle="modal"
           ><PlusLg size={22}/></button>
         </div>
-        <PostListContainer
+        <PostList
           new={true}
           onDelete={this.props.deleteItem}
         />

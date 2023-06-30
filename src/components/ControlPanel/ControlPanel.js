@@ -1,15 +1,15 @@
 import React from "react";
 import "./ControlPanel.sass";
 import { NavLink } from "react-router-dom";
-import ItemAddFormContainer from "../ItemAddForm/ItemAddFormContainer";
 import Modal from "../Modal/Modal";
+import ItemAddForm from "../ItemAddForm/ItemAddForm";
 
 const ControlPanel = (props) => {
   const setActive = ({ isActive }) => (isActive ? "tab active-tab" : "tab");
   return (
     <>
       <Modal id='add-modal' title='Add new post'>
-        <ItemAddFormContainer />
+        <ItemAddForm />
       </Modal>
       <div className="control">
         <div className="nav-tabs-container">

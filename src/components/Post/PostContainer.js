@@ -4,14 +4,14 @@ import { hidePostAC, hidePostTC, removePostAC, removePostTC } from "../../redux/
 
 const mapStateToProps = (state) => {
   return {
-    isRemoving: state.postList.isRemovingPost
+    // isRemoving: state.postList.isRemovingPost
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    hidePost: (postId) => { dispatch(hidePostTC(postId)) },
-    removePost: (postId) => { dispatch(removePostTC(postId)) }
+    // hidePost: (postId) => { dispatch(hidePostTC(postId)) },
+    // removePost: (postId) => { dispatch(removePostTC(postId)) }
   }
 }
 

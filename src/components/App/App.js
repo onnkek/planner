@@ -4,7 +4,6 @@ import Header from "../Header/Header";
 import { Route, Routes } from "react-router-dom";
 import MainPage from "../pages/MainPage/MainPage";
 import OldItemsPage from "../pages/OldItemsPage/OldItemsPage";
-import ControlPanelContainer from "../ControlPanel/ControlPanelContainer";
 import SettingsPage from "../pages/SettingsPage/SettingsPage";
 import Spinner from "../UI/Spinner/Spinner";
 

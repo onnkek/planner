@@ -2,7 +2,7 @@ import config from "../config.json";
 
 export default class JSONBinService {
   constructor() {
-    this._apiBase = "https://jsonbin.org/me/main";
+    this._apiBase = "https://jsonbin.org/me/demo1";
     this._apiKey = config.apiKey;
   }
 
