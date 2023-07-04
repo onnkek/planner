@@ -1,9 +1,9 @@
-import config from "../config.json";
+import config from "../config.json"
 
 export default class JSONBinService {
   constructor() {
-    this._apiBase = "https://jsonbin.org/me/demo1";
-    this._apiKey = config.apiKey;
+    this._apiBase = "https://jsonbin.org/me/demo1"
+    this._apiKey = config.apiKey
   }
 
   getData = async () => {
@@ -12,9 +12,9 @@ export default class JSONBinService {
       headers: {
         authorization: `token ${this._apiKey}`,
       },
-    });
-    return await response.json();
-  };
+    })
+    return await response.json()
+  }
 
   updateData = async (data) => {
     const response = await fetch(this._apiBase, {
@@ -23,6 +23,6 @@ export default class JSONBinService {
         authorization: `token ${this._apiKey}`,
       },
       body: JSON.stringify(data)
-    });
-  };
+    })
+  }
 }

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import "./ItemAddForm.sass";
-import Spinner from "../UI/Spinner/Spinner";
-import { useDispatch } from "react-redux";
-import { addNewPost } from "../../redux/PostListReducer";
+import React, { useState } from "react"
+import "./ItemAddForm.sass"
+import Spinner from "../UI/Spinner/Spinner"
+import { useDispatch } from "react-redux"
+import { addNewPost } from "../../redux/PostListReducer"
 
 const ItemAddForm = (props) => {
 
@@ -15,15 +15,15 @@ const ItemAddForm = (props) => {
 
   const onBodyChange = (e) => {
     setBody(e.target.value)
-    console.log(body);
+    console.log(body)
   }
   const onDeadlineChange = (e) => {
     setDeadline(e.target.value)
-    console.log(deadline);
+    console.log(deadline)
   }
 
   const onSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     console.log('SUBMIT!')
     await dispatch(addNewPost({ body, deadline })).unwrap()
     setBody('')
@@ -71,6 +71,6 @@ const ItemAddForm = (props) => {
         </button>
       </div>
     </form>
-  );
+  )
 }
-export default ItemAddForm;
+export default ItemAddForm

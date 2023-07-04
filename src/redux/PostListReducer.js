@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import JSONBinService from "../services/JSONBinService";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import JSONBinService from "../services/JSONBinService"
 
 
 
@@ -19,7 +19,7 @@ const postSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchPosts.pending, (state, action) => {
+      .addCase(fetchPosts.pending, (state) => {
         state.status = 'loading'
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
@@ -35,6 +35,13 @@ const postSlice = createSlice({
         state.posts.push(action.payload)
       })
       .addCase(addNewPost.pending, (state, action) => {
+        state.status = 'loading'
+      })
+      .addCase(hidePost.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        state.posts = action.payload
+      })
+      .addCase(hidePost.pending, (state, action) => {
         state.status = 'loading'
       })
   }
@@ -65,7 +72,7 @@ export const addNewPost = createAsyncThunk(
       timeleft: "",
       deadline: payload.deadline,
       visible: true
-    };
+    }
     const newPosts = [...state, newPost]
     await new JSONBinService().updateData(newPosts).then(() => {
       console.log("GOOO")
@@ -73,6 +80,20 @@ export const addNewPost = createAsyncThunk(
     return newPost
   })
 
+  export const hidePost = createAsyncThunk(
+    'posts/hidePost',
+    async (payload, { getState }) => {
+      console.log(payload)
+      const state = getState().posts.posts
+      const index = state.data.findIndex((post) => post.id === payload)
+          const newData = [...state.data]
+          newData[index].visible = !state.data[index].visible
+  
+      await new JSONBinService().updateData(newData).then(() => {
+        console.log("GOOO")
+      })
+      return newData
+    })
 
 
 
@@ -84,8 +105,7 @@ export const addNewPost = createAsyncThunk(
 
 
 
-
-export default postSlice.reducer;
+export default postSlice.reducer
 
 
 

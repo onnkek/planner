@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import './Search.sass'
 
 const Search = (props) => {
@@ -13,7 +13,7 @@ const Search = (props) => {
         <input type="text" className="form-control" aria-label="Text input with dropdown button" />
       </div>
     </>
-  );
+  )
 }
 
-export default Search;
+export default Search
