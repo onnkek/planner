@@ -1,6 +1,6 @@
-import React from "react";
-import "./NotificationsPage.sass";
-import SettingsHeader from "../SettingsHeader/SettingsHeader";
+import React from "react"
+import "./NotificationsPage.sass"
+import SettingsHeader from "../SettingsHeader/SettingsHeader"
 
 const NotificationsPage = (props) => {
   return (
@@ -175,7 +175,7 @@ const NotificationsPage = (props) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default NotificationsPage;
+export default NotificationsPage

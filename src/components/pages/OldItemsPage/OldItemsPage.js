@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import "./OldItemsPage.sass";
-import Search from "../../Search/Search";
-import PostList from "../../PostList/PostList";
+import React, { Component } from "react"
+import "./OldItemsPage.sass"
+import Search from "../../Search/Search"
+import PostList from "../../PostList/PostList"
 
 export default class OldItemsPage extends Component {
   render() {
@@ -15,6 +15,6 @@ export default class OldItemsPage extends Component {
           onDelete={this.props.deleteItem}
         />
       </div>
-    );
+    )
   }
 }

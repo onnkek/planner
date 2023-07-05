@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import "./SettingsPage.sass";
-import ThemePage from "./ThemePage/ThemePage";
-import Sidebar from "./Sidebar/Sidebar";
-import { Route, Routes } from "react-router-dom";
-import ProfilePage from "./ProfilePage/ProfilePage";
-import TimetaskPage from "./TimetaskPage/TimetaskPage";
-import NotificationsPage from "./NotificationsPage/NotificationsPage";
+import React, { Component } from "react"
+import "./SettingsPage.sass"
+import ThemePage from "./ThemePage/ThemePage"
+import Sidebar from "./Sidebar/Sidebar"
+import { Route, Routes } from "react-router-dom"
+import ProfilePage from "./ProfilePage/ProfilePage"
+import TimetaskPage from "./TimetaskPage/TimetaskPage"
+import NotificationsPage from "./NotificationsPage/NotificationsPage"
 
 export default class SettingsPage extends Component {
   render() {
@@ -28,6 +28,6 @@ export default class SettingsPage extends Component {
           </div>
         </div>
       </>
-    );
+    )
   }
 }

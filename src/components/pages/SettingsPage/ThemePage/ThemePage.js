@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import './ThemePage.sass'
-import ThemeCard from '../../../UI/ThemeCard/ThemeCard';
-import SettingsHeader from '../SettingsHeader/SettingsHeader';
+import ThemeCard from '../../../UI/ThemeCard/ThemeCard'
+import SettingsHeader from '../SettingsHeader/SettingsHeader'
 
 const ThemePage = (props) => {
 
-    const [active, setActive] = useState('dark');
+    const [active, setActive] = useState('dark')
 
     const toggleActive = () => {
         if (active === 'dark') {
-            setActive('light');
-            setLightMode();
+            setActive('light')
+            setLightMode()
         } else {
-            setActive('dark');
-            setDarkMode();
+            setActive('dark')
+            setDarkMode()
         }
     }
 
     const setDarkMode = () => {
         document.querySelector('body')
-            .setAttribute('data-theme', 'dark');
+            .setAttribute('data-theme', 'dark')
     }
     const setLightMode = () => {
         document.querySelector('body')
-            .setAttribute('data-theme', 'light');
+            .setAttribute('data-theme', 'light')
     }
 
     return (
@@ -46,7 +46,7 @@ const ThemePage = (props) => {
                 </div>
             </div>
         </>
-    );
+    )
 }
 
-export default ThemePage;
+export default ThemePage

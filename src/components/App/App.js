@@ -1,31 +1,31 @@
-import React, { Component } from "react";
-import "./App.sass";
-import Header from "../Header/Header";
-import { Route, Routes } from "react-router-dom";
-import MainPage from "../pages/MainPage/MainPage";
-import OldItemsPage from "../pages/OldItemsPage/OldItemsPage";
-import SettingsPage from "../pages/SettingsPage/SettingsPage";
-import Spinner from "../UI/Spinner/Spinner";
+import React, { Component } from "react"
+import "./App.sass"
+import Header from "../Header/Header"
+import { Route, Routes } from "react-router-dom"
+import MainPage from "../pages/MainPage/MainPage"
+import OldItemsPage from "../pages/OldItemsPage/OldItemsPage"
+import SettingsPage from "../pages/SettingsPage/SettingsPage"
+import Spinner from "../UI/Spinner/Spinner"
 
 // 6493dff09d312622a373a407 FakeBin
 
 export default class App extends Component {
 
-  test = 'dark';
+  test = 'dark'
   setDarkMode = () => {
     document.querySelector('body')
-      .setAttribute('data-theme', 'dark');
-    this.test = 'dark';
+      .setAttribute('data-theme', 'dark')
+    this.test = 'dark'
   }
   setLightMode = () => {
     document.querySelector('body')
-      .setAttribute('data-theme', 'light');
-    this.test = 'light';
+      .setAttribute('data-theme', 'light')
+    this.test = 'light'
   }
 
   toggleMode = (e) => {
 
-    this.test === 'dark' ? this.setLightMode() : this.setDarkMode();
+    this.test === 'dark' ? this.setLightMode() : this.setDarkMode()
 
   }
 
@@ -53,6 +53,6 @@ export default class App extends Component {
           <Route path="/settings/*" element={<SettingsPage />} />
         </Routes>
       </>
-    );
+    )
   }
 }

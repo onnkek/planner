@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import "./TaskAddForm.sass";
+import React, { useState } from "react"
+import "./TaskAddForm.sass"
 
 const TaskAddForm = (props) => {
-  const [state, setState] = useState(false);
+  const [state, setState] = useState(false)
 
   const toggleDropdown = () => {
     setState({
       state: !state,
-    });
-  };
+    })
+  }
 
   return (
     <>
@@ -70,7 +70,7 @@ const TaskAddForm = (props) => {
         </div>
       </form>
     </>
-  );
-};
+  )
+}
 
-export default TaskAddForm;
+export default TaskAddForm

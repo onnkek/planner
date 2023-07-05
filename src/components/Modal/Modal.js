@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 import './Modal.sass'
-import { XLg } from 'react-bootstrap-icons';
+import { XLg } from 'react-bootstrap-icons'
 
 const Modal = ({ id, children, buttons, title }) => {
     return (
@@ -16,7 +16,7 @@ const Modal = ({ id, children, buttons, title }) => {
                     <div className="modal-body">
                         {children}
                     </div>
-                    {buttons && <div class="modal-footer">
+                    {buttons && <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="button" className="btn btn-primary">Save changes</button>
                     </div>}
@@ -24,7 +24,7 @@ const Modal = ({ id, children, buttons, title }) => {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default Modal;
+export default Modal

@@ -24,5 +24,6 @@ export default class JSONBinService {
       },
       body: JSON.stringify(data)
     })
+    return response
   }
 }

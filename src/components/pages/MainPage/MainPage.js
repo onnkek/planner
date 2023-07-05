@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import "./MainPage.sass";
-import Search from "../../Search/Search";
-import { PlusLg } from "react-bootstrap-icons";
-import PostList from "../../PostList/PostList";
+import React, { Component } from "react"
+import "./MainPage.sass"
+import Search from "../../Search/Search"
+import { PlusLg } from "react-bootstrap-icons"
+import PostList from "../../PostList/PostList"
 
 export default class MainPage extends Component {
 
@@ -20,6 +20,6 @@ export default class MainPage extends Component {
           onDelete={this.props.deleteItem}
         />
       </div>
-    );
+    )
   }
 }

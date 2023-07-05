@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import './ThemeColorsPalette.sass'
 
 const ThemeColorsPalette = ({ active }) => {
 
-    const [color, setColor] = useState('');
+    const [color, setColor] = useState('')
 
     const setTheme = (color) => {
         if (active) {
-            setColor(color);
+            setColor(color)
             document.querySelector('body')
-                .setAttribute('data-color-theme', color);
+                .setAttribute('data-color-theme', color)
         }
     }
 
@@ -31,7 +31,7 @@ const ThemeColorsPalette = ({ active }) => {
                 <div className="color-item color-item-5"></div>
             </div>
         </div>
-    );
+    )
 }
 
-export default ThemeColorsPalette;
+export default ThemeColorsPalette

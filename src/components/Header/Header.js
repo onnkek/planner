@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 import './Header.sass'
-import { Link } from 'react-router-dom';
-import { YinYang } from 'react-bootstrap-icons';
-import ControlPanel from '../ControlPanel/ControlPanel';
+import { Link } from 'react-router-dom'
+import { YinYang } from 'react-bootstrap-icons'
+import ControlPanel from '../ControlPanel/ControlPanel'
 
 const Header = (props) => {
     return (
@@ -19,7 +19,7 @@ const Header = (props) => {
                 <ControlPanel />
             </div>
         </div>
-    );
+    )
 }
 
-export default Header;
+export default Header

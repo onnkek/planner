@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 import './TimetaskPage.sass'
-import Timetask from '../../../Timetask/Timetask';
-import TaskAddForm from '../../../TaskAddForm/TaskAddForm';
-import SettingsHeader from '../SettingsHeader/SettingsHeader';
-import Search from '../../../Search/Search';
-import Modal from "../../../Modal/Modal";
-import { PlusLg } from 'react-bootstrap-icons';
+import Timetask from '../../../Timetask/Timetask'
+import TaskAddForm from '../../../TaskAddForm/TaskAddForm'
+import SettingsHeader from '../SettingsHeader/SettingsHeader'
+import Search from '../../../Search/Search'
+import Modal from "../../../Modal/Modal"
+import { PlusLg } from 'react-bootstrap-icons'
 
 const TimetaskPage = (props) => {
 
@@ -40,7 +40,7 @@ const TimetaskPage = (props) => {
                 </ul>
             </div>
         </>
-    );
+    )
 }
 
-export default TimetaskPage;
+export default TimetaskPage

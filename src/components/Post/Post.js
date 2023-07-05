@@ -1,13 +1,13 @@
-import React, { Component } from "react"
-
+import React from "react"
 import "./Post.sass"
 import { ChevronDown, Trash3 } from "react-bootstrap-icons"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { hidePost } from "../../redux/PostListReducer"
 
 const Post = (props) => {
 
   const dispatch = useDispatch()
-
+  const [status, setStatus] = useSelector(state => state.posts.status)
   // state = {
   //   progress: 0,
   //   active: "",
@@ -84,21 +84,20 @@ const Post = (props) => {
   //   })
   // }
 
-  const toggle = () => {
-    this.setState({
-      selected: !this.state.selected,
-    })
+  // const toggle = () => {
+  //   this.setState({
+  //     selected: !this.state.selected,
+  //   })
+  // }
+
+
+
+
+  const { body, create, deadline, id } = props
+
+  const handlerOnClick = () => {
+    dispatch(hidePost({ id }))
   }
-
-  const hidePost = async () => {
-    // console.log(props)
-    await dispatch(hidePost(props.id)).unwrap()
-    //props.visible ? props.hidePost(postId) : props.removePost(postId)
-  }
-
-
-  const { body, create, deadline } = props
-
   const deadlineDate = Date.parse(deadline)
   // const button = props.isRemoving.some((postId) => postId === id) ? (
   //   <button className="btn-icon btn btn-primary" type="button" disabled>
@@ -125,9 +124,9 @@ const Post = (props) => {
     <button
       type="button"
       className="btn-icon btn btn-primary"
-      onClick={hidePost}
+      onClick={handlerOnClick}
     >
-      <Trash3 className="icon-trash-3"/>
+      <Trash3 className="icon-trash-3" />
     </button>
   )
 
@@ -139,6 +138,10 @@ const Post = (props) => {
     currentTime = 0
   }
   const prog = (currentTime / fullTime) * 100
+
+  if(status === 'failed') {
+    alert('FETCH DROP!')
+  }
 
   const oldPageContent = props.visible || (
     <>

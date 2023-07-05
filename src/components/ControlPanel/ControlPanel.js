@@ -1,11 +1,11 @@
-import React from "react";
-import "./ControlPanel.sass";
-import { NavLink } from "react-router-dom";
-import Modal from "../Modal/Modal";
-import ItemAddForm from "../ItemAddForm/ItemAddForm";
+import React from "react"
+import "./ControlPanel.sass"
+import { NavLink } from "react-router-dom"
+import Modal from "../Modal/Modal"
+import ItemAddForm from "../ItemAddForm/ItemAddForm"
 
 const ControlPanel = (props) => {
-  const setActive = ({ isActive }) => (isActive ? "tab active-tab" : "tab");
+  const setActive = ({ isActive }) => (isActive ? "tab active-tab" : "tab")
   return (
     <>
       <Modal id='add-modal' title='Add new post'>
@@ -36,7 +36,7 @@ const ControlPanel = (props) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default ControlPanel;
+export default ControlPanel

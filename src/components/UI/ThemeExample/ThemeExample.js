@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import './ThemeExample.sass'
 
 const ThemeExample = ({ dark }) => {
@@ -25,7 +25,7 @@ const ThemeExample = ({ dark }) => {
                 <div className="example-body-wrapper example-body-wrapper-1"></div>
             </div>
         </div>
-    );
+    )
 }
 
-export default ThemeExample;
+export default ThemeExample

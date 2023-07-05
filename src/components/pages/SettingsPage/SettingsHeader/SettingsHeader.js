@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 import './SettingsHeader.sass'
-import Spinner from "../../../UI/Spinner/Spinner";
-import { CheckLg } from "react-bootstrap-icons";
+import Spinner from "../../../UI/Spinner/Spinner"
+import { CheckLg } from "react-bootstrap-icons"
 
 const SettingsHeader = ({ title }) => {
     return (
@@ -15,7 +15,7 @@ const SettingsHeader = ({ title }) => {
                 <span className="settings-check-title">Saved</span>
             </div>
         </div>
-    );
+    )
 }
 
-export default SettingsHeader;
+export default SettingsHeader

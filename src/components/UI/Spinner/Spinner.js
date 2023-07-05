@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import './Spinner.sass'
 
 const Spinner = (props) => {
@@ -6,7 +6,7 @@ const Spinner = (props) => {
         <div className='spinner'>
             <div className={`custom-loader ${props.className}`}></div>
         </div>
-    );
+    )
 }
 
-export default Spinner;
+export default Spinner

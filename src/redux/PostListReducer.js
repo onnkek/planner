@@ -5,6 +5,8 @@ import JSONBinService from "../services/JSONBinService"
 
 
 
+
+
 const initialState = {
   posts: [],
   status: 'idle',
@@ -44,6 +46,9 @@ const postSlice = createSlice({
       .addCase(hidePost.pending, (state, action) => {
         state.status = 'loading'
       })
+      .addCase(hidePost.rejected, (state, action) => {
+        state.status = 'failed'
+      })
   }
 })
 
@@ -74,26 +79,28 @@ export const addNewPost = createAsyncThunk(
       visible: true
     }
     const newPosts = [...state, newPost]
-    await new JSONBinService().updateData(newPosts).then(() => {
-      console.log("GOOO")
-    })
+    await new JSONBinService().updateData(newPosts)
     return newPost
   })
 
-  export const hidePost = createAsyncThunk(
-    'posts/hidePost',
-    async (payload, { getState }) => {
-      console.log(payload)
+export const hidePost = createAsyncThunk(
+  'posts/hidePost',
+  async (payload, { rejectedWithValue, getState }) => {
+    try {
       const state = getState().posts.posts
-      const index = state.data.findIndex((post) => post.id === payload)
-          const newData = [...state.data]
-          newData[index].visible = !state.data[index].visible
-  
-      await new JSONBinService().updateData(newData).then(() => {
-        console.log("GOOO")
-      })
+      const index = state.findIndex((post) => post.id === payload.id)
+      const newData = [...state]
+      newData[index] = {...state[index]}
+      newData[index].visible = false
+      const response = await new JSONBinService().updateData(newData)
+      if (!response.ok) {
+        throw new Error('Can\'t delete post! Server error!')
+      }
       return newData
-    })
+    } catch (error) {
+      return rejectedWithValue(error.message)
+    }
+  })
 
 
 

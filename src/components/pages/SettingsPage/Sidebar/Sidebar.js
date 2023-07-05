@@ -1,10 +1,10 @@
-import React from 'react';
+import React from 'react'
 import './Sidebar.sass'
-import { NavLink } from 'react-router-dom';
-import { Bell, Brush, ClockHistory, Person } from 'react-bootstrap-icons';
+import { NavLink } from 'react-router-dom'
+import { Bell, Brush, ClockHistory, Person } from 'react-bootstrap-icons'
 
 const Sidebar = (props) => {
-    const setActive = ({ isActive }) => isActive ? "sidebar-item-link sidebar-item-link-active" : "sidebar-item-link";
+    const setActive = ({ isActive }) => isActive ? "sidebar-item-link sidebar-item-link-active" : "sidebar-item-link"
     return (
         <>
             <div className='sidebar'>
@@ -52,7 +52,7 @@ const Sidebar = (props) => {
                 </ul>
             </div>
         </>
-    );
+    )
 }
 
-export default Sidebar;
+export default Sidebar

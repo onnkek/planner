@@ -1,6 +1,6 @@
-import React from "react";
-import "./ProfilePage.sass";
-import SettingsHeader from "../SettingsHeader/SettingsHeader";
+import React from "react"
+import "./ProfilePage.sass"
+import SettingsHeader from "../SettingsHeader/SettingsHeader"
 
 const ProfilePage = (props) => {
   return (
@@ -38,7 +38,7 @@ const ProfilePage = (props) => {
         </form>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default ProfilePage;
+export default ProfilePage

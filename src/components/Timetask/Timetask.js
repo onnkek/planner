@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 import './Timetask.sass'
-import { Trash3 } from 'react-bootstrap-icons';
+import { Trash3 } from 'react-bootstrap-icons'
 
 const Timetask = (props) => {
 
@@ -29,7 +29,7 @@ const Timetask = (props) => {
                 <div className="delete-button col-1">{deleteButton}</div>
             </div>
         </>
-    );
+    )
 }
 
-export default Timetask;
+export default Timetask

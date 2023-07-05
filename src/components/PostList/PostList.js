@@ -6,7 +6,7 @@ import Post from "../Post/Post"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchPosts } from "../../redux/PostListReducer"
 
-const PostList = () => {
+const PostList = (props) => {
 
   const dispatch = useDispatch()
   const posts = useSelector(state => state.posts.posts)
@@ -20,31 +20,30 @@ const PostList = () => {
 
 
 
-  console.log(posts)
   const renderItems = (data) => {
     return data.map((item) => {
-      const { id } = item
-      // if (this.props.new) {
-      // if (visible) {
-        return (
-          <CSSTransition key={id} timeout={200} classNames="item">
-            <li key={item.id} className="planner-list">
-              <Post {...item} />
-            </li>
-          </CSSTransition>
-        )
-      // }
-      // } else {
-      // if (!visible) {
-      //   return (
-      //     <CSSTransition key={id} timeout={200} classNames="item">
-      //       <li key={item.id} className="planner-list">
-      //         <PostContainer {...item} />
-      //       </li>
-      //     </CSSTransition>
-      //   );
-      // }
-      // }
+      const { id, visible } = item
+      if (props.new) {
+        if (visible) {
+          return (
+            <CSSTransition key={id} timeout={200} classNames="item">
+              <li key={item.id} className="planner-list">
+                <Post {...item} />
+              </li>
+            </CSSTransition>
+          )
+        }
+      } else {
+        if (!visible) {
+          return (
+            <CSSTransition key={id} timeout={200} classNames="item">
+              <li key={item.id} className="planner-list">
+                <Post {...item} />
+              </li>
+            </CSSTransition>
+          )
+        }
+      }
     })
   }
 

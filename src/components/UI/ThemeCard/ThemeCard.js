@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 import './ThemeCard.sass'
-import ThemeExample from '../ThemeExample/ThemeExample';
-import ThemeColorsPalette from '../ThemeColorsPalette/ThemeColorsPalette';
+import ThemeExample from '../ThemeExample/ThemeExample'
+import ThemeColorsPalette from '../ThemeColorsPalette/ThemeColorsPalette'
 
 const ThemeCard = ({ dark, active, setActive }) => {
     return (
@@ -27,7 +27,7 @@ const ThemeCard = ({ dark, active, setActive }) => {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default ThemeCard;
+export default ThemeCard
