@@ -10,7 +10,7 @@ const PostList = (props) => {
 
   const dispatch = useDispatch()
   const posts = useSelector(state => state.posts.posts)
-  const status = useSelector(state => state.posts.status)
+  const status = useSelector(state => state.posts.statusFetchPosts)
 
   useEffect(() => {
     if (status === 'idle') {
@@ -47,7 +47,7 @@ const PostList = (props) => {
     })
   }
 
-  if (status === 'loading') {
+  if (status === 'loading' && posts) {
     return <Spinner className='spinner-big' />
   }
 

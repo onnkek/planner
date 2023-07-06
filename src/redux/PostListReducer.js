@@ -9,8 +9,11 @@ import JSONBinService from "../services/JSONBinService"
 
 const initialState = {
   posts: [],
-  status: 'idle',
-  error: null
+  statusFetchPosts: 'idle',
+  errorFetchPosts: null,
+  statusAddPost: 'idle',
+  errorAddPost: null,
+  removing: []
 }
 
 const postSlice = createSlice({
@@ -22,32 +25,46 @@ const postSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchPosts.pending, (state) => {
-        state.status = 'loading'
+        state.statusFetchPosts = 'loading'
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
-        state.status = 'succeeded'
+        state.statusFetchPosts = 'succeeded'
         state.posts = action.payload
       })
       .addCase(fetchPosts.rejected, (state, action) => {
-        state.status = 'failed'
+        state.statusFetchPosts = 'failed'
         state.error = action.error.message
       })
       .addCase(addNewPost.fulfilled, (state, action) => {
-        state.status = 'succeeded'
+        state.statusAddPost = 'succeeded'
         state.posts.push(action.payload)
       })
       .addCase(addNewPost.pending, (state, action) => {
-        state.status = 'loading'
+        state.statusAddPost = 'loading'
       })
+
+
       .addCase(hidePost.fulfilled, (state, action) => {
-        state.status = 'succeeded'
+        state.removing.shift(action.meta.arg.id)
         state.posts = action.payload
       })
       .addCase(hidePost.pending, (state, action) => {
-        state.status = 'loading'
+        state.removing.push(action.meta.arg.id)
       })
       .addCase(hidePost.rejected, (state, action) => {
-        state.status = 'failed'
+        //state.statusRemovePost = 'failed'
+      })
+
+
+      .addCase(removePost.fulfilled, (state, action) => {
+        state.removing.pop(action.meta.arg.id)
+        state.posts = action.payload
+      })
+      .addCase(removePost.pending, (state, action) => {
+        state.removing.push(action.meta.arg.id)
+      })
+      .addCase(removePost.rejected, (state, action) => {
+        //state.statusRemovePost = 'failed'
       })
   }
 })
@@ -90,8 +107,26 @@ export const hidePost = createAsyncThunk(
       const state = getState().posts.posts
       const index = state.findIndex((post) => post.id === payload.id)
       const newData = [...state]
-      newData[index] = {...state[index]}
+      newData[index] = { ...state[index] }
       newData[index].visible = false
+      const response = await new JSONBinService().updateData(newData)
+      if (!response.ok) {
+        throw new Error('Can\'t delete post! Server error!')
+      }
+      return newData
+    } catch (error) {
+      return rejectedWithValue(error.message)
+    }
+  })
+
+export const removePost = createAsyncThunk(
+  'posts/removePost',
+  async (payload, { rejectedWithValue, getState }) => {
+    try {
+      const state = getState().posts.posts
+      console.log(getState().posts.removing)
+      const index = state.findIndex((post) => post.id === payload.id)
+      const newData = [...state.slice(0, index), ...state.slice(index + 1)]
       const response = await new JSONBinService().updateData(newData)
       if (!response.ok) {
         throw new Error('Can\'t delete post! Server error!')

@@ -1,8 +1,9 @@
 import React, { useState } from "react"
 import "./ItemAddForm.sass"
 import Spinner from "../UI/Spinner/Spinner"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { addNewPost } from "../../redux/PostListReducer"
+import Modal from "../Modal/Modal"
 
 const ItemAddForm = (props) => {
 
@@ -10,8 +11,7 @@ const ItemAddForm = (props) => {
 
   const [body, setBody] = useState('')
   const [deadline, setDeadline] = useState('')
-  const [status, setStatus] = useState('idle')
-
+  const status = useSelector(state => state.posts.statusAddPost)
 
   const onBodyChange = (e) => {
     setBody(e.target.value)
@@ -24,8 +24,8 @@ const ItemAddForm = (props) => {
 
   const onSubmit = async (e) => {
     e.preventDefault()
-    console.log('SUBMIT!')
-    await dispatch(addNewPost({ body, deadline })).unwrap()
+    await dispatch(addNewPost({ body, deadline }))
+    
     setBody('')
     setDeadline('')
   }
@@ -66,7 +66,7 @@ const ItemAddForm = (props) => {
         />
       </div>
       <div className="form-footer">
-        <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">
+        <button type="submit" className="btn btn-primary" >
           Add
         </button>
       </div>

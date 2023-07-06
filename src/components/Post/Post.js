@@ -2,48 +2,14 @@ import React from "react"
 import "./Post.sass"
 import { ChevronDown, Trash3 } from "react-bootstrap-icons"
 import { useDispatch, useSelector } from "react-redux"
-import { hidePost } from "../../redux/PostListReducer"
+import { hidePost, removePost } from "../../redux/PostListReducer"
 
 const Post = (props) => {
 
   const dispatch = useDispatch()
-  const [status, setStatus] = useSelector(state => state.posts.status)
-  // state = {
-  //   progress: 0,
-  //   active: "",
-  //   spinner: false,
-  //   selected: false,
-  // }
-
-  // componentDidMount() {
-  //   this.timer = setInterval(() => {
-  //     this.updateItem()
-  //   }, 1000)
-  // }
-  // componentWillUnmount() {
-  //   clearInterval(this.timer)
-  // }
-  // updateItem = () => {
-  //   const deadlineDate = Date.parse(this.props.deadline)
-
-  //   const fullTime = deadlineDate - this.props.create
-
-  //   let currentTime = deadlineDate - Date.now()
-  //   if (currentTime < 0) {
-  //     currentTime = 0
-  //     const progress = (currentTime / fullTime) * 100
-  //     this.setState({
-  //       progress: progress,
-  //       active: "active",
-  //     })
-  //     return
-  //   }
-  //   const progress = (currentTime / fullTime) * 100
-  //   this.setState({
-  //     progress: progress,
-  //     active: "",
-  //   })
-  // }
+  const status = useSelector(state => state.posts.removing)
+  
+  
   const getDate = () => {
     const deadlineDate = Date.parse(props.deadline)
     const currentTime = deadlineDate - Date.now()
@@ -77,58 +43,35 @@ const Post = (props) => {
       minute = getNumber(date.getMinutes())
     return `${day}.${month}.${year} ${hour}:${minute}`
   }
-  // delete = () => {
-  //   this.props.onDelete()
-  //   this.setState({
-  //     spinner: true,
-  //   })
-  // }
 
-  // const toggle = () => {
-  //   this.setState({
-  //     selected: !this.state.selected,
-  //   })
-  // }
+  const { body, create, deadline, id, visible } = props
 
-
-
-
-  const { body, create, deadline, id } = props
-
-  const handlerOnClick = () => {
-    dispatch(hidePost({ id }))
+  const onClickHandler = () => {
+    if (visible) {
+      dispatch(hidePost({ id }))
+    } else {
+      dispatch(removePost({ id }))
+    }
   }
   const deadlineDate = Date.parse(deadline)
-  // const button = props.isRemoving.some((postId) => postId === id) ? (
-  //   <button className="btn-icon btn btn-primary" type="button" disabled>
-  //     <div
-  //       className="spinner-border spinner-border-sm"
-  //       role="status"
-  //       aria-hidden="true"
-  //     />
-  //   </button>
-  // ) : (
-  //   <button
-  //     type="button"
-  //     className="btn-icon btn btn-primary"
-  //     onClick={(e) => {
-  //       e.stopPropagation();
-  //       this.hidePost(id, visible);
-  //     }}
-  //   >
-  //     <Trash3 className="icon-trash-3"/>
-  //   </button>
-  // );
-
-  const button = (
+  const button = status.some(postId => postId === id) ? (
+    <button className="btn-icon btn btn-primary" type="button" disabled>
+      <div
+        className="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+      />
+    </button>
+  ) : (
     <button
       type="button"
       className="btn-icon btn btn-primary"
-      onClick={handlerOnClick}
+      onClick={onClickHandler}
     >
       <Trash3 className="icon-trash-3" />
     </button>
   )
+
 
   const fullTime = deadlineDate - create
 
@@ -139,7 +82,7 @@ const Post = (props) => {
   }
   const prog = (currentTime / fullTime) * 100
 
-  if(status === 'failed') {
+  if (status === 'failed') {
     alert('FETCH DROP!')
   }
 
