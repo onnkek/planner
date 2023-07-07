@@ -9,6 +9,7 @@ import JSONBinService from "../services/JSONBinService"
 
 const initialState = {
   posts: [],
+  savePosts: [],
   statusFetchPosts: 'idle',
   errorFetchPosts: null,
   statusAddPost: 'idle',
@@ -20,7 +21,22 @@ const postSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-
+    sortPosts: (state, action) => {
+      switch (action.payload) {
+        case 'Name':
+          state.posts.sort((post1, post2) => post1.body > post2.body ? 1 : -1)
+          return
+        case 'Time':
+          state.posts.sort((post1, post2) => post1.deadline > post2.deadline ? 1 : -1)
+          return
+        default:
+          return
+      }
+    },
+    filterPosts: (state, action) => {
+      state.posts = state.savePosts
+      state.posts = state.posts.filter(post => post.body.toLowerCase().includes(action.payload.toLowerCase()))
+    }
   },
   extraReducers(builder) {
     builder
@@ -30,11 +46,13 @@ const postSlice = createSlice({
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.statusFetchPosts = 'succeeded'
         state.posts = action.payload
+        state.savePosts = action.payload
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.statusFetchPosts = 'failed'
         state.error = action.error.message
       })
+
       .addCase(addNewPost.fulfilled, (state, action) => {
         state.statusAddPost = 'succeeded'
         state.posts.push(action.payload)
@@ -144,7 +162,7 @@ export const removePost = createAsyncThunk(
 
 
 
-
+export const { sortPosts, filterPosts } = postSlice.actions
 
 
 export default postSlice.reducer
