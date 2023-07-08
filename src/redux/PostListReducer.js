@@ -14,7 +14,8 @@ const initialState = {
   errorFetchPosts: null,
   statusAddPost: 'idle',
   errorAddPost: null,
-  removing: []
+  removing: [],
+  statusSavePost: 'idle'
 }
 
 const postSlice = createSlice({
@@ -83,6 +84,17 @@ const postSlice = createSlice({
       })
       .addCase(removePost.rejected, (state, action) => {
         //state.statusRemovePost = 'failed'
+      })
+
+      .addCase(savePost.fulfilled, (state, action) => {
+        state.statusSavePost = 'succeeded'
+        state.posts = action.payload
+      })
+      .addCase(savePost.pending, (state, action) => {
+        state.statusSavePost = 'loading'
+      })
+      .addCase(savePost.rejected, (state, action) => {
+        state.statusSavePost = 'failed'
       })
   }
 })
@@ -155,7 +167,31 @@ export const removePost = createAsyncThunk(
     }
   })
 
+  export const savePost = createAsyncThunk(
+    'posts/savePost',
+    async (payload, { rejectedWithValue, getState }) => {
+      try {
+        const state = getState().posts.posts
+        const index = state.findIndex((post) => post.id === payload.id)
+        const editedPost = {...state[index]}
+        editedPost.body = payload.body
+        editedPost.deadline = payload.deadline
+        
+        const newData = [...state.slice(0, index), editedPost, ...state.slice(index + 1)]
+        console.log(newData[index])
+        console.log(newData)
 
+
+
+        const response = await new JSONBinService().updateData(newData)
+        if (!response.ok) {
+          throw new Error('Can\'t delete post! Server error!')
+        }
+        return newData
+      } catch (error) {
+        return rejectedWithValue(error.message)
+      }
+    })
 
 
 

@@ -1,15 +1,19 @@
-import React from "react"
+import React, { useState } from "react"
 import "./Post.sass"
-import { ChevronDown, Trash3 } from "react-bootstrap-icons"
+import { ChevronDown, Pencil, Save, Trash3 } from "react-bootstrap-icons"
 import { useDispatch, useSelector } from "react-redux"
-import { hidePost, removePost } from "../../redux/PostListReducer"
+import { hidePost, removePost, savePost } from "../../redux/PostListReducer"
 
 const Post = (props) => {
 
   const dispatch = useDispatch()
   const status = useSelector(state => state.posts.removing)
-  
-  
+  const [edit, setEdit] = useState(false)
+  const [body, setBody] = useState(props.body)
+  const [deadline, setDeadline] = useState(props.deadline)
+
+
+
   const getDate = () => {
     const deadlineDate = Date.parse(props.deadline)
     const currentTime = deadlineDate - Date.now()
@@ -44,7 +48,7 @@ const Post = (props) => {
     return `${day}.${month}.${year} ${hour}:${minute}`
   }
 
-  const { body, create, deadline, id, visible } = props
+  const { create, id, visible } = props
 
   const onClickHandler = () => {
     if (visible) {
@@ -72,7 +76,29 @@ const Post = (props) => {
     </button>
   )
 
+  const editHandler = async () => {
+    
+    await dispatch(savePost({ id, body, deadline }))
+    setEdit(!edit)
+  }
 
+  const editButton = (!edit ? (<button
+    type="button"
+    className="btn-icon btn btn-primary"
+    onClick={() => setEdit(!edit)}
+  >
+    <Pencil className="icon-trash-3" />
+  </button>) : (
+    <button
+      type="button"
+      className="btn-icon btn btn-primary"
+      onClick={editHandler}
+    >
+      <Save className="icon-trash-3" />
+    </button>
+  )
+
+  )
   const fullTime = deadlineDate - create
 
   let currentTime = deadlineDate - Date.now()
@@ -96,7 +122,7 @@ const Post = (props) => {
       </div>
     </>
   )
-
+  console.log(edit)
   return (
     <>
       <div className="item-wrapper">
@@ -107,7 +133,16 @@ const Post = (props) => {
               <ChevronDown className="main-icon" />
             </div>
             <div className="item-title">
-              <p>{body}</p>
+              {!edit ? (<p>{body}</p>) : (<textarea
+                autoFocus
+                className="form-control"
+                name="body"
+                rows={body.length / 40}
+                placeholder="What should be done?"
+                value={body}
+                onChange={e => { setBody(e.target.value) }}
+              ></textarea>)}
+
             </div>
           </div>
           <div className="item-progress col-3">
@@ -125,10 +160,25 @@ const Post = (props) => {
             <div>{getDate()}</div>
           </div>
           {/* <div className={`col-3 ${this.state.active}`}> */}
-          <div className={`col-3`}>
-            {getDeadline(deadline)}
+          {!edit ? (
+            <div className={`col-3 deadline`}>
+              {getDeadline(deadline)}
+            </div>
+          ) : (
+            <div className="col-3 deadline">
+              <input
+                type="datetime-local"
+                name="deadline"
+                className="form-control input-date"
+                value={deadline}
+                onChange={e => { setDeadline(e.target.value) }}
+              />
+            </div>
+          )}
+          <div className="col-1 d-flex">
+            <div className="delete-button">{editButton}</div>
+            <div className="delete-button">{button}</div>
           </div>
-          <div className="delete-button col-1">{button}</div>
         </div>
         {/* <div
           className={`item-desc ${this.state.selected ? "item-desc-show" : ""
