@@ -1,8 +1,9 @@
 import React, { useState } from "react"
 import "./Post.sass"
-import { ChevronDown, Pencil, Save, Trash3 } from "react-bootstrap-icons"
+import { CheckLg, ChevronDown, Link45deg, Pencil, Save, Trash3 } from "react-bootstrap-icons"
 import { useDispatch, useSelector } from "react-redux"
 import { hidePost, removePost, savePost } from "../../redux/PostListReducer"
+import Spinner from "../UI/Spinner"
 
 const Post = (props) => {
 
@@ -77,28 +78,12 @@ const Post = (props) => {
   )
 
   const editHandler = async () => {
-    
+
     await dispatch(savePost({ id, body, deadline }))
     setEdit(!edit)
   }
 
-  const editButton = (!edit ? (<button
-    type="button"
-    className="btn-icon btn btn-primary"
-    onClick={() => setEdit(!edit)}
-  >
-    <Pencil className="icon-trash-3" />
-  </button>) : (
-    <button
-      type="button"
-      className="btn-icon btn btn-primary"
-      onClick={editHandler}
-    >
-      <Save className="icon-trash-3" />
-    </button>
-  )
 
-  )
   const fullTime = deadlineDate - create
 
   let currentTime = deadlineDate - Date.now()
@@ -123,12 +108,94 @@ const Post = (props) => {
     </>
   )
   console.log(edit)
+
+  const deleteButton = status.some(postId => postId === id) ? (
+    <Spinner className='spinner-small p-spinner' />
+  ) : (
+    <Trash3 onClick={onClickHandler} className="p-icon icon-trash-3" />
+  )
+  const editButton = edit ? (
+    <CheckLg size={20} type="button" className="p-icon icon-trash-3"
+      onClick={editHandler} />
+  ) : (
+    <Pencil type="button" className="p-icon icon-trash-3"
+      onClick={() => setEdit(!edit)} />
+  )
+  const deadlineContent = edit ? (
+    <input type="datetime-local" name="deadline"
+      className="form-control input-date edit-deadline" value={deadline}
+      onChange={e => { setDeadline(e.target.value) }}
+    />
+  ) : (getDeadline(deadline))
+  const bodyContent = edit ? (
+    <textarea
+      autoFocus className="form-control"
+      name="body" rows={body.length / 40}
+      placeholder="What should be done?" value={body}
+      onChange={e => { setBody(e.target.value) }}
+    ></textarea>
+  ) : (<p>{body}</p>)
+
   return (
     <>
       <div className="item-wrapper">
         <div className="row">
+          <div className="col-7">
+            <div className="row">
+              <div className="p-badges">
+                <span className="badge rounded-pill text-bg-primary">Test</span>
+                <span className="badge rounded-pill text-bg-warning">ИСП</span>
+                <span className="badge rounded-pill text-bg-danger">Important</span>
+                <span className="badge rounded-pill text-bg-info">Work</span>
+              </div>
+            </div>
+            <div className="row">
+              <p className="item-body">{bodyContent}</p>
+            </div>
+          </div>
+          <div className="col-5">
+            <div className="row item-flex">
+              <div className="col">
+                <div className="">
+                  <div className="p-min">
+
+                    <div
+                      className="progress mb-2"
+                      aria-valuenow="25"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    >
+                      <div
+                        className="progress-bar"
+                        style={{ width: `${prog}%` }}
+                      ></div>
+                    </div>
+                    <div className="mb-1">
+                      Deadline: {deadlineContent}
+                    </div>
+                    <div className="">
+                      Time left: {getDate()}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="fix">
+                <div className="item-flex-btns">
+                  <Link45deg size={20} className="p-icon icon-trash-3" />
+                  {editButton}
+                  {deleteButton}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      {/* <div className="item-wrapper">
+        <div className="row">
           <div className="item-title-container col-5">
-            {/* <div className="btn-icon-outline" onClick={this.toggle}> */}
             <div className="btn-icon-outline">
               <ChevronDown className="main-icon" />
             </div>
@@ -159,7 +226,6 @@ const Post = (props) => {
             </div>
             <div>{getDate()}</div>
           </div>
-          {/* <div className={`col-3 ${this.state.active}`}> */}
           {!edit ? (
             <div className={`col-3 deadline`}>
               {getDeadline(deadline)}
@@ -180,10 +246,6 @@ const Post = (props) => {
             <div className="delete-button">{button}</div>
           </div>
         </div>
-        {/* <div
-          className={`item-desc ${this.state.selected ? "item-desc-show" : ""
-            }`}
-        > */}
         <div className={`item-desc`}>
           <div className="item-desc-wrapper">
             <div className="item-desc-body">
@@ -192,7 +254,7 @@ const Post = (props) => {
             {oldPageContent}
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   )
 
