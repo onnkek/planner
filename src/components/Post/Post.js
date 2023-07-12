@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import "./Post.sass"
-import { CheckLg, ChevronDown, Link45deg, Pencil, Save, Trash3 } from "react-bootstrap-icons"
+import { CheckLg, Link45deg, Pencil, Save, Trash3 } from "react-bootstrap-icons"
 import { useDispatch, useSelector } from "react-redux"
 import { hidePost, removePost, savePost } from "../../redux/PostListReducer"
 import Spinner from "../UI/Spinner"

@@ -2,9 +2,17 @@ import React from 'react'
 import './Modal.sass'
 import { XLg } from 'react-bootstrap-icons'
 
-const Modal = ({ id, children, buttons, title }) => {
+
+type PropsType = {
+    id: string
+    children: any
+    buttons?: boolean
+    title: string
+}
+
+const Modal = ({ id, children, buttons, title }: PropsType) => {
     return (
-        <div className={`modal fade`} id={id} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className={`modal fade`} id={id} tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -20,7 +28,6 @@ const Modal = ({ id, children, buttons, title }) => {
                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="button" className="btn btn-primary">Save changes</button>
                     </div>}
-
                 </div>
             </div>
         </div>

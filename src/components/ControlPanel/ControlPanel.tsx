@@ -3,12 +3,12 @@ import "./ControlPanel.sass"
 import { NavLink } from "react-router-dom"
 import Modal from "../Modal/Modal"
 import ItemAddForm from "../ItemAddForm/ItemAddForm"
-import { useSelector } from "react-redux"
+import { useAppSelector } from "../../models/Hook"
 
 const ControlPanel = (props) => {
   const setActive = ({ isActive }) => (isActive ? "tab active-tab" : "tab")
   
-  const status = useSelector(state => state.posts.statusAddPost)
+  // const status = useAppSelector(state => state.posts.statusAddPost)
   return (
     <>
       <Modal id='add-modal' title='Add new post'>

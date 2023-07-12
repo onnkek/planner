@@ -1,36 +1,35 @@
 import React, { useState } from "react"
 import "./ItemAddForm.sass"
 import Spinner from "../UI/Spinner/Spinner"
-import { useDispatch, useSelector } from "react-redux"
-import { addNewPost } from "../../redux/PostListReducer"
-import Modal from "../Modal/Modal"
+import { Status, addNewPost } from "../../redux/PostListReducer"
+import { useAppDispatch, useAppSelector } from "../../models/Hook"
 
 const ItemAddForm = (props) => {
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const [body, setBody] = useState('')
   const [deadline, setDeadline] = useState('')
-  const status = useSelector(state => state.posts.statusAddPost)
+  const status = useAppSelector(state => state.posts.statusAddPost)
 
   const onBodyChange = (e) => {
     setBody(e.target.value)
     console.log(body)
   }
   const onDeadlineChange = (e) => {
-    setDeadline(e.target.value)
+    setDeadline(e.target.value) 
     console.log(deadline)
   }
 
   const onSubmit = async (e) => {
     e.preventDefault()
     await dispatch(addNewPost({ body, deadline }))
-    
+
     setBody('')
     setDeadline('')
   }
 
-  if (status === 'loading') {
+  if (status === Status.Loading) {
     return <Spinner small />
   }
 
@@ -39,21 +38,23 @@ const ItemAddForm = (props) => {
 
     <form className="form-1" onSubmit={onSubmit}>
       <div className="mb-3">
-        <label className="form-label" name="body">
+        {/* <label className="form-label" name="body"> */}
+        <label className="form-label">
           Post description
         </label>
         <textarea
           autoFocus
           className="form-control"
           name="body"
-          rows="5"
+          rows={5}
           placeholder="What should be done?"
           value={body}
           onChange={onBodyChange}
         ></textarea>
       </div>
       <div className="mb-3">
-        <label className="form-label" name="deadline">
+        {/* <label className="form-label" name="deadline"> */}
+        <label className="form-label">
           Set deadline
         </label>
 

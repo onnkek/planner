@@ -3,17 +3,19 @@ import "./PostList.sass"
 import Spinner from "../UI/Spinner/Spinner"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
 import Post from "../Post/Post"
-import { useDispatch, useSelector } from "react-redux"
 import { fetchPosts } from "../../redux/PostListReducer"
+import IPost from '../../models/Post'
+import { useAppDispatch, useAppSelector } from "../../models/Hook"
+import { Status } from '../../redux/PostListReducer'
 
 const PostList = (props) => {
 
-  const dispatch = useDispatch()
-  const posts = useSelector(state => state.posts.posts)
-  const status = useSelector(state => state.posts.statusFetchPosts)
+  const dispatch = useAppDispatch()
+  const posts: IPost[] = useAppSelector(state => state.posts.posts)
+  const status = useAppSelector(state => state.posts.statusFetchPosts)
 
   useEffect(() => {
-    if (status === 'idle') {
+    if (status === Status.Idle) {
       dispatch(fetchPosts())
     }
   }, [status, dispatch])
@@ -21,7 +23,7 @@ const PostList = (props) => {
 
 
   const renderItems = (data) => {
-    return data.map((item) => {
+    return data.map((item: IPost) => {
       const { id, visible } = item
       if (props.new) {
         if (visible) {
@@ -47,7 +49,7 @@ const PostList = (props) => {
     })
   }
 
-  if (status === 'loading' && posts) {
+  if (status === Status.Loading && posts) {
     return <Spinner className='spinner-big' />
   }
 

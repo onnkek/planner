@@ -1,23 +1,39 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import JSONBinService from "../services/JSONBinService"
+import IPost from '../models/Post'
+import { RootState } from "./store"
 
-
-
-
-
-
-
-const initialState = {
-  posts: [],
-  savePosts: [],
-  statusFetchPosts: 'idle',
-  errorFetchPosts: null,
-  statusAddPost: 'idle',
-  errorAddPost: null,
-  removing: [],
-  statusSavePost: 'idle'
+export enum Status {
+  'Idle',
+  'Loading',
+  'Succeeded',
+  'Failed'
 }
 
+interface IStore {
+  posts: IPost[]
+  savePosts: IPost[]
+  statusFetchPosts: Status
+  errorFetchPosts: string | undefined
+  statusAddPost: Status
+  errorAddPost: string | undefined
+  removing: number[],
+  statusSavePost: Status
+}
+
+const initialState: IStore = {
+  posts: [],
+  savePosts: [],
+  statusFetchPosts: Status.Idle,
+  errorFetchPosts: '',
+  statusAddPost: Status.Idle,
+  errorAddPost: '',
+  removing: [],
+  statusSavePost: Status.Idle
+}
+type ActionType = {
+  meta: number
+}
 const postSlice = createSlice({
   name: 'posts',
   initialState,
@@ -41,60 +57,60 @@ const postSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchPosts.pending, (state) => {
-        state.statusFetchPosts = 'loading'
+      .addCase(fetchPosts.pending, (state: IStore) => {
+        state.statusFetchPosts = Status.Loading
       })
-      .addCase(fetchPosts.fulfilled, (state, action) => {
-        state.statusFetchPosts = 'succeeded'
+      .addCase(fetchPosts.fulfilled, (state: IStore, action) => {
+        state.statusFetchPosts = Status.Succeeded
         state.posts = action.payload
         state.savePosts = action.payload
       })
-      .addCase(fetchPosts.rejected, (state, action) => {
-        state.statusFetchPosts = 'failed'
-        state.error = action.error.message
+      .addCase(fetchPosts.rejected, (state: IStore, action) => {
+        state.statusFetchPosts = Status.Failed
+        state.errorFetchPosts = action.error.message
       })
 
-      .addCase(addNewPost.fulfilled, (state, action) => {
-        state.statusAddPost = 'succeeded'
+      .addCase(addNewPost.fulfilled, (state: IStore, action) => {
+        state.statusAddPost = Status.Succeeded
         state.posts.push(action.payload)
       })
-      .addCase(addNewPost.pending, (state, action) => {
-        state.statusAddPost = 'loading'
+      .addCase(addNewPost.pending, (state: IStore, action) => {
+        state.statusAddPost = Status.Loading
       })
 
 
-      .addCase(hidePost.fulfilled, (state, action) => {
-        state.removing.shift(action.meta.arg.id)
+      .addCase(hidePost.fulfilled, (state: IStore, action) => {
+        state.removing.splice(action.meta.arg.id, 1)
         state.posts = action.payload
       })
-      .addCase(hidePost.pending, (state, action) => {
+      .addCase(hidePost.pending, (state: IStore, action) => {
         state.removing.push(action.meta.arg.id)
       })
-      .addCase(hidePost.rejected, (state, action) => {
+      .addCase(hidePost.rejected, (state: IStore, action) => {
         //state.statusRemovePost = 'failed'
       })
 
 
-      .addCase(removePost.fulfilled, (state, action) => {
-        state.removing.pop(action.meta.arg.id)
+      .addCase(removePost.fulfilled, (state: IStore, action) => {
+        state.removing.splice(action.meta.arg.id, 1)
         state.posts = action.payload
       })
-      .addCase(removePost.pending, (state, action) => {
+      .addCase(removePost.pending, (state: IStore, action) => {
         state.removing.push(action.meta.arg.id)
       })
-      .addCase(removePost.rejected, (state, action) => {
+      .addCase(removePost.rejected, (state: IStore, action) => {
         //state.statusRemovePost = 'failed'
       })
 
-      .addCase(savePost.fulfilled, (state, action) => {
-        state.statusSavePost = 'succeeded'
+      .addCase(savePost.fulfilled, (state: IStore, action) => {
+        state.statusSavePost = Status.Succeeded
         state.posts = action.payload
       })
-      .addCase(savePost.pending, (state, action) => {
-        state.statusSavePost = 'loading'
+      .addCase(savePost.pending, (state: IStore, action) => {
+        state.statusSavePost = Status.Loading
       })
-      .addCase(savePost.rejected, (state, action) => {
-        state.statusSavePost = 'failed'
+      .addCase(savePost.rejected, (state: IStore, action) => {
+        state.statusSavePost = Status.Failed
       })
   }
 })
@@ -106,20 +122,26 @@ export const fetchPosts = createAsyncThunk(
     return await new JSONBinService().getData()
   })
 
-export const addNewPost = createAsyncThunk(
+
+type PayloadType = {
+  body: string
+  deadline: string
+}
+
+export const addNewPost = createAsyncThunk<IPost, PayloadType, { state: RootState }>(
   'posts/addNewPost',
-  async (payload, { getState }) => {
-    const state = getState().posts.posts
+  async (payload: PayloadType, { getState }) => {
+    const state: IPost[] = getState().posts.posts
 
     let maxId = 1
     if (state.length) {
       maxId = state.reduce((prev, cur) => (prev.id > cur.id ? prev : cur)).id
       maxId++
     }
-    const newPost = {
+    const newPost: IPost = {
       id: maxId,
       body: payload.body,
-      create: Date.now(),
+      create: String(Date.now()),
       remove: "",
       timeleft: "",
       deadline: payload.deadline,
@@ -130,13 +152,16 @@ export const addNewPost = createAsyncThunk(
     return newPost
   })
 
-export const hidePost = createAsyncThunk(
+type HidePayloadType = {
+  id: number
+}
+export const hidePost = createAsyncThunk<IPost[], HidePayloadType, { state: RootState, rejectValue: string }>(
   'posts/hidePost',
-  async (payload, { rejectedWithValue, getState }) => {
+  async (payload, { getState, rejectWithValue }) => {
     try {
       const state = getState().posts.posts
       const index = state.findIndex((post) => post.id === payload.id)
-      const newData = [...state]
+      const newData: IPost[] = [...state]
       newData[index] = { ...state[index] }
       newData[index].visible = false
       const response = await new JSONBinService().updateData(newData)
@@ -145,13 +170,13 @@ export const hidePost = createAsyncThunk(
       }
       return newData
     } catch (error) {
-      return rejectedWithValue(error.message)
+      return rejectWithValue(error.message)
     }
   })
 
-export const removePost = createAsyncThunk(
+export const removePost = createAsyncThunk<IPost[], HidePayloadType, { state: RootState, rejectValue: string }>(
   'posts/removePost',
-  async (payload, { rejectedWithValue, getState }) => {
+  async (payload: HidePayloadType, { rejectWithValue, getState }) => {
     try {
       const state = getState().posts.posts
       console.log(getState().posts.removing)
@@ -163,35 +188,40 @@ export const removePost = createAsyncThunk(
       }
       return newData
     } catch (error) {
-      return rejectedWithValue(error.message)
+      return rejectWithValue(error.message)
     }
   })
 
-  export const savePost = createAsyncThunk(
-    'posts/savePost',
-    async (payload, { rejectedWithValue, getState }) => {
-      try {
-        const state = getState().posts.posts
-        const index = state.findIndex((post) => post.id === payload.id)
-        const editedPost = {...state[index]}
-        editedPost.body = payload.body
-        editedPost.deadline = payload.deadline
-        
-        const newData = [...state.slice(0, index), editedPost, ...state.slice(index + 1)]
-        console.log(newData[index])
-        console.log(newData)
+type SavePayloadType = {
+  id: number
+  body: string
+  deadline: string
+}
+export const savePost = createAsyncThunk<IPost[], SavePayloadType, { state: RootState, rejectValue: string }>(
+  'posts/savePost',
+  async (payload, { rejectWithValue, getState }) => {
+    try {
+      const state = getState().posts.posts
+      const index = state.findIndex((post) => post.id === payload.id)
+      const editedPost = { ...state[index] }
+      editedPost.body = payload.body
+      editedPost.deadline = payload.deadline
+
+      const newData = [...state.slice(0, index), editedPost, ...state.slice(index + 1)]
+      console.log(newData[index])
+      console.log(newData)
 
 
 
-        const response = await new JSONBinService().updateData(newData)
-        if (!response.ok) {
-          throw new Error('Can\'t delete post! Server error!')
-        }
-        return newData
-      } catch (error) {
-        return rejectedWithValue(error.message)
+      const response = await new JSONBinService().updateData(newData)
+      if (!response.ok) {
+        throw new Error('Can\'t delete post! Server error!')
       }
-    })
+      return newData
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  })
 
 
 
