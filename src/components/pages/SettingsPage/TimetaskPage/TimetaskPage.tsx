@@ -7,7 +7,7 @@ import Search from '../../../Search/Search'
 import Modal from "../../../Modal/Modal"
 import { PlusLg } from 'react-bootstrap-icons'
 
-const TimetaskPage = (props) => {
+const TimetaskPage = () => {
 
     return (
         <>

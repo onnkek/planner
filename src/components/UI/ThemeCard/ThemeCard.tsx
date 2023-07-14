@@ -3,7 +3,13 @@ import './ThemeCard.sass'
 import ThemeExample from '../ThemeExample/ThemeExample'
 import ThemeColorsPalette from '../ThemeColorsPalette/ThemeColorsPalette'
 
-const ThemeCard = ({ dark, active, setActive }) => {
+interface PropsType {
+    dark?: string
+    active: string
+    setActive: () => void
+}
+
+const ThemeCard: React.FC<PropsType> = ({ dark, active, setActive }) => {
     return (
         <div className="settings-theme-item">
             <div className={`settings-theme-card ${active && 'settings-theme-card-active'}`}>

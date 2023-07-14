@@ -23,6 +23,7 @@
     ],
     "rules": {
         "no-empty": 1,
+        "@typescript-eslint/no-empty-function": 1,
         "semi": [
             "error",
             "never"

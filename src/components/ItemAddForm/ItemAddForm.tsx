@@ -4,7 +4,7 @@ import Spinner from "../UI/Spinner/Spinner"
 import { Status, addNewPost } from "../../redux/PostListReducer"
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
 
-const ItemAddForm = (props) => {
+const ItemAddForm = () => {
 
   const dispatch = useAppDispatch()
 
@@ -12,16 +12,16 @@ const ItemAddForm = (props) => {
   const [deadline, setDeadline] = useState('')
   const status = useAppSelector(state => state.posts.statusAddPost)
 
-  const onBodyChange = (e) => {
+  const onBodyChange = (e: any) => {
     setBody(e.target.value)
     console.log(body)
   }
-  const onDeadlineChange = (e) => {
+  const onDeadlineChange = (e: any) => {
     setDeadline(e.target.value) 
     console.log(deadline)
   }
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: any) => {
     e.preventDefault()
     await dispatch(addNewPost({ body, deadline }))
 

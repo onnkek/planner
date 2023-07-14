@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import './ThemeColorsPalette.sass'
 
-const ThemeColorsPalette = ({ active }) => {
+const ThemeColorsPalette = ({ active }: any) => {
 
     const [color, setColor] = useState('')
 
-    const setTheme = (color) => {
+    const setTheme = (color: any) => {
         if (active) {
-            setColor(color)
-            document.querySelector('body')
+            setColor(color);
+            (document.querySelector('body') as HTMLElement)
                 .setAttribute('data-color-theme', color)
         }
     }

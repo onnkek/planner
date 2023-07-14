@@ -3,7 +3,7 @@ import './ThemePage.sass'
 import ThemeCard from '../../../UI/ThemeCard/ThemeCard'
 import SettingsHeader from '../SettingsHeader/SettingsHeader'
 
-const ThemePage = (props) => {
+const ThemePage = () => {
 
     const [active, setActive] = useState('dark')
 
@@ -18,11 +18,11 @@ const ThemePage = (props) => {
     }
 
     const setDarkMode = () => {
-        document.querySelector('body')
+        (document.querySelector('body') as HTMLElement)
             .setAttribute('data-theme', 'dark')
     }
     const setLightMode = () => {
-        document.querySelector('body')
+        (document.querySelector('body') as HTMLElement)
             .setAttribute('data-theme', 'light')
     }
 

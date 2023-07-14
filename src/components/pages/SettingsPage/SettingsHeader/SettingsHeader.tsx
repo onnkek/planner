@@ -3,7 +3,7 @@ import './SettingsHeader.sass'
 import Spinner from "../../../UI/Spinner/Spinner"
 import { CheckLg } from "react-bootstrap-icons"
 
-const SettingsHeader = ({ title }) => {
+const SettingsHeader = ({ title }: any) => {
     return (
         <div className="settings-header-container">
             <h2 className="settings-header">{title}</h2>

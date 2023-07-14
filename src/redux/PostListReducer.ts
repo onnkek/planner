@@ -158,38 +158,32 @@ type HidePayloadType = {
 export const hidePost = createAsyncThunk<IPost[], HidePayloadType, { state: RootState, rejectValue: string }>(
   'posts/hidePost',
   async (payload, { getState, rejectWithValue }) => {
-    try {
-      const state = getState().posts.posts
-      const index = state.findIndex((post) => post.id === payload.id)
-      const newData: IPost[] = [...state]
-      newData[index] = { ...state[index] }
-      newData[index].visible = false
-      const response = await new JSONBinService().updateData(newData)
-      if (!response.ok) {
-        throw new Error('Can\'t delete post! Server error!')
-      }
-      return newData
-    } catch (error) {
-      return rejectWithValue(error.message)
+
+    const state = getState().posts.posts
+    const index = state.findIndex((post) => post.id === payload.id)
+    const newData: IPost[] = [...state]
+    newData[index] = { ...state[index] }
+    newData[index].visible = false
+    const response = await new JSONBinService().updateData(newData)
+    if (!response.ok) {
+      return rejectWithValue('Can\'t delete post! Server error!')
     }
+    return newData
   })
 
 export const removePost = createAsyncThunk<IPost[], HidePayloadType, { state: RootState, rejectValue: string }>(
   'posts/removePost',
   async (payload: HidePayloadType, { rejectWithValue, getState }) => {
-    try {
-      const state = getState().posts.posts
-      console.log(getState().posts.removing)
-      const index = state.findIndex((post) => post.id === payload.id)
-      const newData = [...state.slice(0, index), ...state.slice(index + 1)]
-      const response = await new JSONBinService().updateData(newData)
-      if (!response.ok) {
-        throw new Error('Can\'t delete post! Server error!')
-      }
-      return newData
-    } catch (error) {
-      return rejectWithValue(error.message)
+
+    const state = getState().posts.posts
+    console.log(getState().posts.removing)
+    const index = state.findIndex((post) => post.id === payload.id)
+    const newData = [...state.slice(0, index), ...state.slice(index + 1)]
+    const response = await new JSONBinService().updateData(newData)
+    if (!response.ok) {
+      return rejectWithValue('Can\'t delete post! Server error!')
     }
+    return newData
   })
 
 type SavePayloadType = {
@@ -200,33 +194,25 @@ type SavePayloadType = {
 export const savePost = createAsyncThunk<IPost[], SavePayloadType, { state: RootState, rejectValue: string }>(
   'posts/savePost',
   async (payload, { rejectWithValue, getState }) => {
-    try {
-      const state = getState().posts.posts
-      const index = state.findIndex((post) => post.id === payload.id)
-      const editedPost = { ...state[index] }
-      editedPost.body = payload.body
-      editedPost.deadline = payload.deadline
 
-      const newData = [...state.slice(0, index), editedPost, ...state.slice(index + 1)]
-      console.log(newData[index])
-      console.log(newData)
+    const state = getState().posts.posts
+    const index = state.findIndex((post) => post.id === payload.id)
+    const editedPost = { ...state[index] }
+    editedPost.body = payload.body
+    editedPost.deadline = payload.deadline
+
+    const newData = [...state.slice(0, index), editedPost, ...state.slice(index + 1)]
+    console.log(newData[index])
+    console.log(newData)
 
 
 
-      const response = await new JSONBinService().updateData(newData)
-      if (!response.ok) {
-        throw new Error('Can\'t delete post! Server error!')
-      }
-      return newData
-    } catch (error) {
-      return rejectWithValue(error.message)
+    const response = await new JSONBinService().updateData(newData)
+    if (!response.ok) {
+      return rejectWithValue('Can\'t delete post! Server error!')
     }
+    return newData
   })
-
-
-
-
-
 
 export const { sortPosts, filterPosts } = postSlice.actions
 

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { YinYang } from 'react-bootstrap-icons'
 import ControlPanel from '../ControlPanel/ControlPanel'
 
-const Header = (props) => {
+const Header = () => {
     return (
         <div className='header'>
             <div className='header-global'>

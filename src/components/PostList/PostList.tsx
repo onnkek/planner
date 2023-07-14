@@ -8,7 +8,11 @@ import IPost from '../../models/Post'
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
 import { Status } from '../../redux/PostListReducer'
 
-const PostList = (props) => {
+interface PropsType {
+  isNew: boolean
+}
+
+const PostList: React.FC<PropsType> = ({ isNew }) => {
 
   const dispatch = useAppDispatch()
   const posts: IPost[] = useAppSelector(state => state.posts.posts)
@@ -22,10 +26,10 @@ const PostList = (props) => {
 
 
 
-  const renderItems = (data) => {
+  const renderItems = (data: any) => {
     return data.map((item: IPost) => {
       const { id, visible } = item
-      if (props.new) {
+      if (isNew) {
         if (visible) {
           return (
             <CSSTransition key={id} timeout={200} classNames="item">

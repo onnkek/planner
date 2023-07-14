@@ -2,7 +2,7 @@ import React from "react"
 import "./ProfilePage.sass"
 import SettingsHeader from "../SettingsHeader/SettingsHeader"
 
-const ProfilePage = (props) => {
+const ProfilePage = () => {
   return (
     <>
       <div className="settings-item">

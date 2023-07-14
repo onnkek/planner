@@ -2,7 +2,7 @@ import React from "react"
 import "./NotificationsPage.sass"
 import SettingsHeader from "../SettingsHeader/SettingsHeader"
 
-const NotificationsPage = (props) => {
+const NotificationsPage = () => {
   return (
     <>
       <div className="settings-item">
