@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import JSONBinService from "../services/JSONBinService"
 import IPost from '../models/Post'
 import { RootState } from "./store"
+import { IBadge } from "../components/ItemAddForm/ItemAddForm"
 
 export enum Status {
   'Idle',
@@ -18,7 +19,9 @@ interface IStore {
   statusAddPost: Status
   errorAddPost: string | undefined
   removing: number[],
-  statusSavePost: Status
+  statusSavePost: Status,
+  badges: IBadge[],
+  startBadges: IBadge[]
 }
 
 const initialState: IStore = {
@@ -29,15 +32,42 @@ const initialState: IStore = {
   statusAddPost: Status.Idle,
   errorAddPost: '',
   removing: [],
-  statusSavePost: Status.Idle
-}
-type ActionType = {
-  meta: number
+  statusSavePost: Status.Idle,
+  badges: [], 
+  startBadges: [{
+    id: 1,
+    color: 'primary',
+    text: 'Test',
+  },
+  {
+    id: 2,
+    color: 'warning',
+    text: 'ИСП',
+  },
+  {
+    id: 3,
+    color: 'danger',
+    text: 'Important',
+  },
+  {
+    id: 4,
+    color: 'info',
+    text: 'Work',
+  }]
 }
 const postSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
+    addBadge: (state, action) => {
+      state.badges.push(action.payload)
+      console.log(state.badges)
+    },
+    removeBadge: (state, action) => {
+      // const index = state.badges.findIndex((badge) => badge.id === action.badge.id)
+      state.badges = state.badges.filter(badge => badge.id !== action.payload.id)
+      console.log(state.badges)
+    },
     sortPosts: (state, action) => {
       switch (action.payload) {
         case 'Name':
@@ -131,11 +161,11 @@ type PayloadType = {
 export const addNewPost = createAsyncThunk<IPost, PayloadType, { state: RootState }>(
   'posts/addNewPost',
   async (payload: PayloadType, { getState }) => {
-    const state: IPost[] = getState().posts.posts
+    const state = getState().posts
 
     let maxId = 1
-    if (state.length) {
-      maxId = state.reduce((prev, cur) => (prev.id > cur.id ? prev : cur)).id
+    if (state.posts.length) {
+      maxId = state.posts.reduce((prev, cur) => (prev.id > cur.id ? prev : cur)).id
       maxId++
     }
     const newPost: IPost = {
@@ -145,9 +175,10 @@ export const addNewPost = createAsyncThunk<IPost, PayloadType, { state: RootStat
       remove: "",
       timeleft: "",
       deadline: payload.deadline,
-      visible: true
+      visible: true,
+      badges: state.badges
     }
-    const newPosts = [...state, newPost]
+    const newPosts = [...state.posts, newPost]
     await new JSONBinService().updateData(newPosts)
     return newPost
   })
@@ -214,7 +245,7 @@ export const savePost = createAsyncThunk<IPost[], SavePayloadType, { state: Root
     return newData
   })
 
-export const { sortPosts, filterPosts } = postSlice.actions
+export const { sortPosts, filterPosts, addBadge, removeBadge } = postSlice.actions
 
 
 export default postSlice.reducer

@@ -1,3 +1,5 @@
+import { IBadge } from "../components/ItemAddForm/ItemAddForm"
+
 export default interface IPost {
     id: number
     body: string
@@ -6,4 +8,5 @@ export default interface IPost {
     timeleft: string
     deadline: string
     visible: boolean
+    badges: IBadge[]
 }
