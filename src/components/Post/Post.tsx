@@ -4,8 +4,8 @@ import { CheckLg, Link45deg, Pencil, Trash3 } from "react-bootstrap-icons"
 import { hidePost, removePost, savePost } from "../../redux/PostListReducer"
 import Spinner from "../UI/Spinner/Spinner"
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
-import IPost from "../../models/Post"
 import { getDate, getDeadline, getProgress } from "../../utils/date"
+import IPost from "../../models/Post"
 
 const Post: React.FC<IPost> = (props) => {
 

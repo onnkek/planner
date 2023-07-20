@@ -5,13 +5,9 @@ import { Status, addBadge, addNewPost, removeBadge } from "../../redux/PostListR
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
 import { X, Plus } from 'react-bootstrap-icons'
 import Badge from "../UI/Badge/Badge"
+import { IBadge } from "../../models/Badge"
 
-export interface IBadge {
-  id: number,
-  color: string,
-  text: string,
-  isAdded?: boolean
-}
+
 
 const ItemAddForm = () => {
 

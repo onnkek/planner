@@ -2,12 +2,14 @@ import config from "../config.json"
 
 export default class JSONBinService {
   constructor() {
-    this._apiBase = "https://jsonbin.org/me/demo1"
+    this._apiBase = "https://jsonbin.org/me/"
+    this._apiPosts = "demo1"
+    this._apiBadges = "badges"
     this._apiKey = config.apiKey
   }
 
-  getData = async () => {
-    const response = await fetch(this._apiBase, {
+  getPosts = async () => {
+    const response = await fetch(`${this._apiBase}/${this._apiPosts}`, {
       method: "GET",
       headers: {
         authorization: `token ${this._apiKey}`,
@@ -18,6 +20,19 @@ export default class JSONBinService {
 
   // getData = async () => {
   //   const response = await fetch(this._apiBase, {
+  //     method: "POST",
+  //     headers: {
+  //       authorization: `token ${this._apiKey}`,
+  //     },
+  //     body: JSON.stringify([{
+  //       "test": true
+  //     }])
+  //   })
+  //   return response
+  // }
+
+  // getPosts = async () => {
+  //   const response = await fetch(`${this._apiBase}/${this._apiPosts}`, {
   //     method: "POST",
   //     headers: {
   //       authorization: `token ${this._apiKey}`,
@@ -35,8 +50,8 @@ export default class JSONBinService {
   //   return response
   // }
 
-  updateData = async (data) => {
-    const response = await fetch(this._apiBase, {
+  updatePosts = async (data) => {
+    const response = await fetch(`${this._apiBase}/${this._apiPosts}`, {
       method: "POST",
       headers: {
         authorization: `token ${this._apiKey}`,
@@ -45,4 +60,25 @@ export default class JSONBinService {
     })
     return response
   }
+
+  getBadges = async () => {
+    const response = await fetch(`${this._apiBase}/${this._apiBadges}`, {
+      method: "GET",
+      headers: {
+        authorization: `token ${this._apiKey}`,
+      },
+    })
+    return await response.json()
+  }
+  updateBadges = async (data) => {
+    const response = await fetch(`${this._apiBase}/${this._apiBadges}`, {
+      method: "POST",
+      headers: {
+        authorization: `token ${this._apiKey}`,
+      },
+      body: JSON.stringify(data)
+    })
+    return response
+  }
+
 }

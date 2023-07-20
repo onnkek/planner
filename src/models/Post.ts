@@ -1,4 +1,5 @@
-import { IBadge } from "../components/ItemAddForm/ItemAddForm"
+import { IBadge } from "./Badge"
+
 
 export default interface IPost {
     id: number

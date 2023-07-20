@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom"
 import ProfilePage from "./ProfilePage/ProfilePage"
 import TimetaskPage from "./TimetaskPage/TimetaskPage"
 import NotificationsPage from "./NotificationsPage/NotificationsPage"
+import BadgesPage from "./BadgesPage/BadgesPage"
 
 const SettingsPage = () => {
 
@@ -21,6 +22,7 @@ const SettingsPage = () => {
               <Route path="profile" element={<ProfilePage />} />
               <Route path="appearance" element={<ThemePage />} />
               <Route path="time" element={<TimetaskPage />} />
+              <Route path="badges" element={<BadgesPage />} />
               <Route path="notifications" element={<NotificationsPage />} />
             </Routes>
           </div>

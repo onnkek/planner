@@ -1,7 +1,7 @@
 import React from 'react'
 import './Sidebar.sass'
 import { NavLink } from 'react-router-dom'
-import { Bell, Brush, ClockHistory, Person } from 'react-bootstrap-icons'
+import { Bell, Brush, ClockHistory, Person, Sticky } from 'react-bootstrap-icons'
 
 const Sidebar = () => {
     const setActive = ({ isActive }: any) => isActive ? "sidebar-item-link sidebar-item-link-active" : "sidebar-item-link"
@@ -37,6 +37,16 @@ const Sidebar = () => {
                                 <ClockHistory className="main-icon" />
                             </div>
                             <span>Time task</span>
+                        </li>
+                    </NavLink>
+                    <NavLink
+                        className={setActive}
+                        to='/settings/badges'>
+                        <li className='sidebar-list-item'>
+                            <div className='sidebar-item-icon'>
+                                <Sticky className="main-icon" />
+                            </div>
+                            <span>Badges</span>
                         </li>
                     </NavLink>
                     <NavLink

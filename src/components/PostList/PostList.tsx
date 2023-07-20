@@ -7,6 +7,7 @@ import { fetchPosts } from "../../redux/PostListReducer"
 import IPost from '../../models/Post'
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
 import { Status } from '../../redux/PostListReducer'
+import { getBadges } from "../../redux/BadgesSlice"
 
 interface PropsType {
   isNew: boolean
@@ -21,6 +22,7 @@ const PostList: React.FC<PropsType> = ({ isNew }) => {
   useEffect(() => {
     if (status === Status.Idle) {
       dispatch(fetchPosts())
+      dispatch(getBadges())
     }
   }, [status, dispatch])
 

@@ -1,0 +1,60 @@
+@import '../../../../main.sass'
+
+
+
+.add-badge-wrapper
+    display: flex
+
+.add-badge
+    border-radius: 20px
+    border: none
+
+.color-list
+    list-style-type: none
+    padding: 0
+    display: flex
+    justify-content: space-between
+
+.badge-color-item
+    width: 15%
+    height: 30px
+    border-radius: 20px
+    cursor: pointer
+
+.badge-color-item_active
+    border: 2px solid var(--bs-btn-active-bg)
+    box-shadow: 0 0 0 0.25rem rgba(var(--current-color-rgb), .5)
+
+.badge-color-item_primary
+    background-color: #0d6efd
+    &:focus
+        background-color: #0d6efd
+
+.badge-color-item_success
+    background-color: #198754
+    &:focus
+        background-color: #198754
+
+.badge-color-item_danger
+    background-color: #dc3545
+    &:focus
+        background-color: #dc3545
+
+.badge-color-item_warning
+    background-color: #ffc107
+    color: black
+    &:focus
+        background-color: #ffc107
+        color: black
+
+.badge-color-item_purpl
+    background-color: #{$purple-500}
+    &:focus
+        background-color: #{$purple-500}
+
+
+.custom-badges-list
+    list-style-type: none
+    padding: 0
+    li
+        margin-bottom: 10px

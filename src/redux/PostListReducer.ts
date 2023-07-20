@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import JSONBinService from "../services/JSONBinService"
 import IPost from '../models/Post'
 import { RootState } from "./store"
-import { IBadge } from "../components/ItemAddForm/ItemAddForm"
+import { IBadge } from "../models/Badge"
+import { Colors } from "../components/pages/SettingsPage/BadgesPage/BadgesPage"
 
 export enum Status {
   'Idle',
@@ -36,22 +37,22 @@ const initialState: IStore = {
   badges: [], 
   startBadges: [{
     id: 1,
-    color: 'primary',
+    color: Colors.Primary,
     text: 'Test',
   },
   {
     id: 2,
-    color: 'warning',
+    color: Colors.Warning,
     text: 'ИСП',
   },
   {
     id: 3,
-    color: 'danger',
+    color: Colors.Danger,
     text: 'Important',
   },
   {
     id: 4,
-    color: 'info',
+    color: Colors.Success,
     text: 'Work',
   }]
 }
@@ -149,7 +150,7 @@ const postSlice = createSlice({
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
   async () => {
-    return await new JSONBinService().getData()
+    return await new JSONBinService().getPosts()
   })
 
 
@@ -179,7 +180,7 @@ export const addNewPost = createAsyncThunk<IPost, PayloadType, { state: RootStat
       badges: state.badges
     }
     const newPosts = [...state.posts, newPost]
-    await new JSONBinService().updateData(newPosts)
+    await new JSONBinService().updatePosts(newPosts)
     return newPost
   })
 
@@ -195,7 +196,7 @@ export const hidePost = createAsyncThunk<IPost[], HidePayloadType, { state: Root
     const newData: IPost[] = [...state]
     newData[index] = { ...state[index] }
     newData[index].visible = false
-    const response = await new JSONBinService().updateData(newData)
+    const response = await new JSONBinService().updatePosts(newData)
     if (!response.ok) {
       return rejectWithValue('Can\'t delete post! Server error!')
     }
@@ -210,7 +211,7 @@ export const removePost = createAsyncThunk<IPost[], HidePayloadType, { state: Ro
     console.log(getState().posts.removing)
     const index = state.findIndex((post) => post.id === payload.id)
     const newData = [...state.slice(0, index), ...state.slice(index + 1)]
-    const response = await new JSONBinService().updateData(newData)
+    const response = await new JSONBinService().updatePosts(newData)
     if (!response.ok) {
       return rejectWithValue('Can\'t delete post! Server error!')
     }
@@ -238,7 +239,7 @@ export const savePost = createAsyncThunk<IPost[], SavePayloadType, { state: Root
 
 
 
-    const response = await new JSONBinService().updateData(newData)
+    const response = await new JSONBinService().updatePosts(newData)
     if (!response.ok) {
       return rejectWithValue('Can\'t delete post! Server error!')
     }
