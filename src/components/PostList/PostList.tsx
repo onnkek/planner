@@ -6,8 +6,8 @@ import Post from "../Post/Post"
 import { fetchPosts } from "../../redux/PostListReducer"
 import IPost from '../../models/Post'
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
-import { Status } from '../../redux/PostListReducer'
 import { getBadges } from "../../redux/BadgesSlice"
+import { Status } from "../../models/Status"
 
 interface PropsType {
   isNew: boolean

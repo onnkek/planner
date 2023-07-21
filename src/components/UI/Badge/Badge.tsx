@@ -8,18 +8,21 @@ interface PropsType {
     id: number,
     color: number,
     text: string,
-    isAdded?: boolean,
+    type?: BadgeType,
     onClick: (badge: IBadge) => void
 }
 
-
+export enum BadgeType {
+    Add,
+    Remove
+}
 
 
 
 const Badge: React.FC<PropsType> = (props) => {
 
     let colorClass = ''
-    const { id, color, text, isAdded, onClick } = props
+    const { id, color, text, type, onClick } = props
     switch (color) {
         case 0:
             colorClass = 'text-bg-primary'
@@ -39,22 +42,15 @@ const Badge: React.FC<PropsType> = (props) => {
         default:
             break
     }
-
-
-    console.log(colorClass)
-
-    const buttonContent = isAdded ? (
-        <X size={20} />
-    ) : (
-        <Plus size={20} />
-    )
+    console.log(type)
+    const buttonContent = type !== undefined && (type === BadgeType.Add ? (<X size={20} />) : (<Plus size={20} />))
     return (
         <div className={`badge rounded-pill ${colorClass} badge-add`}>
             <span>
                 {text}
             </span>
             <span className='badge-add-button'
-                onClick={() => onClick({ id: id, color: Number(Colors[color]), text: text, isAdded: isAdded })}>
+                onClick={() => onClick({ id: id, color: Number(color), text: text, type: type })}>
                 {buttonContent}
             </span>
         </div>

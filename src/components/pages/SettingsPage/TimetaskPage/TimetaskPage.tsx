@@ -11,9 +11,9 @@ const TimetaskPage = () => {
 
     return (
         <>
-            <Modal id='add-timetask' title='Add new timetask'>
+            {/* <Modal id='add-timetask' title='Add new timetask'>
                 <TaskAddForm />
-            </Modal>
+            </Modal> */}
             <div className='settings-item'>
                 <SettingsHeader title='Timetask preferences' />
                 <p className="settings-descr">

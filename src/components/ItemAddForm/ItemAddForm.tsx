@@ -1,52 +1,72 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import "./ItemAddForm.sass"
 import Spinner from "../UI/Spinner/Spinner"
-import { Status, addBadge, addNewPost, removeBadge } from "../../redux/PostListReducer"
+import { addBadge, addNewPost, removeBadge } from "../../redux/PostListReducer"
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
 import { X, Plus } from 'react-bootstrap-icons'
-import Badge from "../UI/Badge/Badge"
+import Badge, { BadgeType } from "../UI/Badge/Badge"
 import { IBadge } from "../../models/Badge"
+import { getBadges } from "../../redux/BadgesSlice"
+import { Status } from "../../models/Status"
 
 
 
-const ItemAddForm = () => {
+const ItemAddForm = ({closeModal}:any) => {
 
   const dispatch = useAppDispatch()
 
+  // useEffect(() => {
+  //   dispatch(getBadges())
+  // }, [dispatch])
+
+
+
   const [body, setBody] = useState('')
   const [deadline, setDeadline] = useState('')
-  const [startBadges, setStartBadges] = useState<IBadge[]>(
-    useAppSelector(state => state.posts.startBadges))
+
+
+
   const status = useAppSelector(state => state.posts.statusAddPost)
-  const badges = useAppSelector(state => state.posts.badges)
+
+  const [badges, setBadges] = useState<IBadge[]>([])
+
+  //const badges = useAppSelector(state => state.posts.badges)
+
+  const [startBadges, setStartBadges] = useState(useAppSelector(state => state.badges.badges))
+
 
   const onBodyChange = (e: any) => {
     setBody(e.target.value)
-    console.log(body)
+    //console.log(body)
   }
   const onDeadlineChange = (e: any) => {
     setDeadline(e.target.value)
-    console.log(deadline)
+    //console.log(deadline)
   }
 
   const onSubmit = async (e: any) => {
     e.preventDefault()
-    await dispatch(addNewPost({ body, deadline }))
+    await dispatch(addNewPost({ body, deadline, badges }))
 
     setBody('')
     setDeadline('')
+    closeModal()
   }
 
 
 
   const badgeHandle = (badge: IBadge) => {
-    if (badge.isAdded) {
-      dispatch(removeBadge(badge))
+    if (badge.type === BadgeType.Add) {
+      const index = badges.findIndex((b) => b.id === badge.id)
+
+      setBadges([...badges.slice(0, index), ...badges.slice(index + 1)])
+      //dispatch(removeBadge(badge))
 
       setStartBadges([...startBadges, badge])
-    } else {
-      dispatch(addBadge(badge))
-
+    }
+    if (badge.type === BadgeType.Remove) {
+      //dispatch(addBadge(badge))
+      setBadges([...badges, badge])
       const index = startBadges.findIndex((b) => b.id === badge.id)
       setStartBadges([...startBadges.slice(0, index), ...startBadges.slice(index + 1)])
     }
@@ -58,14 +78,15 @@ const ItemAddForm = () => {
 
 
   const badgesContent = badges.map(badge => {
-    return (<Badge key={badge.id} id={badge.id} color={badge.color} text={badge.text} isAdded onClick={badgeHandle} />)
+    //console.log(badge)
+    return (<Badge key={badge.id} id={badge.id} color={badge.color} text={badge.text} type={BadgeType.Add} onClick={badgeHandle} />)
   })
   const startBadgesContent = startBadges.map(badge => {
-    return (<Badge key={badge.id} id={badge.id} color={badge.color} text={badge.text} onClick={badgeHandle} />)
+    return (<Badge key={badge.id} id={badge.id} color={badge.color} text={badge.text} type={BadgeType.Remove} onClick={badgeHandle} />)
   })
   return (
 
-    <form className="form-1" onSubmit={onSubmit}>
+    <form className="form-1">
       <div className="mb-3">
         {/* <label className="form-label" name="body"> */}
         <label className="form-label">
@@ -106,7 +127,7 @@ const ItemAddForm = () => {
 
 
       <div className="form-footer">
-        <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">
+        <button type="submit" className="btn btn-primary" onClick={onSubmit}>
           Add
         </button>
       </div>

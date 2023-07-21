@@ -3,14 +3,17 @@ import { IBadge } from "../models/Badge"
 import { RootState } from "./store"
 import JSONBinService from "../services/JSONBinService"
 import { Colors } from "../components/pages/SettingsPage/BadgesPage/BadgesPage"
+import { Status } from "../models/Status"
 
 
 interface IBadges {
     badges: IBadge[]
+    status: Status
 }
 
 const initialState: IBadges = {
-    badges: []
+    badges: [],
+    status: Status.Idle
 }
 
 const BadgesSlice = createSlice({
@@ -23,16 +26,14 @@ const BadgesSlice = createSlice({
         builder
 
             .addCase(getBadges.pending, (state: IBadges) => {
-                //state.statusFetchPosts = Status.Loading
+                state.status = Status.Loading
             })
             .addCase(getBadges.fulfilled, (state: IBadges, action) => {
-                //state.statusFetchPosts = Status.Succeeded
+                state.status = Status.Succeeded
                 state.badges = action.payload
-                //state.savePosts = action.payload
             })
             .addCase(getBadges.rejected, (state: IBadges, action) => {
-                //state.statusFetchPosts = Status.Failed
-                //state.errorFetchPosts = action.error.message
+                state.status = Status.Failed
             })
 
 

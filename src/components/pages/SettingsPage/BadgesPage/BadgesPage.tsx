@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './BadgesPage.sass'
 import SettingsHeader from '../SettingsHeader/SettingsHeader'
 import { PlusLg } from 'react-bootstrap-icons'
-import Badge from '../../../UI/Badge/Badge'
+import Badge, { BadgeType } from '../../../UI/Badge/Badge'
 import { useAppDispatch, useAppSelector } from '../../../../models/Hook'
 import { addBadge, removeBadge } from '../../../../redux/BadgesSlice'
 
@@ -51,7 +51,7 @@ const BadgesPage = () => {
 
     const badgesContent = badges.map(badge => {
         const id = badge.id
-        return (<li key={badge.id}><Badge isAdded id={badge.id} color={badge.color} text={badge.text} onClick={() => { dispatch(removeBadge({ id })) }} /></li>)
+        return (<li key={badge.id}><Badge type={BadgeType.Add} id={badge.id} color={badge.color} text={badge.text} onClick={() => { dispatch(removeBadge({ id })) }} /></li>)
     })
     return (
         <>
@@ -64,11 +64,11 @@ const BadgesPage = () => {
                 </label>
 
                 <ul className='color-list'>
-                    <li onClick={() => { setColor(Colors.Primary) }} className={`badge-color-item badge-color-item_primary ${color === Colors.Primary ? 'badge-color-item_active' : ''}`}></li>
-                    <li onClick={() => { setColor(Colors.Success) }} className={`badge-color-item badge-color-item_success ${color === Colors.Success ? 'badge-color-item_active' : ''}`}></li>
-                    <li onClick={() => { setColor(Colors.Danger) }} className={`badge-color-item badge-color-item_danger ${color === Colors.Danger ? 'badge-color-item_active' : ''}`}></li>
-                    <li onClick={() => { setColor(Colors.Warning) }} className={`badge-color-item badge-color-item_warning ${color === Colors.Warning ? 'badge-color-item_active' : ''}`}></li>
-                    <li onClick={() => { setColor(Colors.Purpl) }} className={`badge-color-item badge-color-item_purpl ${color === Colors.Purpl ? 'badge-color-item_active' : ''}`}></li>
+                    <li onClick={() => { setColor(Colors.Primary) }} className={`badge-color-item badge-color-item_primary ${color === Colors.Primary ? 'badge-color-item_active' : ''}`}>Color</li>
+                    <li onClick={() => { setColor(Colors.Success) }} className={`badge-color-item badge-color-item_success ${color === Colors.Success ? 'badge-color-item_active' : ''}`}>Color</li>
+                    <li onClick={() => { setColor(Colors.Danger) }} className={`badge-color-item badge-color-item_danger ${color === Colors.Danger ? 'badge-color-item_active' : ''}`}>Color</li>
+                    <li onClick={() => { setColor(Colors.Warning) }} className={`badge-color-item badge-color-item_warning ${color === Colors.Warning ? 'badge-color-item_active' : ''}`}>Color</li>
+                    <li onClick={() => { setColor(Colors.Purpl) }} className={`badge-color-item badge-color-item_purpl ${color === Colors.Purpl ? 'badge-color-item_active' : ''}`}>Color</li>
                 </ul>
                 <div className="profile-from-group-descr">
                     You can choose the color that will be used

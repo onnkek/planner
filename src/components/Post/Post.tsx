@@ -6,6 +6,7 @@ import Spinner from "../UI/Spinner/Spinner"
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
 import { getDate, getDeadline, getProgress } from "../../utils/date"
 import IPost from "../../models/Post"
+import Badge from "../UI/Badge/Badge"
 
 const Post: React.FC<IPost> = (props) => {
 
@@ -60,10 +61,9 @@ const Post: React.FC<IPost> = (props) => {
 
 
   const badgesContent = () => badges.map(badge => {
+    console.log(badge)
     return (
-      <span key={badge.id} className={`badge rounded-pill text-bg-${badge.color}`}>
-        {badge.text}
-      </span>)
+      <Badge key={badge.id} id={badge.id} color={badge.color} text={badge.text} onClick={()=>{}}/>)
   })
 
 

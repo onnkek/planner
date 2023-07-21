@@ -4,13 +4,7 @@ import IPost from '../models/Post'
 import { RootState } from "./store"
 import { IBadge } from "../models/Badge"
 import { Colors } from "../components/pages/SettingsPage/BadgesPage/BadgesPage"
-
-export enum Status {
-  'Idle',
-  'Loading',
-  'Succeeded',
-  'Failed'
-}
+import { Status } from "../models/Status"
 
 interface IStore {
   posts: IPost[]
@@ -21,8 +15,7 @@ interface IStore {
   errorAddPost: string | undefined
   removing: number[],
   statusSavePost: Status,
-  badges: IBadge[],
-  startBadges: IBadge[]
+  badges: IBadge[]
 }
 
 const initialState: IStore = {
@@ -34,27 +27,7 @@ const initialState: IStore = {
   errorAddPost: '',
   removing: [],
   statusSavePost: Status.Idle,
-  badges: [], 
-  startBadges: [{
-    id: 1,
-    color: Colors.Primary,
-    text: 'Test',
-  },
-  {
-    id: 2,
-    color: Colors.Warning,
-    text: 'ИСП',
-  },
-  {
-    id: 3,
-    color: Colors.Danger,
-    text: 'Important',
-  },
-  {
-    id: 4,
-    color: Colors.Success,
-    text: 'Work',
-  }]
+  badges: []
 }
 const postSlice = createSlice({
   name: 'posts',
@@ -62,12 +35,12 @@ const postSlice = createSlice({
   reducers: {
     addBadge: (state, action) => {
       state.badges.push(action.payload)
-      console.log(state.badges)
+      //console.log(state.badges)
     },
     removeBadge: (state, action) => {
       // const index = state.badges.findIndex((badge) => badge.id === action.badge.id)
       state.badges = state.badges.filter(badge => badge.id !== action.payload.id)
-      console.log(state.badges)
+      //console.log(state.badges)
     },
     sortPosts: (state, action) => {
       switch (action.payload) {
@@ -157,6 +130,7 @@ export const fetchPosts = createAsyncThunk(
 type PayloadType = {
   body: string
   deadline: string
+  badges: IBadge[]
 }
 
 export const addNewPost = createAsyncThunk<IPost, PayloadType, { state: RootState }>(
@@ -177,7 +151,7 @@ export const addNewPost = createAsyncThunk<IPost, PayloadType, { state: RootStat
       timeleft: "",
       deadline: payload.deadline,
       visible: true,
-      badges: state.badges
+      badges: payload.badges
     }
     const newPosts = [...state.posts, newPost]
     await new JSONBinService().updatePosts(newPosts)
@@ -208,7 +182,7 @@ export const removePost = createAsyncThunk<IPost[], HidePayloadType, { state: Ro
   async (payload: HidePayloadType, { rejectWithValue, getState }) => {
 
     const state = getState().posts.posts
-    console.log(getState().posts.removing)
+    //console.log(getState().posts.removing)
     const index = state.findIndex((post) => post.id === payload.id)
     const newData = [...state.slice(0, index), ...state.slice(index + 1)]
     const response = await new JSONBinService().updatePosts(newData)
@@ -234,8 +208,8 @@ export const savePost = createAsyncThunk<IPost[], SavePayloadType, { state: Root
     editedPost.deadline = payload.deadline
 
     const newData = [...state.slice(0, index), editedPost, ...state.slice(index + 1)]
-    console.log(newData[index])
-    console.log(newData)
+    //console.log(newData[index])
+    //console.log(newData)
 
 
 

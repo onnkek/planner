@@ -10,9 +10,6 @@ const ControlPanel = () => {
   // const status = useAppSelector(state => state.posts.statusAddPost)
   return (
     <>
-      <Modal id='add-modal' title='Add new post'>
-        <ItemAddForm />
-      </Modal>
       <div className="control">
         <div className="nav-tabs-container">
           <ul className="nav-tabs">
