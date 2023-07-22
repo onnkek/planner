@@ -1,13 +1,20 @@
 @import '../../main.sass'
 
+.badge-list
+    display: flex
+    flex-wrap: wrap
+    list-style-type: none
+    padding: 10px
+
+.m-2px
+    margin: 2px
+
 .form-footer
     display: flex
     justify-content: start
     margin-top: 20px
 
 .form-control
-    // background-color: var(--main-bg-color)
-    // border-color: var(--main-border-color)
     &::placeholder
         color: var(--main-ph-color)
 
@@ -23,17 +30,11 @@
 
 .add-form-container
     // padding: 20px
-    // min-height: 40%
-    // min-width: 40%
-    // background-color: var(--main-bg-color)
-    // border-radius: 10px
-    // border: 1px solid var(--main-border-color)
+    
 
 .add-form
     font-size: 20px
     input
-        // background-color: var(--main-bg-color)
-        // border: 1px solid var(--main-border-color)
         display: block
 
 .add-form-bottom
@@ -42,23 +43,18 @@
     align-items: center
 
 .add-form-input
-    // background-color: var(--main-bg-color)
     margin-bottom: 15px
     padding: 10px
     height: 200px
     width: 100%
     resize: none
-    // border: 1px solid var(--main-border-color)
     border-radius: 5px
 
 .add-form-date
-    // background-color: var(--main-bg-color)
     color-scheme: dark
     padding: 5px 10px 5px 10px
     resize: none
     color: white
-
-    // border: 1px solid var(--main-border-color)
     border-radius: 5px
     font-size: 20px
     font-family: 'Calibri'

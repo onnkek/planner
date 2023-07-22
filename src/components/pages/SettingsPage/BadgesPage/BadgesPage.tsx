@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './BadgesPage.sass'
 import SettingsHeader from '../SettingsHeader/SettingsHeader'
 import { PlusLg } from 'react-bootstrap-icons'
 import Badge, { BadgeType } from '../../../UI/Badge/Badge'
 import { useAppDispatch, useAppSelector } from '../../../../models/Hook'
-import { addBadge, removeBadge } from '../../../../redux/BadgesSlice'
+import { addBadge, getBadges, removeBadge } from '../../../../redux/BadgesSlice'
+import BadgeInput from '../../../UI/BadgeInput/BadgeInput'
+import BadgePalette from '../../../UI/BadgePalette/BadgePalette'
+import { Status } from '../../../../models/Status'
+import Spinner from '../../../UI/Spinner/Spinner'
 
 export enum Colors {
     Primary,
@@ -16,43 +20,35 @@ export enum Colors {
 
 const BadgesPage = () => {
 
-
-
-    const [color, setColor] = useState(Colors.Primary)
-    const [text, setText] = useState('')
-    const badges = useAppSelector(state => state.badges.badges)
-
     const dispatch = useAppDispatch()
-
-    let colorClass = 'badge-color-item_primary'
-
-    switch (color) {
-        case Colors.Primary:
-            colorClass = 'badge-color-item_primary'
-            break
-        case Colors.Success:
-            colorClass = 'badge-color-item_success'
-            break
-        case Colors.Danger:
-            colorClass = 'badge-color-item_danger'
-            break
-        case Colors.Warning:
-            colorClass = 'badge-color-item_warning'
-            break
-        default:
-            colorClass = 'badge-color-item_purpl'
-            break
-    }
+    const status = useAppSelector(state => state.badges.status)
+    const [text, setText] = useState('')
+    const [color, setColor] = useState(Colors.Primary)
+    const badges = useAppSelector(state => state.badges.badges)
+    const addStatus = useAppSelector(state => state.badges.addStatus)
+    
+    useEffect(() => {
+        if (status === Status.Idle) {
+            dispatch(getBadges())
+        }
+    }, [status, dispatch])
 
     const addBadgeHandler = async () => {
         await dispatch(addBadge({ text, color }))
         setText('')
     }
-
     const badgesContent = badges.map(badge => {
         const id = badge.id
-        return (<li key={badge.id}><Badge type={BadgeType.Add} id={badge.id} color={badge.color} text={badge.text} onClick={() => { dispatch(removeBadge({ id })) }} /></li>)
+        return (<li key={badge.id}>
+            <Badge badge={badge} type={BadgeType.Add} onClick={() => { dispatch(removeBadge({ id })) }} /></li>)
     })
+
+    const buttonContent = addStatus === Status.Loading ? (
+        <Spinner className='spinner-small p-spinner' />
+    ) : (
+        <PlusLg size={22} />
+    )
+
     return (
         <>
             <div className="settings-item">
@@ -63,13 +59,8 @@ const BadgesPage = () => {
                     Select badge color
                 </label>
 
-                <ul className='color-list'>
-                    <li onClick={() => { setColor(Colors.Primary) }} className={`badge-color-item badge-color-item_primary ${color === Colors.Primary ? 'badge-color-item_active' : ''}`}>Color</li>
-                    <li onClick={() => { setColor(Colors.Success) }} className={`badge-color-item badge-color-item_success ${color === Colors.Success ? 'badge-color-item_active' : ''}`}>Color</li>
-                    <li onClick={() => { setColor(Colors.Danger) }} className={`badge-color-item badge-color-item_danger ${color === Colors.Danger ? 'badge-color-item_active' : ''}`}>Color</li>
-                    <li onClick={() => { setColor(Colors.Warning) }} className={`badge-color-item badge-color-item_warning ${color === Colors.Warning ? 'badge-color-item_active' : ''}`}>Color</li>
-                    <li onClick={() => { setColor(Colors.Purpl) }} className={`badge-color-item badge-color-item_purpl ${color === Colors.Purpl ? 'badge-color-item_active' : ''}`}>Color</li>
-                </ul>
+                <BadgePalette color={color} setColor={setColor} />
+
                 <div className="profile-from-group-descr">
                     You can choose the color that will be used
                     when applying this badge to posts.
@@ -84,14 +75,11 @@ const BadgesPage = () => {
 
                         <div className='add-badge-wrapper'>
 
-                            <input
-                                className={`add-badge form-control ${colorClass}`}
-                                value={text}
-                                onChange={e => setText(e.target.value)}
-                            />
+                            <BadgeInput text={text} setText={setText} color={color} />
+
                             <button type="button" className="add-button btn btn-primary outline"
                                 onClick={addBadgeHandler}
-                            ><PlusLg size={22} /></button>
+                            >{buttonContent}</button>
                         </div>
                         <div className="profile-from-group-descr">
                             You can choose the text that will be written
@@ -100,10 +88,21 @@ const BadgesPage = () => {
 
                     </div>
                 </form>
+
+                <label className="profile-form-group-label form-label m-0 mt-3">
+                    Available badges
+                </label>
+                {status === Status.Loading && <Spinner></Spinner>}
+                <ul className='custom-badges-list'>
+                    {badgesContent}
+                </ul>
+
+                <div className="profile-from-group-descr">
+                    User-created badges are displayed here, which can be used
+                    to customize posts, they can be deleted.
+                </div>
             </div>
-            <ul className='custom-badges-list'>
-                {badgesContent}
-            </ul>
+
         </>
     )
 }

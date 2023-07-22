@@ -3,7 +3,6 @@ import JSONBinService from "../services/JSONBinService"
 import IPost from '../models/Post'
 import { RootState } from "./store"
 import { IBadge } from "../models/Badge"
-import { Colors } from "../components/pages/SettingsPage/BadgesPage/BadgesPage"
 import { Status } from "../models/Status"
 
 interface IStore {
@@ -33,15 +32,7 @@ const postSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    addBadge: (state, action) => {
-      state.badges.push(action.payload)
-      //console.log(state.badges)
-    },
-    removeBadge: (state, action) => {
-      // const index = state.badges.findIndex((badge) => badge.id === action.badge.id)
-      state.badges = state.badges.filter(badge => badge.id !== action.payload.id)
-      //console.log(state.badges)
-    },
+    
     sortPosts: (state, action) => {
       switch (action.payload) {
         case 'Name':
@@ -114,11 +105,10 @@ const postSlice = createSlice({
         state.statusSavePost = Status.Loading
       })
       .addCase(savePost.rejected, (state: IStore, action) => {
-        state.statusSavePost = Status.Failed
+        //state.statusSavePost = Status.Failed
       })
   }
 })
-
 
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
@@ -182,7 +172,6 @@ export const removePost = createAsyncThunk<IPost[], HidePayloadType, { state: Ro
   async (payload: HidePayloadType, { rejectWithValue, getState }) => {
 
     const state = getState().posts.posts
-    //console.log(getState().posts.removing)
     const index = state.findIndex((post) => post.id === payload.id)
     const newData = [...state.slice(0, index), ...state.slice(index + 1)]
     const response = await new JSONBinService().updatePosts(newData)
@@ -206,13 +195,7 @@ export const savePost = createAsyncThunk<IPost[], SavePayloadType, { state: Root
     const editedPost = { ...state[index] }
     editedPost.body = payload.body
     editedPost.deadline = payload.deadline
-
     const newData = [...state.slice(0, index), editedPost, ...state.slice(index + 1)]
-    //console.log(newData[index])
-    //console.log(newData)
-
-
-
     const response = await new JSONBinService().updatePosts(newData)
     if (!response.ok) {
       return rejectWithValue('Can\'t delete post! Server error!')
@@ -220,9 +203,7 @@ export const savePost = createAsyncThunk<IPost[], SavePayloadType, { state: Root
     return newData
   })
 
-export const { sortPosts, filterPosts, addBadge, removeBadge } = postSlice.actions
-
-
+export const { sortPosts, filterPosts } = postSlice.actions
 export default postSlice.reducer
 
 

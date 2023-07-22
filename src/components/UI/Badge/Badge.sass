@@ -1,15 +1,41 @@
 @import '../../../main.sass'
 
-
-.badge-add
+.badge
     display: inline-flex
+    padding: 3px 10px
+    background-color: white
+    border-radius: 20px
+    color: white
+    &_primary
+        background-color: #0d6efd
+        &:focus
+            background-color: #0d6efd
+    &_success
+        background-color: #198754
+        &:focus
+            background-color: #198754
+    &_danger
+        background-color: #dc3545
+        &:focus
+            background-color: #dc3545
+    &_warning
+        background-color: #ffc107
+        color: black
+        &:focus
+            background-color: #ffc107
+            color: black
+    &_purpl
+        background-color: #{$purple-500}
+        &:focus
+            background-color: #{$purple-500}
+
+.badge-text
+    font-size: 16px
+    line-height: 20px
+
+.badge-btn
+    display: flex
+    margin-left: 3px
+    justify-content: center
     align-items: center
-
-.badge-add-button
-    margin-left: 5px
-    &:hover
-        cursor: pointer
-        color: gray
-
-.text-bg-purpl
-    background-color: #{$purple-500}
+    cursor: pointer

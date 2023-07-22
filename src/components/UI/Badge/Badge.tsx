@@ -2,13 +2,12 @@ import React from 'react'
 import './Badge.sass'
 import { X, Plus } from 'react-bootstrap-icons'
 import { IBadge } from '../../../models/Badge'
-import { Colors } from '../../pages/SettingsPage/BadgesPage/BadgesPage'
+import { useAppSelector } from '../../../models/Hook'
+import Spinner from '../Spinner/Spinner'
 
 interface PropsType {
-    id: number,
-    color: number,
-    text: string,
-    type?: BadgeType,
+    badge: IBadge
+    type?: BadgeType
     onClick: (badge: IBadge) => void
 }
 
@@ -17,42 +16,56 @@ export enum BadgeType {
     Remove
 }
 
-
-
 const Badge: React.FC<PropsType> = (props) => {
 
-    let colorClass = ''
-    const { id, color, text, type, onClick } = props
+    const removing = useAppSelector(state => state.badges.removing)
+    const { id, color, text } = props.badge
+    
+    let colorClass
     switch (color) {
         case 0:
-            colorClass = 'text-bg-primary'
+            colorClass = 'badge_primary'
             break
         case 1:
-            colorClass = 'text-bg-success'
+            colorClass = 'badge_success'
             break
         case 2:
-            colorClass = 'text-bg-danger'
+            colorClass = 'badge_danger'
             break
         case 3:
-            colorClass = 'text-bg-warning'
+            colorClass = 'badge_warning'
             break
         case 4:
-            colorClass = 'text-bg-purpl'
+            colorClass = 'badge_purpl'
             break
         default:
             break
     }
-    console.log(type)
-    const buttonContent = type !== undefined && (type === BadgeType.Add ? (<X size={20} />) : (<Plus size={20} />))
+
+    let buttonContent
+    switch (props.type) {
+        case BadgeType.Add:
+            removing.some(badgeId => badgeId === id) ? (
+                buttonContent = <Spinner className='spinner-small p-spinner' />
+            ) : (
+                buttonContent = <X size={20} />
+            )
+            break
+        case BadgeType.Remove:
+            buttonContent = <Plus size={20} />
+            break
+        default:
+            break
+    }
+
     return (
-        <div className={`badge rounded-pill ${colorClass} badge-add`}>
-            <span>
-                {text}
-            </span>
-            <span className='badge-add-button'
-                onClick={() => onClick({ id: id, color: Number(color), text: text, type: type })}>
+
+        <div className={`badge ${colorClass}`}>
+            <span className="badge-text">{text}</span>
+            <div className="badge-btn"
+                onClick={() => props.onClick(props.badge)}>
                 {buttonContent}
-            </span>
+            </div>
         </div>
     )
 }

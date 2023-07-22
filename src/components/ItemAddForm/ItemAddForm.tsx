@@ -1,47 +1,29 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import "./ItemAddForm.sass"
 import Spinner from "../UI/Spinner/Spinner"
-import { addBadge, addNewPost, removeBadge } from "../../redux/PostListReducer"
+import { addNewPost } from "../../redux/PostListReducer"
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
-import { X, Plus } from 'react-bootstrap-icons'
 import Badge, { BadgeType } from "../UI/Badge/Badge"
 import { IBadge } from "../../models/Badge"
-import { getBadges } from "../../redux/BadgesSlice"
 import { Status } from "../../models/Status"
 
 
 
-const ItemAddForm = ({closeModal}:any) => {
+const ItemAddForm = ({ closeModal }: any) => {
 
   const dispatch = useAppDispatch()
-
-  // useEffect(() => {
-  //   dispatch(getBadges())
-  // }, [dispatch])
-
-
-
   const [body, setBody] = useState('')
   const [deadline, setDeadline] = useState('')
-
-
-
   const status = useAppSelector(state => state.posts.statusAddPost)
-
   const [badges, setBadges] = useState<IBadge[]>([])
-
-  //const badges = useAppSelector(state => state.posts.badges)
-
   const [startBadges, setStartBadges] = useState(useAppSelector(state => state.badges.badges))
 
 
   const onBodyChange = (e: any) => {
     setBody(e.target.value)
-    //console.log(body)
   }
   const onDeadlineChange = (e: any) => {
     setDeadline(e.target.value)
-    //console.log(deadline)
   }
 
   const onSubmit = async (e: any) => {
@@ -53,23 +35,16 @@ const ItemAddForm = ({closeModal}:any) => {
     closeModal()
   }
 
+  const addBadgeHandler = (badge: IBadge) => {
+    setBadges([...badges, badge])
+    const index = startBadges.findIndex((b) => b.id === badge.id)
+    setStartBadges([...startBadges.slice(0, index), ...startBadges.slice(index + 1)])
+  }
 
-
-  const badgeHandle = (badge: IBadge) => {
-    if (badge.type === BadgeType.Add) {
-      const index = badges.findIndex((b) => b.id === badge.id)
-
-      setBadges([...badges.slice(0, index), ...badges.slice(index + 1)])
-      //dispatch(removeBadge(badge))
-
-      setStartBadges([...startBadges, badge])
-    }
-    if (badge.type === BadgeType.Remove) {
-      //dispatch(addBadge(badge))
-      setBadges([...badges, badge])
-      const index = startBadges.findIndex((b) => b.id === badge.id)
-      setStartBadges([...startBadges.slice(0, index), ...startBadges.slice(index + 1)])
-    }
+  const removeBadgeHandler = (badge: IBadge) => {
+    const index = badges.findIndex((b) => b.id === badge.id)
+    setBadges([...badges.slice(0, index), ...badges.slice(index + 1)])
+    setStartBadges([...startBadges, badge])
   }
 
   if (status === Status.Loading) {
@@ -78,17 +53,23 @@ const ItemAddForm = ({closeModal}:any) => {
 
 
   const badgesContent = badges.map(badge => {
-    //console.log(badge)
-    return (<Badge key={badge.id} id={badge.id} color={badge.color} text={badge.text} type={BadgeType.Add} onClick={badgeHandle} />)
+    return (
+      <li key={badge.id} className="m-2px">
+        <Badge type={BadgeType.Add} badge={badge} onClick={removeBadgeHandler} />
+      </li>
+    )
   })
   const startBadgesContent = startBadges.map(badge => {
-    return (<Badge key={badge.id} id={badge.id} color={badge.color} text={badge.text} type={BadgeType.Remove} onClick={badgeHandle} />)
+    return (
+      <li key={badge.id} className="m-2px">
+        <Badge type={BadgeType.Remove} badge={badge} onClick={addBadgeHandler} />
+      </li>
+    )
   })
   return (
 
     <form className="form-1">
       <div className="mb-3">
-        {/* <label className="form-label" name="body"> */}
         <label className="form-label">
           Post description
         </label>
@@ -103,7 +84,6 @@ const ItemAddForm = ({closeModal}:any) => {
         ></textarea>
       </div>
       <div className="mb-3">
-        {/* <label className="form-label" name="deadline"> */}
         <label className="form-label">
           Set deadline
         </label>
@@ -117,13 +97,12 @@ const ItemAddForm = ({closeModal}:any) => {
         />
       </div>
 
-      <div className="form-control">
+      <ul className="form-control badge-list">
         {badgesContent}
-      </div>
-      <br></br>
-      <div>
+      </ul>
+      <ul className="badge-list">
         {startBadgesContent}
-      </div>
+      </ul>
 
 
       <div className="form-footer">

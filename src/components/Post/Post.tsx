@@ -7,11 +7,13 @@ import { useAppDispatch, useAppSelector } from "../../models/Hook"
 import { getDate, getDeadline, getProgress } from "../../utils/date"
 import IPost from "../../models/Post"
 import Badge from "../UI/Badge/Badge"
+import { Status } from "../../models/Status"
 
 const Post: React.FC<IPost> = (props) => {
 
   const dispatch = useAppDispatch()
   const status = useAppSelector(state => state.posts.removing)
+  const statusSave = useAppSelector(state => state.posts.statusSavePost)
   const [edit, setEdit] = useState(false)
   const [body, setBody] = useState(props.body)
   const [deadline, setDeadline] = useState(props.deadline)
@@ -38,8 +40,12 @@ const Post: React.FC<IPost> = (props) => {
     <Trash3 onClick={deleteHandler} className="p-icon icon-trash-3" />
   )
   const editButton = edit ? (
-    <CheckLg size={20} type="button" className="p-icon icon-trash-3"
-      onClick={editHandler} />
+    statusSave === Status.Loading ? (
+      <Spinner className='spinner-small p-spinner' />
+    ) : (
+      <CheckLg size={20} type="button" className="p-icon icon-trash-3"
+        onClick={editHandler} />
+    )
   ) : (
     <Pencil type="button" className="p-icon icon-trash-3"
       onClick={() => setEdit(!edit)} />
@@ -50,6 +56,8 @@ const Post: React.FC<IPost> = (props) => {
       onChange={e => { setDeadline(e.target.value) }}
     />
   ) : (getDeadline(deadline))
+
+
   const bodyContent = edit ? (
     <textarea
       autoFocus className="form-control"
@@ -60,12 +68,14 @@ const Post: React.FC<IPost> = (props) => {
   ) : (<p>{body}</p>)
 
 
-  const badgesContent = () => badges.map(badge => {
+  const badgesContent = badges.map(badge => {
     console.log(badge)
     return (
-      <Badge key={badge.id} id={badge.id} color={badge.color} text={badge.text} onClick={()=>{}}/>)
+      <li key={badge.id} className="badge-item">
+        <Badge badge={badge} onClick={() => { }} />
+      </li>
+    )
   })
-
 
   return (
     <>
@@ -73,9 +83,9 @@ const Post: React.FC<IPost> = (props) => {
         <div className="row">
           <div className="col-7">
             <div className="row">
-              <div className="p-badges">
-                {badges && badgesContent()}
-              </div>
+              <ul className="p-badges badge-list m-0 pt-0">
+                {badges && badgesContent}
+              </ul>
             </div>
             <div className="row">
               {bodyContent}

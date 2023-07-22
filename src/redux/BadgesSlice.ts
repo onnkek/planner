@@ -9,11 +9,15 @@ import { Status } from "../models/Status"
 interface IBadges {
     badges: IBadge[]
     status: Status
+    removing: number[]
+    addStatus: Status
 }
 
 const initialState: IBadges = {
     badges: [],
-    status: Status.Idle
+    status: Status.Idle,
+    removing: [],
+    addStatus: Status.Idle
 }
 
 const BadgesSlice = createSlice({
@@ -38,22 +42,19 @@ const BadgesSlice = createSlice({
 
 
             .addCase(addBadge.fulfilled, (state: IBadges, action) => {
-                //state.statusAddPost = Status.Succeeded
+                state.addStatus = Status.Succeeded
                 state.badges.push(action.payload)
             })
             .addCase(addBadge.pending, (state: IBadges, action) => {
-                //state.statusAddPost = Status.Loading
+                state.addStatus = Status.Loading
             })
 
             .addCase(removeBadge.fulfilled, (state: IBadges, action) => {
-                //state.removing.splice(action.meta.arg.id, 1)
+                state.removing.splice(action.meta.arg.id, 1)
                 state.badges = action.payload
             })
             .addCase(removeBadge.pending, (state: IBadges, action) => {
-                //state.removing.push(action.meta.arg.id)
-            })
-            .addCase(removeBadge.rejected, (state: IBadges, action) => {
-                //state.statusRemovePost = 'failed'
+                state.removing.push(action.meta.arg.id)
             })
     }
 })
@@ -110,25 +111,6 @@ export const removeBadge = createAsyncThunk<IBadge[], RemovePayloadType, { state
             return rejectWithValue('Can\'t delete badge! Server error!')
         }
         return newData
-
-
-
-        // const badges = getState().badges.badges
-        // let maxId = 1
-        // if (badges.length) {
-        //     maxId = badges.reduce((prev, cur) => (prev.id > cur.id ? prev : cur)).id
-        //     maxId++
-        // }
-        // const newBadge = {
-        //     id: maxId,
-        //     color: Number(payload.color),
-        //     text: payload.text
-        // }
-
-        // const newBadges = [...badges, newBadge]
-        // await new JSONBinService().updateBadges(newBadges)
-        // return newBadge
-
     }
 )
 
