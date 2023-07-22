@@ -61,7 +61,7 @@ const Post: React.FC<IPost> = (props) => {
   const bodyContent = edit ? (
     <textarea
       autoFocus className="form-control"
-      name="body" rows={body.length / 40}
+      name="body" rows={body.length / 20}
       placeholder="What should be done?" value={body}
       onChange={e => { setBody(e.target.value) }}
     ></textarea>
@@ -88,7 +88,9 @@ const Post: React.FC<IPost> = (props) => {
               </ul>
             </div>
             <div className="row">
-              {bodyContent}
+              <div className="col-12">
+                {bodyContent}
+              </div>
             </div>
           </div>
           <div className="col-5">

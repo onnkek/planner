@@ -1,6 +1,5 @@
 import React, { useEffect } from "react"
 import "./PostList.sass"
-import Spinner from "../UI/Spinner/Spinner"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
 import Post from "../Post/Post"
 import { fetchPosts } from "../../redux/PostListReducer"
@@ -8,6 +7,7 @@ import IPost from '../../models/Post'
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
 import { getBadges } from "../../redux/BadgesSlice"
 import { Status } from "../../models/Status"
+import PostPlaceholder from "../UI/PostPlaceholder/PostPlaceholder"
 
 interface PropsType {
   isNew: boolean
@@ -56,7 +56,13 @@ const PostList: React.FC<PropsType> = ({ isNew }) => {
   }
 
   if (status === Status.Loading && posts) {
-    return <Spinner className='spinner-big' />
+    return (
+      <>
+        <PostPlaceholder />
+        <PostPlaceholder />
+        <PostPlaceholder />
+      </>
+    )
   }
 
   const items = renderItems(posts)

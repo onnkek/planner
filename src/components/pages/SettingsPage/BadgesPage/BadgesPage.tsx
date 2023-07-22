@@ -26,7 +26,7 @@ const BadgesPage = () => {
     const [color, setColor] = useState(Colors.Primary)
     const badges = useAppSelector(state => state.badges.badges)
     const addStatus = useAppSelector(state => state.badges.addStatus)
-    
+
     useEffect(() => {
         if (status === Status.Idle) {
             dispatch(getBadges())
@@ -92,7 +92,26 @@ const BadgesPage = () => {
                 <label className="profile-form-group-label form-label m-0 mt-3">
                     Available badges
                 </label>
-                {status === Status.Loading && <Spinner></Spinner>}
+                {status === Status.Loading && (
+                    <div className="col-12 placeholder-wave placeholder-glow">
+                        <div className="row m-1 badges-placeholder">
+                            <span className="rounded placeholder bg-primary col-4"></span>
+                            <span className="rounded placeholder bg-danger col-3"></span>
+                            <span className="rounded placeholder bg-success col-1"></span>
+                            <span className="rounded placeholder bg-danger col-2"></span>
+                            <span className="rounded placeholder bg-warning col-3"></span>
+                            <span className="rounded placeholder bg-purpl col-1"></span>
+                            <span className="rounded placeholder bg-warning col-2"></span>
+                            <span className="rounded placeholder bg-primary col-3"></span>
+                            <span className="rounded placeholder bg-danger col-1"></span>
+                            <span className="rounded placeholder bg-purpl col-2"></span>
+                            <span className="rounded placeholder bg-danger col-3"></span>
+                            <span className="rounded placeholder bg-success col-2"></span>
+                            <span className="rounded placeholder bg-warning col-2"></span>
+                            <span className="rounded placeholder bg-purpl col-1"></span>
+                        </div>
+                    </div>
+                )}
                 <ul className='custom-badges-list'>
                     {badgesContent}
                 </ul>
