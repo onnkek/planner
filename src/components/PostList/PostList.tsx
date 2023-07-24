@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import "./PostList.sass"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
 import Post from "../Post/Post"
-import { fetchPosts } from "../../redux/PostListReducer"
+import { fetchPosts } from "../../redux/PostListSlice"
 import IPost from '../../models/Post'
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
 import { getBadges } from "../../redux/BadgesSlice"

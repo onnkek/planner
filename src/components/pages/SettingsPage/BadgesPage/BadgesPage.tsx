@@ -37,7 +37,7 @@ const BadgesPage = () => {
         await dispatch(addBadge({ text, color }))
         setText('')
     }
-    const badgesContent = badges.map(badge => {
+    const badgesContent = badges && badges.map(badge => {
         const id = badge.id
         return (<li key={badge.id}>
             <Badge badge={badge} type={BadgeType.Add} onClick={() => { dispatch(removeBadge({ id })) }} /></li>)

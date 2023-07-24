@@ -14,7 +14,7 @@ const Modal = ({ children, buttons, title, show, setShow }: PropsType) => {
 
     return (
 
-        show && (
+        show ? (
             <div className={`modal fade show`} onMouseDown={() => { setShow(false) }}>
                 <div className="modal-dialog modal-dialog-centered" onMouseDown={e => e.stopPropagation()}>
                     <div className="modal-content">
@@ -34,7 +34,7 @@ const Modal = ({ children, buttons, title, show, setShow }: PropsType) => {
                     </div>
                 </div>
             </div>
-        )
+        ) : <></>
 
     )
 

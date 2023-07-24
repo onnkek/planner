@@ -2,7 +2,7 @@ import config from "../config.json"
 
 export default class JSONBinService {
   constructor() {
-    this._apiBase = "https://jsonbin.org/me/"
+    this._apiBase = "https://jsonbin.org/me"
     this._apiPosts = "demo1"
     this._apiBadges = "badges"
     this._apiKey = config.apiKey
@@ -18,8 +18,8 @@ export default class JSONBinService {
     return await response.json()
   }
 
-  // getData = async () => {
-  //   const response = await fetch(this._apiBase, {
+  // getPosts = async () => {
+  //   const response = await fetch(`${this._apiBase}/${this._apiBadges}`, {
   //     method: "POST",
   //     headers: {
   //       authorization: `token ${this._apiKey}`,
@@ -44,7 +44,8 @@ export default class JSONBinService {
   //       "remove": "",
   //       "timeleft": "",
   //       "deadline": "2023-06-27T15:30",
-  //       "visible": false
+  //       "visible": false,
+  //       "badges": []
   //     }])
   //   })
   //   return response

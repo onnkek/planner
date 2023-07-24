@@ -8,6 +8,7 @@ export default interface IPost {
     remove: string
     timeleft: string
     deadline: string
+    link: string
     visible: boolean
     badges: IBadge[]
 }

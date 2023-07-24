@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import PostListReducer from './PostListReducer'
-import BadgesSlice from './BadgesSlice'
+import PostListReducer from './PostListSlice'
+import BadgesReducer from './BadgesSlice'
 
 const store = configureStore({
     reducer: {
         posts: PostListReducer,
-        badges: BadgesSlice
+        badges: BadgesReducer
     }
 })
 

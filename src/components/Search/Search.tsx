@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './Search.sass'
-import { sortPosts, filterPosts } from '../../redux/PostListReducer'
+import { sortPosts, filterPosts } from '../../redux/PostListSlice'
 import { useAppDispatch } from '../../models/Hook'
 
 const Search = () => {

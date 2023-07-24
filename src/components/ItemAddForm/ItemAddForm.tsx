@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import "./ItemAddForm.sass"
 import Spinner from "../UI/Spinner/Spinner"
-import { addNewPost } from "../../redux/PostListReducer"
+import { addNewPost } from "../../redux/PostListSlice"
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
 import Badge, { BadgeType } from "../UI/Badge/Badge"
 import { IBadge } from "../../models/Badge"
@@ -14,6 +14,7 @@ const ItemAddForm = ({ closeModal }: any) => {
   const dispatch = useAppDispatch()
   const [body, setBody] = useState('')
   const [deadline, setDeadline] = useState('')
+  const [link, setLink] = useState('')
   const status = useAppSelector(state => state.posts.statusAddPost)
   const [badges, setBadges] = useState<IBadge[]>([])
   const [startBadges, setStartBadges] = useState(useAppSelector(state => state.badges.badges))
@@ -25,13 +26,17 @@ const ItemAddForm = ({ closeModal }: any) => {
   const onDeadlineChange = (e: any) => {
     setDeadline(e.target.value)
   }
+  const onLinkChange = (e: any) => {
+    setLink(e.target.value)
+  }
 
   const onSubmit = async (e: any) => {
     e.preventDefault()
-    await dispatch(addNewPost({ body, deadline, badges }))
+    await dispatch(addNewPost({ body, deadline, link, badges }))
 
     setBody('')
     setDeadline('')
+    setLink('')
     closeModal()
   }
 
@@ -48,11 +53,11 @@ const ItemAddForm = ({ closeModal }: any) => {
   }
 
   if (status === Status.Loading) {
-    return <Spinner small />
+    return <Spinner small className="mb-4"/>
   }
 
 
-  const badgesContent = badges.map(badge => {
+  const badgesContent = badges && badges.map(badge => {
     return (
       <li key={badge.id} className="m-2px">
         <Badge type={BadgeType.Add} badge={badge} onClick={removeBadgeHandler} />
@@ -82,6 +87,18 @@ const ItemAddForm = ({ closeModal }: any) => {
           value={body}
           onChange={onBodyChange}
         ></textarea>
+      </div>
+      <div className="mb-3">
+        <label className="form-label">
+          Link to an external resource
+        </label>
+        <input
+          type="text"
+          name="link"
+          className="form-control add-form-date"
+          value={link}
+          onChange={onLinkChange}
+        />
       </div>
       <div className="mb-3">
         <label className="form-label">

@@ -1,7 +1,7 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import "./Post.sass"
 import { CheckLg, Link45deg, Pencil, Trash3 } from "react-bootstrap-icons"
-import { hidePost, removePost, savePost } from "../../redux/PostListReducer"
+import { hidePost, removePost, savePost } from "../../redux/PostListSlice"
 import Spinner from "../UI/Spinner/Spinner"
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
 import { getDate, getDeadline, getProgress } from "../../utils/date"
@@ -17,8 +17,20 @@ const Post: React.FC<IPost> = (props) => {
   const [edit, setEdit] = useState(false)
   const [body, setBody] = useState(props.body)
   const [deadline, setDeadline] = useState(props.deadline)
+  const [timer, setTimer] = useState(0)
 
-  const { id, create, badges } = props
+  const { id, create, link, badges } = props
+
+
+  const updateTimer = () => {
+    setTimer(timer + 1)
+  }
+
+  useEffect(() => {
+    const timeout = setTimeout(updateTimer, 1000)
+    return () => clearTimeout(timeout)
+  }, [timer])
+
 
   const deleteHandler = () => {
     if (props.visible) {
@@ -50,6 +62,13 @@ const Post: React.FC<IPost> = (props) => {
     <Pencil type="button" className="p-icon icon-trash-3"
       onClick={() => setEdit(!edit)} />
   )
+
+  const linkButton = link && (
+    <a href={link} target="_blank" rel="noopener noreferrer">
+      <Link45deg size={20} className="p-icon icon-trash-3" />
+      </a>
+  )
+
   const deadlineContent = edit ? (
     <input type="datetime-local" name="deadline"
       className="form-control input-date edit-deadline" value={deadline}
@@ -69,7 +88,6 @@ const Post: React.FC<IPost> = (props) => {
 
 
   const badgesContent = badges.map(badge => {
-    console.log(badge)
     return (
       <li key={badge.id} className="badge-item">
         <Badge badge={badge} onClick={() => { }} />
@@ -82,12 +100,12 @@ const Post: React.FC<IPost> = (props) => {
       <div className="item-wrapper">
         <div className="row">
           <div className="col-7">
-            <div className="row">
-              <ul className="p-badges badge-list m-0 pt-0">
+            <div className="row ms-0">
+              <ul className="p-badges badge-list m-0 p-0">
                 {badges && badgesContent}
               </ul>
             </div>
-            <div className="row">
+            <div className="row item-title">
               <div className="col-12">
                 {bodyContent}
               </div>
@@ -120,7 +138,7 @@ const Post: React.FC<IPost> = (props) => {
               </div>
               <div className="fix">
                 <div className="item-flex-btns">
-                  <Link45deg size={20} className="p-icon icon-trash-3" />
+                  {linkButton}
                   {editButton}
                   {deleteButton}
                 </div>
