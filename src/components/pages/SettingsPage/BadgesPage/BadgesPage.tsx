@@ -52,7 +52,7 @@ const BadgesPage = () => {
     return (
         <>
             <div className="settings-item">
-                <SettingsHeader title='Profile preferences' />
+                <SettingsHeader title='Badges preferences' />
 
 
                 <label className="profile-form-group-label form-label">
