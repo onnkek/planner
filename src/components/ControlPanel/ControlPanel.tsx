@@ -24,6 +24,16 @@ const ControlPanel = () => {
               </NavLink>
             </li>
             <li>
+              <NavLink to="/notes" className={setActive}>
+                <div className="tab-link">Notes</div>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/calendar" className={setActive}>
+                <div className="tab-link">Calendar</div>
+              </NavLink>
+            </li>
+            <li>
               <NavLink to="/settings" className={setActive}>
                 <div className="tab-link">Settings</div>
               </NavLink>
