@@ -1,61 +1,51 @@
 import config from "../config.json"
 
 export default class JSONBinService {
-  constructor() {
-    this._apiBase = "https://jsonbin.org/me"
-    this._apiPosts = "demo1"
+  constructor () {
+    this._apiBase = "http://localhost:8000"
+    this._apiPosts = "tasks"
     this._apiBadges = "badges"
-    this._apiKey = config.apiKey
+    // this._apiKey = config.apiKey
   }
 
   getPosts = async () => {
     const response = await fetch(`${this._apiBase}/${this._apiPosts}`, {
       method: "GET",
       headers: {
-        authorization: `token ${this._apiKey}`,
+        "Content-Type": "application/json",
+        // authorization: `token ${this._apiKey}`,
       },
     })
     return await response.json()
   }
 
-  // getPosts = async () => {
-  //   const response = await fetch(`${this._apiBase}/${this._apiBadges}`, {
-  //     method: "POST",
-  //     headers: {
-  //       authorization: `token ${this._apiKey}`,
-  //     },
-  //     body: JSON.stringify([{
-  //       "test": true
-  //     }])
-  //   })
-  //   return response
-  // }
+  updatePosts = async (id, data) => {
+    const response = await fetch(`${this._apiBase}/${this._apiPosts}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    })
+    return response
+  }
 
-  // getPosts = async () => {
-  //   const response = await fetch(`${this._apiBase}/${this._apiPosts}`, {
-  //     method: "POST",
-  //     headers: {
-  //       authorization: `token ${this._apiKey}`,
-  //     },
-  //     body: JSON.stringify([{
-  //       "id": 117,
-  //       "body": "Отчет за день",
-  //       "create": 1687847127638,
-  //       "remove": "",
-  //       "timeleft": "",
-  //       "deadline": "2023-06-27T15:30",
-  //       "visible": false,
-  //       "badges": []
-  //     }])
-  //   })
-  //   return response
-  // }
+  removePost = async (id) => {
+    const response = await fetch(`${this._apiBase}/${this._apiPosts}/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // body: JSON.stringify(id)
+    })
+    return response
+  }
 
-  updatePosts = async (data) => {
+  addTask = async (data) => {
     const response = await fetch(`${this._apiBase}/${this._apiPosts}`, {
       method: "POST",
       headers: {
-        authorization: `token ${this._apiKey}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data)
     })
@@ -66,20 +56,35 @@ export default class JSONBinService {
     const response = await fetch(`${this._apiBase}/${this._apiBadges}`, {
       method: "GET",
       headers: {
-        authorization: `token ${this._apiKey}`,
+        "Content-Type": "application/json",
+        // authorization: `token ${this._apiKey}`,
       },
     })
     return await response.json()
   }
-  updateBadges = async (data) => {
+
+  addBadge = async (data) => {
     const response = await fetch(`${this._apiBase}/${this._apiBadges}`, {
       method: "POST",
       headers: {
-        authorization: `token ${this._apiKey}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data)
     })
     return response
   }
+
+  removeBadge = async (id) => {
+    const response = await fetch(`${this._apiBase}/${this._apiBadges}/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // body: JSON.stringify(id)
+    })
+    return response
+  }
+
+
 
 }

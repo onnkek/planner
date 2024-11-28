@@ -89,7 +89,7 @@ export const addBadge = createAsyncThunk<IBadge, PayloadType, { state: RootState
         }
 
         const newBadges = [...badges, newBadge]
-        await new JSONBinService().updateBadges(newBadges)
+        await new JSONBinService().addBadge(newBadge)
         return newBadge
 
     }
@@ -106,7 +106,7 @@ export const removeBadge = createAsyncThunk<IBadge[], RemovePayloadType, { state
         const state = getState().badges.badges
         const index = state.findIndex((badge) => badge.id === payload.id)
         const newData = [...state.slice(0, index), ...state.slice(index + 1)]
-        const response = await new JSONBinService().updateBadges(newData)
+        const response = await new JSONBinService().removeBadge(payload.id)
         if (!response.ok) {
             return rejectWithValue('Can\'t delete badge! Server error!')
         }

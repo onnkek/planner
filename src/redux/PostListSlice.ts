@@ -32,7 +32,7 @@ const PostListSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    
+
     sortPosts: (state, action) => {
       switch (action.payload) {
         case 'Name':
@@ -148,7 +148,7 @@ export const addNewPost = createAsyncThunk<IPost, PayloadType, { state: RootStat
       badges: payload.badges
     }
     const newPosts = [...state.posts, newPost]
-    await new JSONBinService().updatePosts(newPosts)
+    await new JSONBinService().addTask(newPost)
     return newPost
   })
 
@@ -164,7 +164,7 @@ export const hidePost = createAsyncThunk<IPost[], HidePayloadType, { state: Root
     const newData: IPost[] = [...state]
     newData[index] = { ...state[index] }
     newData[index].visible = false
-    const response = await new JSONBinService().updatePosts(newData)
+    const response = await new JSONBinService().updatePosts(newData[index].id, { "visible": false })
     if (!response.ok) {
       return rejectWithValue('Can\'t delete post! Server error!')
     }
@@ -178,7 +178,7 @@ export const removePost = createAsyncThunk<IPost[], HidePayloadType, { state: Ro
     const state = getState().posts.posts
     const index = state.findIndex((post) => post.id === payload.id)
     const newData = [...state.slice(0, index), ...state.slice(index + 1)]
-    const response = await new JSONBinService().updatePosts(newData)
+    const response = await new JSONBinService().removePost(payload.id)
     if (!response.ok) {
       return rejectWithValue('Can\'t delete post! Server error!')
     }
@@ -200,7 +200,7 @@ export const savePost = createAsyncThunk<IPost[], SavePayloadType, { state: Root
     editedPost.body = payload.body
     editedPost.deadline = payload.deadline
     const newData = [...state.slice(0, index), editedPost, ...state.slice(index + 1)]
-    const response = await new JSONBinService().updatePosts(newData)
+    const response = await new JSONBinService().updatePosts(payload.id, { "body": payload.body, "deadline": payload.deadline })
     if (!response.ok) {
       return rejectWithValue('Can\'t delete post! Server error!')
     }
