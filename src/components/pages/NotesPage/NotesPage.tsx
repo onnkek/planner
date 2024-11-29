@@ -1,7 +1,12 @@
-import React, { Component, useState } from "react"
+import React, { Component, useEffect, useState } from "react"
 import "./NotesPage.sass"
 import Explorer from "../../Explorer/Explorer"
 import Note from "../../Note/Note"
+import NoteList from "../../NoteList/NoteList"
+import { INote } from "../../../models/Note"
+import { useAppDispatch, useAppSelector } from "../../../models/Hook"
+import { getNotes } from "../../../redux/NotesSlice"
+import { Status } from "../../../models/Status"
 
 export interface NoteDataType {
   uid: number,
@@ -11,28 +16,28 @@ export interface NoteDataType {
 
 const NotesPage = () => {
 
-  const data: NoteDataType = {
-    uid: 1,
-    body: `<h1>Тут будет название заметки</h1>
-    <p>Свободная HTML разметка встраиваемая сюда для вёрстки заметки</p>
-    <b>123</b>
-    <span style="color: red">123</span>
-    <br>
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaA23Orn8cIauyUDtC-hmrUTguMwW9q5kyvg&s">
-    <br>
-    
-    `,
-    icon: ""
-  }
+  const dispatch = useAppDispatch()
+  const posts: INote = useAppSelector(state => state.notes.notes)
+  const status = useAppSelector(state => state.notes.status)
 
+  useEffect(() => {
+    if (status === Status.Idle) {
+      dispatch(getNotes())
+    }
+  }, [status, dispatch])
+
+  const [select, setSelect] = useState<INote>()
+
+
+  console.log("RERENDER NOTE PAGE")
   return (
-    <div className="app-container">
-      <div className="notes-page">
-        <Explorer />
-        <Note data={data} />
-      </div>
+    // <div className="app-container">
+    <div className="notes-page">
+      <Explorer select={select} setSelect={setSelect} posts={posts} />
+      <Note data={select} />
+    </div>
 
-    </div >
+    // </div >
   )
 }
 export default NotesPage

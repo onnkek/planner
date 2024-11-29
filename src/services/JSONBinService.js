@@ -5,6 +5,7 @@ export default class JSONBinService {
     this._apiBase = "http://localhost:8000"
     this._apiPosts = "tasks"
     this._apiBadges = "badges"
+    this._apiNotes = "notes"
     // this._apiKey = config.apiKey
   }
 
@@ -85,6 +86,16 @@ export default class JSONBinService {
     return response
   }
 
+  getNotes = async () => {
+    const response = await fetch(`${this._apiBase}/${this._apiNotes}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        // authorization: `token ${this._apiKey}`,
+      },
+    })
+    return await response.json()
+  }
 
 
 }

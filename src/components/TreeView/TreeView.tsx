@@ -1,16 +1,21 @@
-import React from "react"
+import React, { Dispatch, SetStateAction } from "react"
 import TreeViewItem from "../TreeViewItem/TreeViewItem"
-import { DataType, DataTypeItem } from "../Explorer/Explorer"
+import { INote } from "../../models/Note"
 
 interface TreeViewProps {
-  data: DataType
+  data: INote
+
+  select: INote | undefined,
+  setSelect: (arg0: INote) => void
+
 }
 
-const TreeView = React.memo(({ data }: TreeViewProps) => {
+const TreeView = React.memo(({ data, select, setSelect }: TreeViewProps) => {
 
-  const renderItem = (item: DataTypeItem) => (
+  const renderItem = (item: INote) => (
     <TreeViewItem
       // onSelect={onSelect}
+      select={select} setSelect={setSelect}
       itemData={item}
       key={item.uid}
     />
@@ -18,7 +23,7 @@ const TreeView = React.memo(({ data }: TreeViewProps) => {
 
   return (
     <>
-      {data.items.map(renderItem)}
+      {data.children.map(renderItem)}
     </>
   )
 })
