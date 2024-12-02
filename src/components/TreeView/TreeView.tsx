@@ -1,18 +1,18 @@
-import React, { Dispatch, SetStateAction } from "react"
+import React from "react"
 import TreeViewItem from "../TreeViewItem/TreeViewItem"
+import IFolder from "../../models/Folder"
 import { INote } from "../../models/Note"
+import "./TreeView.sass"
 
 interface TreeViewProps {
-  data: INote
-
-  select: INote | undefined,
-  setSelect: (arg0: INote) => void
-
+  data: IFolder
+  select: IFolder | undefined
+  setSelect: (arg0: IFolder | undefined) => void
 }
 
 const TreeView = React.memo(({ data, select, setSelect }: TreeViewProps) => {
 
-  const renderItem = (item: INote) => (
+  const renderItems = (item: IFolder | INote) => (
     <TreeViewItem
       // onSelect={onSelect}
       select={select} setSelect={setSelect}
@@ -23,7 +23,7 @@ const TreeView = React.memo(({ data, select, setSelect }: TreeViewProps) => {
 
   return (
     <>
-      {data.children.map(renderItem)}
+      {data.children.map(renderItems)}
     </>
   )
 })

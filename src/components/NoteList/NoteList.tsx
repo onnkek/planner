@@ -12,13 +12,14 @@ import { getNotes } from "../../redux/NotesSlice"
 import Note from "../Note/Note"
 import { INote } from "../../models/Note"
 import NoteListItem from "../NoteListItem/NoteListItem"
+import IFolder from "../../models/Folder"
 
 // interface PropsType { }
 
 const NoteList: React.FC = () => {
 
   const dispatch = useAppDispatch()
-  const posts: INote = useAppSelector(state => state.notes.notes)
+  const notes: IFolder = useAppSelector(state => state.notes.notes)
   const status = useAppSelector(state => state.notes.status)
 
   // useEffect(() => {
@@ -46,7 +47,7 @@ const NoteList: React.FC = () => {
     })
   }
 
-  if (status === Status.Loading && posts) {
+  if (status === Status.Loading && notes) {
     return (
       <>
         <PostPlaceholder />
@@ -56,7 +57,7 @@ const NoteList: React.FC = () => {
     )
   }
 
-  const items = renderItems(posts)
+  const items = renderItems(notes)
   return (
     <div className="planner">
       <ul className="planner-container">

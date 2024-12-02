@@ -43,7 +43,7 @@ const Post: React.FC<IPost> = (props) => {
   const editHandler = async () => {
 
     await dispatch(savePost({ id, body, deadline }))
-    setEdit(!edit)
+    setEdit(!edit) 
   }
 
   const deleteButton = status.some(postId => postId === props.id) ? (

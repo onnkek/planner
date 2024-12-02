@@ -98,7 +98,7 @@ const PostListSlice = createSlice({
       .addCase(removePost.rejected, (state: IStore, action) => {
         //state.statusRemovePost = 'failed'
       })
-
+ 
       .addCase(savePost.fulfilled, (state: IStore, action) => {
         state.statusSavePost = Status.Succeeded
         state.posts = action.payload
