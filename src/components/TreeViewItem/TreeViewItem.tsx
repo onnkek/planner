@@ -6,32 +6,33 @@ import TreeView from "../TreeView/TreeView"
 import { getIcon } from "../Note/Note"
 import folderIcon from '../../assets/icons/folder.svg'
 import ContextMenu from "../ContextMenu/ContextMenu"
-import { useAppDispatch } from "../../models/Hook"
-import { openContextMenu } from "../../redux/NotesSlice"
+import { useAppDispatch, useAppSelector } from "../../models/Hook"
+import { openContextMenu, setSelectItem } from "../../redux/NotesSlice"
+import { Status } from "../../models/Status"
 
 interface TreeViewItemProps {
   itemData: IFolder | INote
-  select: IFolder | undefined,
-  setSelect: (arg0: IFolder | undefined) => void
 }
 
 export const isFolder = (object: any): object is IFolder => {
   return 'children' in object
 }
+export const isNote = (object: any): object is INote => {
+  return 'body' in object
+}
 
-const TreeViewItem = React.memo(({ itemData, select, setSelect }: TreeViewItemProps) => {
+const TreeViewItem = React.memo(({ itemData }: TreeViewItemProps) => {
 
   const [showChildren, setShowChildren] = useState(true)
 
   const handleClick = () => setShowChildren(!showChildren)
+  const select = useAppSelector(state => state.notes.selectItem)
   const dispatch = useAppDispatch()
 
   const onSelect = () => {
-    // setSelect(itemData)
-    console.log(itemData.uid.toString())
+    dispatch(setSelectItem(itemData))
+    // console.log(itemData)
   }
-
-
 
   const contextMenuHandler = (event: MouseEvent<HTMLDivElement>) => {
     dispatch(openContextMenu({ position: { x: event.clientX, y: event.clientY }, item: itemData }))
@@ -44,7 +45,6 @@ const TreeViewItem = React.memo(({ itemData, select, setSelect }: TreeViewItemPr
   return (
     <>
       <ul style={{ paddingLeft: "0px" }}>
-
         <div className="tree-view-item" onContextMenu={contextMenuHandler}>
           {isFolder(itemData) ? (
             <>
@@ -78,11 +78,7 @@ const TreeViewItem = React.memo(({ itemData, select, setSelect }: TreeViewItemPr
         </div>
         {showChildren && isFolder(itemData) &&
           <ul style={{ paddingLeft: "22px" }}>
-            <TreeView
-              select={select} setSelect={setSelect}
-              data={itemData}
-            // onSelect={onSelect}
-            />
+            <TreeView data={itemData} />
           </ul>
         }
       </ul>

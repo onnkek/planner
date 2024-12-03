@@ -2,7 +2,7 @@ import config from "../config.json"
 
 export default class JSONBinService {
   constructor () {
-    this._apiBase = "http://zavgorodinir.oduur.so:8000"
+    this._apiBase = "localhost:8000"
     this._apiPosts = "tasks"
     this._apiBadges = "badges"
     this._apiNotes = "notes"
@@ -96,8 +96,8 @@ export default class JSONBinService {
     })
     return await response.json()
   }
-    updateNote = async (id, data) => {
-    const response = await fetch(`${this._apiBase}/${this._apiNotes}/${id}`, {
+  updateNote = async (data) => {
+    const response = await fetch(`${this._apiBase}/${this._apiNotes}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

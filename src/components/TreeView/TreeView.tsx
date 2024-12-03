@@ -6,16 +6,13 @@ import "./TreeView.sass"
 
 interface TreeViewProps {
   data: IFolder
-  select: IFolder | undefined
-  setSelect: (arg0: IFolder | undefined) => void
 }
 
-const TreeView = React.memo(({ data, select, setSelect }: TreeViewProps) => {
+const TreeView = React.memo(({ data }: TreeViewProps) => {
 
   const renderItems = (item: IFolder | INote) => (
     <TreeViewItem
       // onSelect={onSelect}
-      select={select} setSelect={setSelect}
       itemData={item}
       key={item.uid}
     />

@@ -72,6 +72,9 @@ const PostListSlice = createSlice({
       .addCase(addNewPost.pending, (state: IStore, action) => {
         state.statusAddPost = Status.Loading
       })
+      .addCase(addNewPost.rejected, (state: IStore, action) => {
+        state.statusAddPost = Status.Idle
+      })
 
 
       .addCase(hidePost.fulfilled, (state: IStore, action) => {
@@ -98,7 +101,7 @@ const PostListSlice = createSlice({
       .addCase(removePost.rejected, (state: IStore, action) => {
         //state.statusRemovePost = 'failed'
       })
- 
+
       .addCase(savePost.fulfilled, (state: IStore, action) => {
         state.statusSavePost = Status.Succeeded
         state.posts = action.payload
@@ -128,7 +131,7 @@ type PayloadType = {
 
 export const addNewPost = createAsyncThunk<IPost, PayloadType, { state: RootState }>(
   'posts/addNewPost',
-  async (payload: PayloadType, { getState }) => {
+  async (payload, { rejectWithValue, getState }) => {
     const state = getState().posts
 
     let maxId = 1
@@ -148,7 +151,10 @@ export const addNewPost = createAsyncThunk<IPost, PayloadType, { state: RootStat
       badges: payload.badges
     }
     const newPosts = [...state.posts, newPost]
-    await new JSONBinService().addTask(newPost)
+    const response = await new JSONBinService().addTask(newPost)
+    if (!response.ok) {
+      return rejectWithValue('Can\'t delete post! Server error!')
+    }
     return newPost
   })
 

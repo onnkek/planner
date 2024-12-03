@@ -11,6 +11,7 @@ import CalendarPage from "../pages/CalendarPage/CalendarPage"
 const App = () => {
   return (
     <>
+      {/* https://www.figma.com/design/bbO8aq54Bacizxjc6FxChP/10%2C000-Soft-Color-Icons-for-UI%2C-UX%2C-Graphic-Design-–-Free-Ultimate-Colors-Vector-Icons-(svg%2Cpng)-(Community)?node-id=1128-1456&node-type=frame&t=1fxAaJlQqmOyvyf2-0 */}
       <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
@@ -18,7 +19,7 @@ const App = () => {
         <Route path="/notes" element={<NotesPage />} />
         <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/settings/*" element={<SettingsPage />} />
-        
+
       </Routes>
     </>
   )

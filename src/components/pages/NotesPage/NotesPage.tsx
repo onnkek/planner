@@ -21,6 +21,7 @@ const NotesPage = () => {
   const dispatch = useAppDispatch()
   const notes: IFolder = useAppSelector(state => state.notes.notes)
   const status = useAppSelector(state => state.notes.status)
+  const select = useAppSelector(state => state.notes.selectItem)
 
   const contextMenu = useAppSelector(store => store.notes.contextMenu)
   const contextMenuPosition = useAppSelector(store => store.notes.contextMenuPosition)
@@ -34,23 +35,17 @@ const NotesPage = () => {
     }
   }, [status, dispatch])
 
-  const [select, setSelect] = useState<IFolder | undefined>()
-
   const closeContextMenuHandler = () => {
     dispatch(closeContextMenu())
   }
 
-  // console.log("RERENDER NOTE PAGE")
-  // console.log("SELECT111111111")
-  // console.log(select)
-  // console.log("SELECT222222222")
   return (
     <div className="notes-page" onClick={closeContextMenuHandler}>
       <div className="treeview">
-        <TreeView select={select} setSelect={setSelect} data={notes} />
+        <TreeView data={notes} />
       </div>
 
-      {select && <Note select={select} setSelect={setSelect} />}
+      {select && <Note />}
       {contextMenu && <ContextMenu position={contextMenuPosition} />}
     </div>
   )

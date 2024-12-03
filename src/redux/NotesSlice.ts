@@ -5,7 +5,7 @@ import JSONBinService from "../services/JSONBinService"
 import { Status } from "../models/Status"
 import { INote } from "../models/Note"
 import IFolder from "../models/Folder"
-import { isFolder } from "../components/TreeViewItem/TreeViewItem"
+import { isFolder, isNote } from "../components/TreeViewItem/TreeViewItem"
 
 
 interface INotes {
@@ -35,7 +35,7 @@ const initialState: INotes = {
   selectItem: undefined
 }
 
-const getItem = (folder: IFolder, select: IFolder): IFolder | undefined => {
+const getFolder = (folder: IFolder, select: IFolder | INote): IFolder | undefined => {
   let result = undefined
   if (select && select.uid === folder.uid) {
     result = folder
@@ -43,12 +43,35 @@ const getItem = (folder: IFolder, select: IFolder): IFolder | undefined => {
     for (let i = 0; i < folder.children.length; i++) {
       const child = folder.children[i]
       if (isFolder(child)) {
-        result = getItem(child, select)
+        result = getFolder(child, select)
         if (result) {
           break
         }
       }
+      if (child.uid === select.uid) {
+        result = folder
+        break
+      }
     }
+  }
+  return result
+}
+
+const getParentFolder = (folder: IFolder, select: IFolder | INote): IFolder | undefined => {
+  let result = undefined
+  for (let i = 0; i < folder.children.length; i++) {
+    const child = folder.children[i]
+    if (isFolder(child)) {
+      if (child.uid === select.uid) {
+        result = folder
+        break
+      }
+      result = getParentFolder(child, select)
+      if (result) {
+        break
+      }
+    }
+
   }
   return result
 }
@@ -65,6 +88,9 @@ const NotesSlice = createSlice({
     closeContextMenu(state) {
       state.contextMenu = false
       state.contextMenuPosition = { x: 0, y: 0 }
+    },
+    setSelectItem(state, action: PayloadAction<INote | IFolder | undefined>) {
+      state.selectItem = action.payload
     }
   },
   extraReducers(builder) {
@@ -82,29 +108,51 @@ const NotesSlice = createSlice({
       })
 
 
-      // .addCase(saveNote.fulfilled, (state: INotes, action) => {
-      //   state.statusSavePost = Status.Succeeded
-      //   state.notes = action.payload
-      // })
-      // .addCase(saveNote.pending, (state: INotes, action) => {
-      //   state.statusSavePost = Status.Loading
-      // })
-      // .addCase(saveNote.rejected, (state: INotes, action) => {
-      //   //state.statusSavePost = Status.Failed
-      // })
 
       .addCase(addItem.fulfilled, (state: INotes, action) => {
         console.log("fulfilled")
-        // state.statusSavePost = Status.Succeeded
+        state.status = Status.Succeeded
         state.notes = action.payload
       })
       .addCase(addItem.pending, (state: INotes, action) => {
         console.log("pending")
-        state.statusSavePost = Status.Loading
+        state.status = Status.Loading
       })
       .addCase(addItem.rejected, (state: INotes, action) => {
         console.log("rejected")
-        //state.statusSavePost = Status.Failed
+        state.status = Status.Failed
+      })
+
+
+      .addCase(removeItem.fulfilled, (state: INotes, action) => {
+        console.log("fulfilled")
+        state.status = Status.Succeeded
+        state.notes = action.payload
+      })
+      .addCase(removeItem.pending, (state: INotes, action) => {
+        console.log("pending")
+        state.status = Status.Loading
+      })
+      .addCase(removeItem.rejected, (state: INotes, action) => {
+        console.log("rejected")
+        state.status = Status.Failed
+      })
+
+
+
+      .addCase(updateNotes.fulfilled, (state: INotes, action) => {
+        console.log("fulfilled")
+        state.status = Status.Succeeded
+        state.notes = action.payload.notes
+        state.selectItem = action.payload.select
+      })
+      .addCase(updateNotes.pending, (state: INotes, action) => {
+        console.log("pending")
+        state.status = Status.Loading
+      })
+      .addCase(updateNotes.rejected, (state: INotes, action) => {
+        console.log("rejected")
+        state.status = Status.Failed
       })
   }
 })
@@ -120,8 +168,6 @@ export const getNotes = createAsyncThunk(
   async () => {
     return await new JSONBinService().getNotes()
   })
-
-
 
 type AddPayloadType = {
   type: "note" | "folder"
@@ -142,9 +188,9 @@ export const addItem = createAsyncThunk<IFolder, AddPayloadType, { state: RootSt
           body: "123",
           create: Date.now().toString(),
           icon: "test",
-          label: "New " + uid
+          label: "New note " + uid.toString().substring(0, 7)
         }
-        const item = getItem(newNotes, select)
+        const item = getFolder(newNotes, select)
         console.log(item)
         if (item) {
           item.children.push(newNote)
@@ -154,52 +200,94 @@ export const addItem = createAsyncThunk<IFolder, AddPayloadType, { state: RootSt
         const uid = Math.random()
         const newFolder: IFolder = {
           uid: uid,
-          label: "New " + uid,
+          label: "New folder " + uid.toString().substring(0, 7),
           create: Date.now().toString(),
           children: []
         }
-        const item = getItem(newNotes, select)
+        const item = getFolder(newNotes, select)
         console.log(item)
         if (item) {
           item.children.push(newFolder)
         }
 
       }
+      const response = await new JSONBinService().updateNote(newNotes)
+      if (!response.ok) {
+        return rejectWithValue('Can\'t delete post! Server error!')
+      }
+    }
+    return newNotes
+  })
 
+export const removeItem = createAsyncThunk<IFolder, AddPayloadType, { state: RootState, rejectValue: string }>(
+  'posts/removeItem',
+  async (payload, { rejectWithValue, getState }) => {
+
+    const notes = getState().notes.notes
+    const select = getState().notes.selectItem
+    const newNotes = JSON.parse(JSON.stringify(notes))
+
+    if (isNote(select)) {
+      const folder = getFolder(newNotes, select)
+      if (folder) {
+        const index = folder.children.findIndex(note => note.uid === select.uid)
+        folder.children = [...folder.children.slice(0, index), ...folder.children.slice(index + 1)]
+      }
+    }
+    if (isFolder(select)) {
+      const folder = getParentFolder(newNotes, select)
+      if (folder) {
+        const index = folder.children.findIndex(folder => folder.uid === select.uid)
+        folder.children = [...folder.children.slice(0, index), ...folder.children.slice(index + 1)]
+      }
+    }
+    const response = await new JSONBinService().updateNote(newNotes)
+    if (!response.ok) {
+      return rejectWithValue('Can\'t delete post! Server error!')
     }
 
-
-    // const index = state.children.findIndex((note) => note.uid === payload.uid)
-    // const editedPost = { ...state.children[index] }
-    // editedPost.body = payload.body
-    // const newData = [...state.children.slice(0, index), editedPost, ...state.children.slice(index + 1)]
-    // const response = await new JSONBinService().getNotes()
-    // if (!response.ok) {
-    //   return rejectWithValue('Can\'t delete post! Server error!')
-    // }
     return newNotes
   })
 
 
-
-// export const saveNote = createAsyncThunk<IFolder, SavePayloadType, { state: RootState, rejectValue: string }>(
-//   'posts/saveNote',
-//   async (payload, { rejectWithValue, getState }) => {
-
-//     const state = getState().notes.notes
-//     const index = state.children.findIndex((note) => note.uid === payload.uid)
-//     const editedPost = { ...state.children[index] }
-//     editedPost.body = payload.body
-//     const newData = [...state.children.slice(0, index), editedPost, ...state.children.slice(index + 1)]
-//     const response = await new JSONBinService().updateNote(payload.uid, { body: payload.body })
-//     if (!response.ok) {
-//       return rejectWithValue('Can\'t delete post! Server error!')
-//     }
-//     return newData
-//   })
-
-type RemovePayloadType = {
-  id: number
+type UpdateItemType = {
+  label: string | undefined
+  body: string | undefined
 }
-export const { openContextMenu, closeContextMenu } = NotesSlice.actions
+export const updateNotes = createAsyncThunk<{ notes: IFolder, select: IFolder | INote | undefined }, UpdateItemType, { state: RootState, rejectValue: string }>(
+  'posts/updateNotes',
+  async (payload, { rejectWithValue, getState }) => {
+    const notes = getState().notes.notes
+    const select = getState().notes.selectItem
+    const newNotes = JSON.parse(JSON.stringify(notes))
+    let newSelected = undefined
+    if (isFolder(select) && payload.label) {
+      const folder = getFolder(newNotes, select)
+      if (folder) {
+        folder.label = payload.label
+        newSelected = folder
+      }
+    }
+    if (isNote(select) && payload.label && payload.body) {
+      const folder = getFolder(newNotes, select)
+      if (folder) {
+        const note = folder.children.find(note => note.uid === select.uid)
+        if (isNote(note)) {
+          note.label = payload.label
+          note.body = payload.body
+          newSelected = note
+        }
+      }
+    }
+
+
+    const response = await new JSONBinService().updateNote(newNotes)
+    if (!response.ok) {
+      return rejectWithValue('Can\'t delete post! Server error!')
+    }
+
+    return { notes: newNotes, select: newSelected }
+  })
+
+export const { openContextMenu, closeContextMenu, setSelectItem } = NotesSlice.actions
 export default NotesSlice.reducer
