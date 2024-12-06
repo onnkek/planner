@@ -1,7 +1,5 @@
-import React, { Component, useState } from "react"
+import React, { MouseEvent, useEffect, useState } from "react"
 import "./Note.sass"
-import { NoteDataType } from "../pages/NotesPage/NotesPage"
-import { INote } from "../../models/Note"
 import lpIcon from '../../assets/icons/lp.svg'
 import testIcon from '../../assets/icons/test.svg'
 import icon1 from '../../assets/icons/icon1.svg'
@@ -14,21 +12,18 @@ import icon7 from '../../assets/icons/icon7.svg'
 import icon8 from '../../assets/icons/icon8.svg'
 import icon9 from '../../assets/icons/icon9.svg'
 import icon10 from '../../assets/icons/icon10.svg'
-
 import folderIcon from '../../assets/icons/folder.svg'
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
 import { Status } from "../../models/Status"
 import { Spinner } from "reactstrap"
 import { CheckLg, Pencil } from "react-bootstrap-icons"
-import IFolder from "../../models/Folder"
-import { isFolder, isNote } from "../TreeViewItem/TreeViewItem"
-import { setSelectItem, updateNotes } from "../../redux/NotesSlice"
-import { getDeadline } from "../../utils/date"
+import { isNote } from "../TreeViewItem/TreeViewItem"
+import { openIconsMenu, setSelectItem, updateNotes } from "../../redux/NotesSlice"
+import IconsMenu from "../IconsMenu/IconsMenu"
+import Editor from "react-simple-code-editor"
+import hljs from "highlight.js"
+import ContentDivider from "../ContentDivider/ContentDivider"
 
-interface NoteProps {
-  select: IFolder | INote | undefined
-  setSelect: (arg0: IFolder | INote | undefined) => void
-}
 
 export const getIcon = (name: string) => {
   switch (name) {
@@ -65,14 +60,18 @@ const Note = () => {
   const dispatch = useAppDispatch()
   const select = useAppSelector(state => state.notes.selectItem)
   const [edit, setEdit] = useState(false)
+
   const [body, setBody] = useState("")
   const [label, setLabel] = useState("")
-  const status = useAppSelector(state => state.notes.status)
+  const [icon, setIcon] = useState("")
 
-  console.log(select)
+  const status = useAppSelector(state => state.notes.status)
+  const showIcons = useAppSelector(state => state.notes.iconsMenu)
+
   const editHandler = async () => {
     if (select) {
       setLabel(select.label)
+      setIcon(select.icon)
       if (isNote(select)) {
         setBody(select?.body)
       }
@@ -84,10 +83,18 @@ const Note = () => {
     if (isNote(select)) {
       setBody(select.body)
       setLabel(select.label)
+      setIcon(select.icon)
     }
-    await dispatch(updateNotes({ body: body, label: label }))
+    await dispatch(updateNotes({ body: body, label: label, icon: icon }))
     setEdit(!edit)
-    // dispatch(setSelectItem(select))
+  }
+
+  const changeIconHandler = async (e: MouseEvent<HTMLDivElement>) => {
+    if (!showIcons) {
+      e.stopPropagation()
+      dispatch(openIconsMenu({ x: e.clientX, y: e.clientY }))
+    }
+
   }
 
   const editButton = edit ? (
@@ -102,26 +109,30 @@ const Note = () => {
     <Pencil type="button" className="p-icon icon-trash-3"
       onClick={editHandler} />
   )
-
+  useEffect(() => {
+    hljs.configure({ 'languages': ['xml'] })
+  }, [])
   return (
     <div className="note-container">
+
       {select && <>
         <div className="note-header">
           <div className="note-header__left">
-            {isNote(select) ? (
+            {showIcons && <IconsMenu icon={icon} setIcon={setIcon} />}
+            {edit ? <div className="note-header__icon-input" onClick={changeIconHandler}>
+              <img src={getIcon(icon)} className="note-header__icon note-header__icon_edit" />
+            </div> :
               <img src={getIcon(select.icon)} className="note-header__icon" />
-            ) : (
-              <img src={getIcon("folder")} className="note-header__icon" />
-            )}
+            }
             <div className="note-header__title">
               {edit ? (
                 <input
-                  className="note-editor__label"
+                  className="note-header__label-input"
                   onChange={e => { setLabel(e.target.value) }}
                   value={label}
                 />
               ) : (
-                <>{select.label}</>
+                <div className="note-header__label">{select.label}</div>
               )}
             </div>
           </div>
@@ -132,15 +143,29 @@ const Note = () => {
             {editButton}
           </div>
         </div>
-        {isNote(select) && <div className="note-body" dangerouslySetInnerHTML={{ __html: select.body }}></div>}
-        {edit && isNote(select) && <div className="note-editor">
-          <h5>Note editor</h5>
-          <textarea
-            className="note-editor__area"
-            onChange={e => { setBody(e.target.value) }}
-            value={body}
-          />
-        </div>}
+        {isNote(select) && !edit && <div className="note-body" dangerouslySetInnerHTML={{ __html: select.body }}></div>}
+        {
+          isNote(select) && edit &&
+          <ContentDivider type="horizontal" initSize={300} hitZoneSize={10} >
+            <div className="note-body" dangerouslySetInnerHTML={{ __html: select.body }}></div>
+            {edit && isNote(select) && <div className="note-editor">
+              {/* <h5>Note editor</h5> */}
+              <Editor
+                value={body}
+                onValueChange={code => setBody(code)}
+                highlight={code => hljs.highlightAuto(code).value}
+                className="html-editor"
+                padding={10}
+                style={{
+                  fontFamily: 'Consolas',
+                  fontSize: 16,
+                }}
+              />
+            </div>}
+          </ContentDivider>
+        }
+
+
       </>}
     </div>
   )

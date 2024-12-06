@@ -24,10 +24,10 @@
     "rules": {
         "no-empty": 1,
         "@typescript-eslint/no-empty-function": 1,
-        "semi": [
-            "error",
-            "never"
-        ],
+        // "semi": [
+        //     "never",
+        //     "never"
+        // ],
         "react/prop-types": 0,
         "no-unused-vars": 1,
         "react/no-unknown-property": 0,

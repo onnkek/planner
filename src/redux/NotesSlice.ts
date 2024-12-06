@@ -16,6 +16,8 @@ interface INotes {
   statusSavePost: Status
   contextMenu: boolean
   contextMenuPosition: { x: number, y: number }
+  iconsMenu: boolean
+  iconsMenuPosition: { x: number, y: number }
   selectItem: INote | IFolder | undefined
 }
 
@@ -24,6 +26,7 @@ const initialState: INotes = {
     uid: 1,
     create: "01.01.2024",
     label: "root",
+    icon: "folder",
     children: []
   },
   status: Status.Idle,
@@ -32,6 +35,8 @@ const initialState: INotes = {
   statusSavePost: Status.Idle,
   contextMenu: false,
   contextMenuPosition: { x: 0, y: 0 },
+  iconsMenu: false,
+  iconsMenuPosition: { x: 0, y: 0 },
   selectItem: undefined
 }
 
@@ -80,6 +85,14 @@ const NotesSlice = createSlice({
   name: 'notes',
   initialState,
   reducers: {
+    openIconsMenu(state, action: PayloadAction<{ x: number, y: number }>) {
+      state.iconsMenu = true
+      state.iconsMenuPosition = action.payload
+    },
+    closeIconsMenu(state) {
+      state.iconsMenu = false
+      state.iconsMenuPosition = { x: 0, y: 0 }
+    },
     openContextMenu(state, action: PayloadAction<{ position: { x: number, y: number }, item: INote | IFolder }>) {
       state.contextMenu = true
       state.contextMenuPosition = action.payload.position
@@ -202,6 +215,7 @@ export const addItem = createAsyncThunk<IFolder, AddPayloadType, { state: RootSt
           uid: uid,
           label: "New folder " + uid.toString().substring(0, 7),
           create: Date.now().toString(),
+          icon: "folder",
           children: []
         }
         const item = getFolder(newNotes, select)
@@ -253,6 +267,7 @@ export const removeItem = createAsyncThunk<IFolder, AddPayloadType, { state: Roo
 type UpdateItemType = {
   label: string | undefined
   body: string | undefined
+  icon: string
 }
 export const updateNotes = createAsyncThunk<{ notes: IFolder, select: IFolder | INote | undefined }, UpdateItemType, { state: RootState, rejectValue: string }>(
   'posts/updateNotes',
@@ -265,6 +280,7 @@ export const updateNotes = createAsyncThunk<{ notes: IFolder, select: IFolder | 
       const folder = getFolder(newNotes, select)
       if (folder) {
         folder.label = payload.label
+        folder.icon = payload.icon
         newSelected = folder
       }
     }
@@ -275,6 +291,7 @@ export const updateNotes = createAsyncThunk<{ notes: IFolder, select: IFolder | 
         if (isNote(note)) {
           note.label = payload.label
           note.body = payload.body
+          note.icon = payload.icon
           newSelected = note
         }
       }
@@ -289,5 +306,11 @@ export const updateNotes = createAsyncThunk<{ notes: IFolder, select: IFolder | 
     return { notes: newNotes, select: newSelected }
   })
 
-export const { openContextMenu, closeContextMenu, setSelectItem } = NotesSlice.actions
+export const {
+  openContextMenu,
+  closeContextMenu,
+  setSelectItem,
+  openIconsMenu,
+  closeIconsMenu
+} = NotesSlice.actions
 export default NotesSlice.reducer

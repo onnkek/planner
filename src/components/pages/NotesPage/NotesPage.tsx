@@ -1,14 +1,13 @@
-import React, { Component, MouseEvent, useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import "./NotesPage.sass"
 import Note from "../../Note/Note"
-import NoteList from "../../NoteList/NoteList"
-import { INote } from "../../../models/Note"
 import { useAppDispatch, useAppSelector } from "../../../models/Hook"
-import { closeContextMenu, getNotes } from "../../../redux/NotesSlice"
+import { getNotes } from "../../../redux/NotesSlice"
 import { Status } from "../../../models/Status"
 import IFolder from "../../../models/Folder"
-import TreeView from "../../TreeView/TreeView"
 import ContextMenu from "../../ContextMenu/ContextMenu"
+import Finder from "../../Finder/Finder"
+import ContentDivider from "../../ContentDivider/ContentDivider"
 
 export interface NoteDataType {
   uid: number,
@@ -22,7 +21,6 @@ const NotesPage = () => {
   const notes: IFolder = useAppSelector(state => state.notes.notes)
   const status = useAppSelector(state => state.notes.status)
   const select = useAppSelector(state => state.notes.selectItem)
-
   const contextMenu = useAppSelector(store => store.notes.contextMenu)
   const contextMenuPosition = useAppSelector(store => store.notes.contextMenuPosition)
 
@@ -35,19 +33,16 @@ const NotesPage = () => {
     }
   }, [status, dispatch])
 
-  const closeContextMenuHandler = () => {
-    dispatch(closeContextMenu())
-  }
-
   return (
-    <div className="notes-page" onClick={closeContextMenuHandler}>
-      <div className="treeview">
-        <TreeView data={notes} />
-      </div>
-
-      {select && <Note />}
-      {contextMenu && <ContextMenu position={contextMenuPosition} />}
-    </div>
+    <div className="notes-page">
+      <ContentDivider initSize={400} type="vertical" >
+        <Finder data={notes} />
+        <>
+          {select && <Note />}
+          {contextMenu && <ContextMenu position={contextMenuPosition} />}
+        </>
+      </ContentDivider>
+    </div >
   )
 }
 export default NotesPage

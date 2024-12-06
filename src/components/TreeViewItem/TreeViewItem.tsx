@@ -57,7 +57,7 @@ const TreeViewItem = React.memo(({ itemData }: TreeViewItemProps) => {
               </svg>}
               <img
                 className="tree-view-item__icon"
-                src={folderIcon}
+                src={getIcon(itemData.icon)}
                 alt=""
               />
             </>

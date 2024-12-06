@@ -1,12 +1,10 @@
-import config from "../config.json"
 
 export default class JSONBinService {
   constructor () {
-    this._apiBase = "localhost:8000"
+    this._apiBase = "http://zavgorodinir.oduur.so:8000"
     this._apiPosts = "tasks"
     this._apiBadges = "badges"
     this._apiNotes = "notes"
-    // this._apiKey = config.apiKey
   }
 
   getPosts = async () => {
@@ -14,7 +12,6 @@ export default class JSONBinService {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // authorization: `token ${this._apiKey}`,
       },
     })
     return await response.json()
@@ -37,7 +34,6 @@ export default class JSONBinService {
       headers: {
         "Content-Type": "application/json",
       },
-      // body: JSON.stringify(id)
     })
     return response
   }
@@ -58,7 +54,6 @@ export default class JSONBinService {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // authorization: `token ${this._apiKey}`,
       },
     })
     return await response.json()
@@ -81,7 +76,6 @@ export default class JSONBinService {
       headers: {
         "Content-Type": "application/json",
       },
-      // body: JSON.stringify(id)
     })
     return response
   }
@@ -91,7 +85,6 @@ export default class JSONBinService {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // authorization: `token ${this._apiKey}`,
       },
     })
     return await response.json()
