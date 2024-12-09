@@ -27,6 +27,8 @@ const NotesPage = () => {
   document.addEventListener("contextmenu", function (e) {
     e.preventDefault()
   })
+
+
   useEffect(() => {
     if (status === Status.Idle) {
       dispatch(getNotes())

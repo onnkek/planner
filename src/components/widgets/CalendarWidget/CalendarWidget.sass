@@ -1,0 +1,62 @@
+.calendarWidget
+  background-color: #0f172a
+  border-radius: 10px
+  border: 1px solid #1e293b
+  &__header
+    margin: 10px 0px 0px 15px
+    font-size: 20px
+    font-family: 'Courier New', Courier, monospace
+  &__grid
+    display: grid
+    grid-template-columns: repeat(7, 40px)
+    grid-template-rows: repeat(5, 40px)
+    align-items: center
+    justify-items: center
+
+    font-weight: 900
+    // margin-right: 20px
+    padding: 10px
+    div
+      display: flex
+      justify-content: center
+      align-items: center
+      width: 40px
+      height: 40px
+      div
+        font-family: 'Courier New', Courier, monospace
+        padding: 10px
+        font-size: 16px
+
+  .holiday
+    color: white
+    background-color: #1e293b
+
+  .holiday-start
+    color: white
+    background-color: #1e293b
+    border-top-left-radius: 8px
+    border-bottom-left-radius: 8px
+    div
+      height: inherit
+      background-color: #475569
+      border-radius: 8px
+
+  .holiday-end
+    color: white
+    background-color: #1e293b
+    border-top-right-radius: 8px
+    border-bottom-right-radius: 8px
+    div
+      height: inherit
+      background-color: #475569
+      border-radius: 8px
+
+.weekend-start,
+.weekend,
+.weekend-end
+  color: #5c697c
+
+.current-day
+  div
+    border: 2px solid #ff5599
+    border-radius: 8px

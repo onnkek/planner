@@ -1,22 +1,23 @@
 import React, { Component, useState } from "react"
 import "./CalendarPage.sass"
 
+export interface ICalendarDB {
+  months: IMonth[]
+}
+
+export interface IDay {
+  number: number
+  type: string
+  position: number
+}
+
+export interface IMonth {
+  name: string
+  days: IDay[]
+}
 const CalendarPage = () => {
 
-  interface ICalendarDB {
-    months: IMonth[]
-  }
 
-  interface IDay {
-    number: number
-    type: 'normal' | 'holiday' | 'vacation' | 'weekend'
-    position: number
-  }
-
-  interface IMonth {
-    name: string
-    days: IDay[]
-  }
 
   const calendarDB: ICalendarDB = {
     months: [

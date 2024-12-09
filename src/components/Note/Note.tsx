@@ -67,6 +67,8 @@ const Note = () => {
 
   const status = useAppSelector(state => state.notes.status)
   const showIcons = useAppSelector(state => state.notes.iconsMenu)
+  
+  const [editorHeight, setEditorHeight] = useState(300)
 
   const editHandler = async () => {
     if (select) {
@@ -146,10 +148,9 @@ const Note = () => {
         {isNote(select) && !edit && <div className="note-body" dangerouslySetInnerHTML={{ __html: select.body }}></div>}
         {
           isNote(select) && edit &&
-          <ContentDivider type="horizontal" initSize={300} hitZoneSize={10} >
+          <ContentDivider type="horizontal" initSize={editorHeight} hitZoneSize={10} callback={setEditorHeight}>
             <div className="note-body" dangerouslySetInnerHTML={{ __html: select.body }}></div>
             {edit && isNote(select) && <div className="note-editor">
-              {/* <h5>Note editor</h5> */}
               <Editor
                 value={body}
                 onValueChange={code => setBody(code)}

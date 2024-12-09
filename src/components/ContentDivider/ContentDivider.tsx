@@ -7,9 +7,10 @@ interface ContentDividerProps {
   initHeight?: number
   hitZoneSize?: number
   type: "vertical" | "horizontal"
+  callback?: (arg0: number) => void
 }
 
-const ContentDivider = React.memo(({ initSize, children, hitZoneSize = 5, type }: ContentDividerProps) => {
+const ContentDivider = React.memo(({ initSize, children, hitZoneSize = 5, type, callback }: ContentDividerProps) => {
   const [size, setSize] = useState(initSize)
   const [widthEdit, setWidthEdit] = useState(false)
   const [lastCursor, setLastCursor] = useState({ x: 0, y: 0 })
@@ -27,7 +28,6 @@ const ContentDivider = React.memo(({ initSize, children, hitZoneSize = 5, type }
 
   const mouseMoveHandler = (e: MouseEvent<HTMLDivElement>) => {
 
-    console.log("TEST")
     const cursor = { x: e.clientX, y: e.clientY }
     const clientY = document.documentElement.clientHeight - e.clientY
     if ((type === "vertical" && e.clientX > size - hitZoneSize && e.clientX < size + hitZoneSize)) {
@@ -41,9 +41,9 @@ const ContentDivider = React.memo(({ initSize, children, hitZoneSize = 5, type }
     const delta = { x: lastCursor.x - cursor.x, y: lastCursor.y - cursor.y }
     if (widthEdit && type === "vertical") {
       setSize(size - delta.x)
-    }
-    if (widthEdit && type === "horizontal") {
+    } else if (widthEdit && type === "horizontal") {
       setSize(size + delta.y)
+
     }
 
 
@@ -51,6 +51,9 @@ const ContentDivider = React.memo(({ initSize, children, hitZoneSize = 5, type }
   }
   const svgMouseUpHandler = () => {
     setWidthEdit(false)
+    if (callback) {
+      callback(size)
+    }
   }
   useEffect(() => {
     window.addEventListener("mouseup", svgMouseUpHandler);

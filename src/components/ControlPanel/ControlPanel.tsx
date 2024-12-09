@@ -15,6 +15,11 @@ const ControlPanel = () => {
           <ul className="nav-tabs">
             <li>
               <NavLink to="/" className={setActive}>
+                <div className="tab-link">General</div>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/actual" className={setActive}>
                 <div className="tab-link">Actual</div>
               </NavLink>
             </li>
