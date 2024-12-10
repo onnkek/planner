@@ -3,6 +3,9 @@ import "./GeneralPage.sass"
 import CalendarWidget from "../../widgets/CalendarWidget/CalendarWidget"
 import { IMonth } from "../CalendarPage/CalendarPage"
 import ClockWidget from "../../widgets/ClockWidget/ClockWidget"
+import NewYearWidget from "../../widgets/NewYearWidget/NewYearWidget"
+import TasksWidget from "../../widgets/TasksWidget/TasksWidget"
+import WeatherWidget from "../../widgets/WeatherWidget/WeatherWidget"
 
 const GeneralPage = () => {
 
@@ -102,6 +105,9 @@ const GeneralPage = () => {
       </div> */}
       <CalendarWidget month={month} />
       <ClockWidget />
+      <NewYearWidget />
+      <TasksWidget />
+      <WeatherWidget />
     </div >
   )
 }
