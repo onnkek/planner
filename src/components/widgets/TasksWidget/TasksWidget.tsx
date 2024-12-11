@@ -38,30 +38,34 @@ const TasksWidget = React.memo(() => {
   const renderItems = (data: IPost[]) => {
     const currentTasks = data.filter(currentTasksFilter)
     currentTasks.sort((post1, post2) => post1.deadline > post2.deadline ? 1 : -1)
-
-    return currentTasks.map((item: IPost) => {
-      const { id, visible, deadline, create, body } = item
-      if (visible) {
-        return (
-          <li key={id} className="tasksWidget__list">
-            <div className="tasksWidget__item">
-              <div className="tasksWidget__header">{body}</div>
-              <div
-                className="progress mb-2"
-                aria-valuenow={25}
-                aria-valuemin={0}
-                aria-valuemax={100}
-              >
+    if (currentTasks.length) {
+      return currentTasks.map((item: IPost) => {
+        const { id, visible, deadline, create, body } = item
+        if (visible) {
+          return (
+            <li key={id} className="tasksWidget__list">
+              <div className="tasksWidget__item">
+                <div className="tasksWidget__header">{body}</div>
                 <div
-                  className="progress-bar"
-                  style={{ width: `${getProgress(deadline, create)}%` }}
-                ></div>
+                  className="progress mb-2"
+                  aria-valuenow={25}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                >
+                  <div
+                    className="progress-bar"
+                    style={{ width: `${getProgress(deadline, create)}%` }}
+                  ></div>
+                </div>
               </div>
-            </div>
-          </li>
-        )
-      }
-    })
+            </li>
+          )
+        }
+      })
+    } else {
+      return <div className="tasksWidget__zero">Дедлайнов на сегодня нет</div>
+    }
+
   }
 
   return (

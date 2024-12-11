@@ -11,6 +11,8 @@ const GeneralPage = () => {
 
   const month: IMonth = {
     name: 'Dec',
+    number: 12,
+    year: 2024,
     days: [
       { number: 1, type: 'weekend', position: 6 },
       { number: 2, type: 'normal', position: 7 },
@@ -34,13 +36,13 @@ const GeneralPage = () => {
       { number: 20, type: 'normal', position: 25 },
       { number: 21, type: 'weekend', position: 26 },
       { number: 22, type: 'weekend', position: 27 },
-      { number: 23, type: 'holiday', position: 28 },
-      { number: 24, type: 'holiday', position: 29 },
-      { number: 25, type: 'holiday', position: 30 },
-      { number: 26, type: 'holiday', position: 31 },
-      { number: 27, type: 'holiday', position: 32 },
-      { number: 28, type: 'holiday', position: 33 },
-      { number: 29, type: 'weekend', position: 34 },
+      { number: 23, type: 'vacation', position: 28 },
+      { number: 24, type: 'vacation', position: 29 },
+      { number: 25, type: 'vacation', position: 30 },
+      { number: 26, type: 'vacation', position: 31 },
+      { number: 27, type: 'vacation', position: 32 },
+      { number: 28, type: 'vacation', position: 33 },
+      { number: 29, type: 'vacation', position: 34 },
       { number: 30, type: 'normal', position: 35 },
       { number: 31, type: 'normal', position: 36 }
     ]
@@ -103,7 +105,7 @@ const GeneralPage = () => {
           <div className="snow">&#10052;</div>
         </div>
       </div> */}
-      <CalendarWidget month={month} />
+      <CalendarWidget />
       <ClockWidget />
       <NewYearWidget />
       <TasksWidget />
