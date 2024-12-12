@@ -5,6 +5,7 @@ export default class JSONBinService {
     this._apiPosts = "tasks"
     this._apiBadges = "badges"
     this._apiNotes = "notes"
+    this._apiSettings = "settings"
   }
 
   getPosts = async () => {
@@ -96,6 +97,58 @@ export default class JSONBinService {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data)
+    })
+    return response
+  }
+
+  getSettings = async () => {
+    const response = await fetch(`${this._apiBase}/${this._apiSettings}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    return await response.json()
+  }
+
+  addVacation = async (data) => {
+    const response = await fetch(`${this._apiBase}/${this._apiSettings}/vacations`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    })
+    return response
+  }
+
+  addHoliday = async (data) => {
+    const response = await fetch(`${this._apiBase}/${this._apiSettings}/holidays`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    })
+    return response
+  }
+
+  removeVacation = async (id) => {
+    const response = await fetch(`${this._apiBase}/${this._apiSettings}/vacations/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+    return response
+  }
+
+  removeHoliday = async (id) => {
+    const response = await fetch(`${this._apiBase}/${this._apiSettings}/holidays/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      }
     })
     return response
   }

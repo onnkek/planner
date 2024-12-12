@@ -7,6 +7,7 @@ import ProfilePage from "./ProfilePage/ProfilePage"
 import TimetaskPage from "./TimetaskPage/TimetaskPage"
 import NotificationsPage from "./NotificationsPage/NotificationsPage"
 import BadgesPage from "./BadgesPage/BadgesPage"
+import DatePage from "./DatePage/DatePage"
 
 const SettingsPage = () => {
 
@@ -24,6 +25,7 @@ const SettingsPage = () => {
               <Route path="time" element={<TimetaskPage />} />
               <Route path="badges" element={<BadgesPage />} />
               <Route path="notifications" element={<NotificationsPage />} />
+              <Route path="date" element={<DatePage />} />
             </Routes>
           </div>
 

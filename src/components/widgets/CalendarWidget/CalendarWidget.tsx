@@ -1,46 +1,11 @@
-import React from "react"
+import React, { useEffect } from "react"
 import "./CalendarWidget.sass"
-import { calendarDB, IDay, IMonth } from "../../pages/CalendarPage/CalendarPage"
+import { calendarDB, getCalendarClasses, getMonthName, getNumberOfEmpty, IDay, IMonth } from "../../pages/CalendarPage/CalendarPage"
+import { getDaysInMonth } from "../../../utils/date"
+import { useAppDispatch, useAppSelector } from "../../../models/Hook"
+import { getSettings } from "../../../redux/SettingsSlice"
+import { Status } from "../../../models/Status"
 
-// interface CalendarWidgetProps {
-//   month: IMonth
-// }
-
-export const getHolidayClass = (month: IMonth, day: IDay) => {
-  const resList = []
-  for (let i = 1; i < month.days.length - 1; i++) {
-    if (i === 1) {
-      if (month.days[i - 1].type === month.days[i].type) {
-        resList.push(`${month.days[i - 1].type}-start`)
-      } else {
-        resList.push(`${month.days[i - 1].type}-solo`)
-      }
-    }
-    if (month.days[i - 1].type === month.days[i].type) {
-      if (month.days[i + 1].type === month.days[i].type) {
-        resList.push(`${month.days[i].type}`)
-      } else {
-        resList.push(`${month.days[i].type}-end`)
-      }
-
-    }
-    else {
-      if (month.days[i + 1].type === month.days[i].type) {
-        resList.push(`${month.days[i].type}-start`)
-      } else {
-        resList.push(`${month.days[i].type}-solo`)
-      }
-    }
-    if (i + 2 === month.days.length) {
-      if (month.days[i + 1].type === month.days[i].type) {
-        resList.push(`${month.days[i + 1].type}-end`)
-      } else {
-        resList.push(`${month.days[i + 1].type}-solo`)
-      }
-    }
-  }
-  return resList[month.days.indexOf(day)]
-}
 
 export const getCurrent = (day: IDay) => {
   return day.number === (new Date()).getDate() ? "current-day" : ""
@@ -48,19 +13,27 @@ export const getCurrent = (day: IDay) => {
 
 const CalendarWidget = React.memo(() => {
 
+  const currentYear = new Date().getFullYear()
+  const currentMonth = new Date().getMonth()
+  const dispatch = useAppDispatch()
+  const status = useAppSelector(state => state.settings.status)
+  const date = useAppSelector(state => state.settings.date)
 
-  const currentMonth = calendarDB.months.find(x => x.year === (new Date()).getFullYear() && x.number === (new Date()).getMonth() + 1)
-  const calendar = currentMonth && currentMonth.days.map(day => <div className={`${getHolidayClass(currentMonth!, day)} ${getCurrent(day)}`} key={Math.random()}><div>{day.number}</div></div>)
+  useEffect(() => {
+    if (status === Status.Idle) {
+      dispatch(getSettings())
+    }
+  }, [status, dispatch])
 
   return (
     <div className="calendarWidget">
-      {currentMonth ? <>
-        <div className="calendarWidget__header">{currentMonth!.name}</div>
-        <div className="calendarWidget__grid" key={Math.random()}>
-          {(new Array(currentMonth!.days[0].position)).fill(1).map(x => <div key={Math.random()} />)}
-          {calendar}
+      <div className="calendarWidget" key={Math.random()}>
+        <div className="calendarWidget__header">{getMonthName(currentMonth + 1)}</div>
+        <div className="calendarWidget__grid">
+          {getNumberOfEmpty(12, currentYear)! > 0 ? (new Array(getNumberOfEmpty(12, currentYear))).fill(1).map(x => <div key={Math.random()} />) : <></>}
+          {new Array(getDaysInMonth(currentYear, 12)).fill(1).map((e, i) => i + 1).map(day => <div className={`${getCalendarClasses(date, `${currentYear}-${12}-${day}`)}`} key={Math.random()}><div>{day}</div></div>)}
         </div>
-      </> : <>Календарь не найден</>}
+      </div>
     </div>
   )
 })

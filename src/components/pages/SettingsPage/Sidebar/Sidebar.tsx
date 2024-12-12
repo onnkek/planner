@@ -1,7 +1,7 @@
 import React from 'react'
 import './Sidebar.sass'
 import { NavLink } from 'react-router-dom'
-import { Bell, Brush, ClockHistory, Person, Sticky } from 'react-bootstrap-icons'
+import { Bell, Brush, Calendar, ClockHistory, Person, Sticky } from 'react-bootstrap-icons'
 
 const Sidebar = () => {
     const setActive = ({ isActive }: any) => isActive ? "sidebar-item-link sidebar-item-link-active" : "sidebar-item-link"
@@ -14,7 +14,7 @@ const Sidebar = () => {
                         to='/settings/profile'>
                         <li className='sidebar-list-item'>
                             <div className='sidebar-item-icon'>
-                                <Person className="main-icon" size={20}/>
+                                <Person className="main-icon" size={20} />
                             </div>
                             <span>Profile</span>
                         </li>
@@ -57,6 +57,16 @@ const Sidebar = () => {
                                 <Bell className="main-icon" />
                             </div>
                             <span>Notifications</span>
+                        </li>
+                    </NavLink>
+                    <NavLink
+                        className={setActive}
+                        to='/settings/date'>
+                        <li className='sidebar-list-item'>
+                            <div className='sidebar-item-icon'>
+                                <Calendar className="main-icon" />
+                            </div>
+                            <span>Date</span>
                         </li>
                     </NavLink>
                 </ul>

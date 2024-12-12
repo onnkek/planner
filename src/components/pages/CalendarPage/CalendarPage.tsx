@@ -1,6 +1,10 @@
-import React, { Component, useState } from "react"
+import React, { Component, useEffect, useState } from "react"
 import "./CalendarPage.sass"
-import { getHolidayClass } from "../../widgets/CalendarWidget/CalendarWidget"
+import { getDayCode, getDaysInMonth } from "../../../utils/date"
+import { useAppDispatch, useAppSelector } from "../../../models/Hook"
+import { getSettings, IDate } from "../../../redux/SettingsSlice"
+import { Status } from "../../../models/Status"
+
 
 export interface ICalendarDB {
   months: IMonth[]
@@ -510,26 +514,84 @@ export const calendarDB: ICalendarDB = {
   ]
 
 }
+
+export const getMonthName = (month: number): string => {
+  const name = (new Date(`${month}.1.2024`)).toLocaleString('en-EN', { month: 'long' })
+  return name.charAt(0).toUpperCase() + name.slice(1)
+}
+
+export const getNumberOfEmpty = (month: number, year: number): number | undefined => {
+  const dayCode = getDayCode(1, month, year)
+  const resCode = dayCode! + 5
+  if (resCode >= 7) {
+    return resCode - 7
+  } else {
+    return resCode
+  }
+}
+
+export const getCalendarClasses = (settingsDate: IDate, date: string): string => {
+  let classes = ""
+  for (const holiday of settingsDate.holidays) {
+    if (new Date(holiday.day).toDateString() === new Date(date).toDateString()) {
+      classes += " holiday"
+    }
+  }
+  for (const vacation of settingsDate.vacations) {
+    if (new Date(vacation.start).toDateString() === new Date(date).toDateString()) {
+      classes += " vacation-start"
+    }
+    if (new Date(vacation.end).toDateString() === new Date(date).toDateString()) {
+      classes += " vacation-end"
+    }
+    if (new Date(vacation.end) > new Date(date) && new Date(vacation.start) < new Date(date)) {
+      console.log(new Date(vacation.end))
+      console.log(new Date(date))
+      console.log(new Date(vacation.start))
+      classes += " vacation"
+    }
+  }
+  if (new Date(date).toDateString() === new Date().toDateString()) {
+    classes += " current-day"
+  }
+  return classes
+}
+
+
+
 const CalendarPage = () => {
 
+  const dispatch = useAppDispatch()
+  const status = useAppSelector(state => state.settings.status)
+  const date = useAppSelector(state => state.settings.date)
 
-
-
-
-  const getCurrent = (month: IMonth, day: IDay) => {
-    return day.number === (new Date()).getDate() && month.number === (new Date()).getMonth() + 1 && month.year === (new Date()).getFullYear() ? "current-day" : ""
-  }
-
-  const calendar = calendarDB.months.map(month =>
+  const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  const currentYear = new Date().getFullYear()
+  const calendar = <>
     <div className="calendarWidget" key={Math.random()}>
-      <div className="calendarWidget__header">{month.name}</div>
+      <div className="calendarWidget__header">{getMonthName(12)}</div>
       <div className="calendarWidget__grid">
-        {(new Array(month.days[0].position)).fill(1).map(x => <div key={Math.random()} />)}
-        {month.days.map(day => <div className={`${getHolidayClass(month, day)} ${getCurrent(month, day)}`} key={Math.random()}><div>{day.number}</div></div>)}
+        {getNumberOfEmpty(12, currentYear)! > 0 ? (new Array(getNumberOfEmpty(12, currentYear))).fill(1).map(x => <div key={Math.random()} />) : <></>}
+        {new Array(getDaysInMonth(currentYear, 12)).fill(1).map((e, i) => i + 1).map(day => <div className={`${getCalendarClasses(date, `${currentYear}-${12}-${day}`)}`} key={Math.random()}><div>{day}</div></div>)}
       </div>
     </div>
-  )
+    {months.map(month =>
 
+      <div className="calendarWidget" key={Math.random()}>
+        <div className="calendarWidget__header">{getMonthName(month)}</div>
+        <div className="calendarWidget__grid">
+          {getNumberOfEmpty(month, currentYear + 1)! > 0 ? (new Array(getNumberOfEmpty(month, currentYear + 1))).fill(1).map(x => <div key={Math.random()} />) : <></>}
+          {new Array(getDaysInMonth(currentYear + 1, month)).fill(1).map((e, i) => i + 1).map(day => <div className={`${getCalendarClasses(date, `${currentYear + 1}-${month}-${day}`)}`} key={Math.random()}><div>{day}</div></div>)}
+        </div>
+      </div>
+    )}
+  </>
+
+  useEffect(() => {
+    if (status === Status.Idle) {
+      dispatch(getSettings())
+    }
+  }, [status, dispatch])
   return (
     <div className="app-container">
       <div className="container">
