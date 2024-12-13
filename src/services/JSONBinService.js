@@ -122,6 +122,27 @@ export default class JSONBinService {
     return response
   }
 
+  addWorking = async (data) => {
+    const response = await fetch(`${this._apiBase}/${this._apiSettings}/workings`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    })
+    return response
+  }
+
+  removeWorking = async (id) => {
+    const response = await fetch(`${this._apiBase}/${this._apiSettings}/workings/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+    return response
+  }
+
   addHoliday = async (data) => {
     const response = await fetch(`${this._apiBase}/${this._apiSettings}/holidays`, {
       method: "POST",
@@ -129,6 +150,16 @@ export default class JSONBinService {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data)
+    })
+    return response
+  }
+
+  removeHoliday = async (id) => {
+    const response = await fetch(`${this._apiBase}/${this._apiSettings}/holidays/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      }
     })
     return response
   }
@@ -143,12 +174,13 @@ export default class JSONBinService {
     return response
   }
 
-  removeHoliday = async (id) => {
-    const response = await fetch(`${this._apiBase}/${this._apiSettings}/holidays/${id}`, {
-      method: "DELETE",
+  updateWeekend = async (data) => {
+    const response = await fetch(`${this._apiBase}/${this._apiSettings}/weekend`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
-      }
+      },
+      body: JSON.stringify(data)
     })
     return response
   }

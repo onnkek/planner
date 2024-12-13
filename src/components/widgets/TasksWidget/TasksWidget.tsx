@@ -32,13 +32,14 @@ const TasksWidget = React.memo(() => {
   }, [timer])
 
   const currentTasksFilter = (task: IPost) => {
-    return new Date(task.deadline).toLocaleDateString().toString() === new Date().toLocaleDateString().toString()
+    return new Date(task.deadline).toLocaleDateString().toString() === new Date().toLocaleDateString().toString() && task.visible
   }
 
   const renderItems = (data: IPost[]) => {
     const currentTasks = data.filter(currentTasksFilter)
     currentTasks.sort((post1, post2) => post1.deadline > post2.deadline ? 1 : -1)
     if (currentTasks.length) {
+
       return currentTasks.map((item: IPost) => {
         const { id, visible, deadline, create, body } = item
         if (visible) {
@@ -62,6 +63,7 @@ const TasksWidget = React.memo(() => {
           )
         }
       })
+
     } else {
       return <div className="tasksWidget__zero">Дедлайнов на сегодня нет</div>
     }

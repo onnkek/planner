@@ -1,3 +1,5 @@
+import { IDate } from "../redux/SettingsSlice"
+
 const getNumber = (number: number) => (number < 10 ? `0${number}` : number)
 
 export const getDeadline = (deadlineDate: string) => {
@@ -139,4 +141,54 @@ export const getDayCode = (day: number, month: number, year: number): number | u
 
 export const getDaysInMonth = (year: number, month: number): number => {
     return (new Date(year, month, 0)).getDate()
+}
+
+
+export const getMonthName = (month: number): string => {
+    const name = (new Date(`${month}.1.2024`)).toLocaleString('en-EN', { month: 'long' })
+    return name.charAt(0).toUpperCase() + name.slice(1)
+}
+
+export const getNumberOfEmpty = (month: number, year: number): number | undefined => {
+    const dayCode = getDayCode(1, month, year)
+    const resCode = dayCode! + 5
+    if (resCode >= 7) {
+        return resCode - 7
+    } else {
+        return resCode
+    }
+}
+
+export const getCalendarClasses = (settingsDate: IDate, date: string): string => {
+    let classes = ""
+    for (const holiday of settingsDate.holidays) {
+        if (new Date(holiday.day).toDateString() === new Date(date).toDateString()) {
+            classes += " holiday"
+        }
+    }
+    for (const vacation of settingsDate.vacations) {
+        if (new Date(vacation.start).toDateString() === new Date(date).toDateString()) {
+            classes += " vacation-start"
+        }
+        if (new Date(vacation.end).toDateString() === new Date(date).toDateString()) {
+            classes += " vacation-end"
+        }
+        if (new Date(vacation.end) > new Date(date) && new Date(vacation.start) < new Date(date)) {
+            console.log(new Date(vacation.end))
+            console.log(new Date(date))
+            console.log(new Date(vacation.start))
+            classes += " vacation"
+        }
+    }
+    if (new Date(date).toDateString() === new Date().toDateString()) {
+        classes += " current-day"
+    }
+    const isWorkingDays = settingsDate.workings.find(x => new Date(x.day).toDateString() === new Date(date).toDateString())
+    if (settingsDate.weekend.highlight && !isWorkingDays) {
+        const dayCode = getDayCode(new Date(date).getDate(), new Date(date).getMonth() + 1, new Date(date).getFullYear())
+        if (dayCode === 0 || dayCode === 1) {
+            classes += " weekend"
+        }
+    }
+    return classes
 }
