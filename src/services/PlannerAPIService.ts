@@ -1,15 +1,25 @@
+import { IBadge } from "../models/Badge"
+import { INote } from "../models/Note"
+import ITask from "../models/Task"
+import { IHoliday, IVacation, IWeekend, IWorking } from "../redux/SettingsSlice"
 
-export default class JSONBinService {
-  constructor () {
+export default class PlannerAPIService {
+  _apiBase: string
+  _apiTasks: string
+  _apiBadges: string
+  _apiNotes: string
+  _apiSettings: string
+
+  constructor() {
     this._apiBase = "http://zavgorodinir.oduur.so:8000"
-    this._apiPosts = "tasks"
+    this._apiTasks = "tasks"
     this._apiBadges = "badges"
     this._apiNotes = "notes"
     this._apiSettings = "settings"
   }
 
-  getPosts = async () => {
-    const response = await fetch(`${this._apiBase}/${this._apiPosts}`, {
+  getTasks = async () => {
+    const response = await fetch(`${this._apiBase}/${this._apiTasks}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -18,8 +28,9 @@ export default class JSONBinService {
     return await response.json()
   }
 
-  updatePosts = async (id, data) => {
-    const response = await fetch(`${this._apiBase}/${this._apiPosts}/${id}`, {
+
+  updateTask = async (id: number, data: { visible?: boolean, body?: string, deadline?: string }) => {
+    const response = await fetch(`${this._apiBase}/${this._apiTasks}/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -29,8 +40,8 @@ export default class JSONBinService {
     return response
   }
 
-  removePost = async (id) => {
-    const response = await fetch(`${this._apiBase}/${this._apiPosts}/${id}`, {
+  removeTask = async (id: number) => {
+    const response = await fetch(`${this._apiBase}/${this._apiTasks}/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -39,8 +50,8 @@ export default class JSONBinService {
     return response
   }
 
-  addTask = async (data) => {
-    const response = await fetch(`${this._apiBase}/${this._apiPosts}`, {
+  addTask = async (data: ITask) => {
+    const response = await fetch(`${this._apiBase}/${this._apiTasks}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,7 +71,7 @@ export default class JSONBinService {
     return await response.json()
   }
 
-  addBadge = async (data) => {
+  addBadge = async (data: IBadge) => {
     const response = await fetch(`${this._apiBase}/${this._apiBadges}`, {
       method: "POST",
       headers: {
@@ -71,7 +82,7 @@ export default class JSONBinService {
     return response
   }
 
-  removeBadge = async (id) => {
+  removeBadge = async (id: number) => {
     const response = await fetch(`${this._apiBase}/${this._apiBadges}/${id}`, {
       method: "DELETE",
       headers: {
@@ -90,7 +101,7 @@ export default class JSONBinService {
     })
     return await response.json()
   }
-  updateNote = async (data) => {
+  updateNote = async (data: INote) => {
     const response = await fetch(`${this._apiBase}/${this._apiNotes}`, {
       method: "PUT",
       headers: {
@@ -111,7 +122,7 @@ export default class JSONBinService {
     return await response.json()
   }
 
-  addVacation = async (data) => {
+  addVacation = async (data: IVacation) => {
     const response = await fetch(`${this._apiBase}/${this._apiSettings}/vacations`, {
       method: "POST",
       headers: {
@@ -122,7 +133,7 @@ export default class JSONBinService {
     return response
   }
 
-  addWorking = async (data) => {
+  addWorking = async (data: IWorking) => {
     const response = await fetch(`${this._apiBase}/${this._apiSettings}/workings`, {
       method: "POST",
       headers: {
@@ -133,7 +144,7 @@ export default class JSONBinService {
     return response
   }
 
-  removeWorking = async (id) => {
+  removeWorking = async (id: number) => {
     const response = await fetch(`${this._apiBase}/${this._apiSettings}/workings/${id}`, {
       method: "DELETE",
       headers: {
@@ -143,7 +154,7 @@ export default class JSONBinService {
     return response
   }
 
-  addHoliday = async (data) => {
+  addHoliday = async (data: IHoliday) => {
     const response = await fetch(`${this._apiBase}/${this._apiSettings}/holidays`, {
       method: "POST",
       headers: {
@@ -154,7 +165,7 @@ export default class JSONBinService {
     return response
   }
 
-  removeHoliday = async (id) => {
+  removeHoliday = async (id: number) => {
     const response = await fetch(`${this._apiBase}/${this._apiSettings}/holidays/${id}`, {
       method: "DELETE",
       headers: {
@@ -164,7 +175,7 @@ export default class JSONBinService {
     return response
   }
 
-  removeVacation = async (id) => {
+  removeVacation = async (id: number) => {
     const response = await fetch(`${this._apiBase}/${this._apiSettings}/vacations/${id}`, {
       method: "DELETE",
       headers: {
@@ -174,7 +185,7 @@ export default class JSONBinService {
     return response
   }
 
-  updateWeekend = async (data) => {
+  updateWeekend = async (data: IWeekend) => {
     const response = await fetch(`${this._apiBase}/${this._apiSettings}/weekend`, {
       method: "PUT",
       headers: {

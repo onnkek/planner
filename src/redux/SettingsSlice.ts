@@ -2,25 +2,25 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { Status } from "../models/Status"
 import { INote } from "../models/Note"
 import IFolder from "../models/Folder"
-import JSONBinService from "../services/JSONBinService"
+import PlannerAPIService from "../services/PlannerAPIService"
 import { RootState } from "./store"
 
-interface IWeekend {
+export interface IWeekend {
   highlight: boolean
 }
 
-interface IWorking {
+export interface IWorking {
   id: number
   day: string
 }
 
-interface IVacation {
+export interface IVacation {
   id: number
   start: string
   end: string
 }
 
-interface IHoliday {
+export interface IHoliday {
   id: number
   day: string
 }
@@ -182,7 +182,7 @@ export const getSettings = createAsyncThunk(
   'settings/getSettings',
 
   async () => {
-    return await new JSONBinService().getSettings()
+    return await new PlannerAPIService().getSettings()
   })
 
 export const changeWeekend = createAsyncThunk<IWeekend, IWeekend, { state: RootState }>(
@@ -193,7 +193,7 @@ export const changeWeekend = createAsyncThunk<IWeekend, IWeekend, { state: RootS
     const newWeekend: IWeekend = {
       highlight: payload.highlight
     }
-    const response = await new JSONBinService().updateWeekend(newWeekend)
+    const response = await new PlannerAPIService().updateWeekend(newWeekend)
     if (!response.ok) {
       return rejectWithValue('Can\'t delete post! Server error!')
     }
@@ -214,7 +214,7 @@ export const addHoliday = createAsyncThunk<IHoliday, string, { state: RootState 
       id: Math.random(),
       day: payload
     }
-    const response = await new JSONBinService().addHoliday(newHoliday)
+    const response = await new PlannerAPIService().addHoliday(newHoliday)
     if (!response.ok) {
       return rejectWithValue('Can\'t delete post! Server error!')
     }
@@ -235,7 +235,7 @@ export const removeHoliday = createAsyncThunk<IHoliday[], IHoliday, { state: Roo
     const index = state.findIndex((holiday) => holiday.id === payload.id)
     const newHolidays = [...state.slice(0, index), ...state.slice(index + 1)]
 
-    const response = await new JSONBinService().removeHoliday(payload.id)
+    const response = await new PlannerAPIService().removeHoliday(payload.id)
     if (!response.ok) {
       return rejectWithValue('Can\'t delete post! Server error!')
     }
@@ -255,7 +255,7 @@ export const addWorking = createAsyncThunk<IWorking, string, { state: RootState 
       id: Math.random(),
       day: payload
     }
-    const response = await new JSONBinService().addWorking(newWorking)
+    const response = await new PlannerAPIService().addWorking(newWorking)
     if (!response.ok) {
       return rejectWithValue('Can\'t delete post! Server error!')
     }
@@ -276,7 +276,7 @@ export const removeWorking = createAsyncThunk<IWorking[], IWorking, { state: Roo
     const index = state.findIndex((working) => working.id === payload.id)
     const newWorkings = [...state.slice(0, index), ...state.slice(index + 1)]
 
-    const response = await new JSONBinService().removeWorking(payload.id)
+    const response = await new PlannerAPIService().removeWorking(payload.id)
     if (!response.ok) {
       return rejectWithValue('Can\'t delete post! Server error!')
     }
@@ -303,7 +303,7 @@ export const addVacation = createAsyncThunk<IVacation, PayloadType, { state: Roo
       end: payload.end
     }
 
-    const response = await new JSONBinService().addVacation(newVacation)
+    const response = await new PlannerAPIService().addVacation(newVacation)
     if (!response.ok) {
       return rejectWithValue('Can\'t delete post! Server error!')
     }
@@ -324,7 +324,7 @@ export const removeVacation = createAsyncThunk<IVacation[], IVacation, { state: 
     const index = state.findIndex((vacation) => vacation.id === payload.id)
     const newVacations = [...state.slice(0, index), ...state.slice(index + 1)]
 
-    const response = await new JSONBinService().removeVacation(payload.id)
+    const response = await new PlannerAPIService().removeVacation(payload.id)
     if (!response.ok) {
       return rejectWithValue('Can\'t delete post! Server error!')
     }

@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import PostListReducer from './PostListSlice'
+import TasksReducer from './TasksSlice'
 import BadgesReducer from './BadgesSlice'
 import NotesReducer from './NotesSlice'
 import WeatherReducer from './WeatherSlice'
@@ -7,7 +7,7 @@ import SettingsReducer from './SettingsSlice'
 
 const store = configureStore({
     reducer: {
-        posts: PostListReducer,
+        tasks: TasksReducer,
         badges: BadgesReducer,
         notes: NotesReducer,
         weather: WeatherReducer,

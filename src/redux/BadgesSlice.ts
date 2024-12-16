@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { IBadge } from "../models/Badge"
 import { RootState } from "./store"
-import JSONBinService from "../services/JSONBinService"
+import PlannerAPIService from "../services/PlannerAPIService"
 import { Colors } from "../components/pages/SettingsPage/BadgesPage/BadgesPage"
 import { Status } from "../models/Status"
 
@@ -67,7 +67,7 @@ type PayloadType = {
 export const getBadges = createAsyncThunk(
     'badges/getBadges',
     async () => {
-        return await new JSONBinService().getBadges()
+        return await new PlannerAPIService().getBadges()
     })
 
 
@@ -82,14 +82,14 @@ export const addBadge = createAsyncThunk<IBadge, PayloadType, { state: RootState
             maxId = badges.reduce((prev, cur) => (prev.id > cur.id ? prev : cur)).id
             maxId++
         }
-        const newBadge = {
+        const newBadge: IBadge = {
             id: maxId,
             color: Number(payload.color),
             text: payload.text
         }
 
         const newBadges = [...badges, newBadge]
-        await new JSONBinService().addBadge(newBadge)
+        await new PlannerAPIService().addBadge(newBadge)
         return newBadge
 
     }
@@ -106,7 +106,7 @@ export const removeBadge = createAsyncThunk<IBadge[], RemovePayloadType, { state
         const state = getState().badges.badges
         const index = state.findIndex((badge) => badge.id === payload.id)
         const newData = [...state.slice(0, index), ...state.slice(index + 1)]
-        const response = await new JSONBinService().removeBadge(payload.id)
+        const response = await new PlannerAPIService().removeBadge(payload.id)
         if (!response.ok) {
             return rejectWithValue('Can\'t delete badge! Server error!')
         }

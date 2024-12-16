@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from "react"
 import "./TasksWidget.sass"
 import { useAppDispatch, useAppSelector } from "../../../models/Hook"
-import IPost from "../../../models/Post"
 import { Status } from "../../../models/Status"
-import { fetchPosts } from "../../../redux/PostListSlice"
+import { fetchTasks } from "../../../redux/TasksSlice"
 import { getBadges } from "../../../redux/BadgesSlice"
 import { getProgress } from "../../../utils/date"
+import ITask from "../../../models/Task"
 
 
 const TasksWidget = React.memo(() => {
 
   const dispatch = useAppDispatch()
-  const posts: IPost[] = useAppSelector(state => state.posts.posts)
-  const status = useAppSelector(state => state.posts.statusFetchPosts)
+  const tasks: ITask[] = useAppSelector(state => state.tasks.tasks)
+  const status = useAppSelector(state => state.tasks.statusFetchTasks)
   const [timer, setTimer] = useState(0)
 
   useEffect(() => {
     if (status === Status.Idle) {
-      dispatch(fetchPosts())
+      dispatch(fetchTasks())
       dispatch(getBadges())
     }
   }, [status, dispatch])
@@ -31,16 +31,16 @@ const TasksWidget = React.memo(() => {
     return () => clearTimeout(timeout)
   }, [timer])
 
-  const currentTasksFilter = (task: IPost) => {
+  const currentTasksFilter = (task: ITask) => {
     return new Date(task.deadline).toLocaleDateString().toString() === new Date().toLocaleDateString().toString() && task.visible
   }
 
-  const renderItems = (data: IPost[]) => {
+  const renderItems = (data: ITask[]) => {
     const currentTasks = data.filter(currentTasksFilter)
-    currentTasks.sort((post1, post2) => post1.deadline > post2.deadline ? 1 : -1)
+    currentTasks.sort((task1, task2) => task1.deadline > task2.deadline ? 1 : -1)
     if (currentTasks.length) {
 
-      return currentTasks.map((item: IPost) => {
+      return currentTasks.map((item: ITask) => {
         const { id, visible, deadline, create, body } = item
         if (visible) {
           return (
@@ -73,7 +73,7 @@ const TasksWidget = React.memo(() => {
   return (
     <div className="tasksWidget">
       <ul className="tasksWidget__wrapper">
-        {renderItems(posts)}
+        {renderItems(tasks)}
       </ul>
     </div>
   )

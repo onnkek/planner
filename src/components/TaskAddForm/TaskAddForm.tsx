@@ -1,7 +1,7 @@
 import React, { useState } from "react"
-import "./ItemAddForm.sass"
+import "./TaskAddForm.sass"
 import Spinner from "../UI/Spinner/Spinner"
-import { addNewPost } from "../../redux/PostListSlice"
+import { addNewTask } from "../../redux/TasksSlice"
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
 import Badge, { BadgeType } from "../UI/Badge/Badge"
 import { IBadge } from "../../models/Badge"
@@ -9,13 +9,13 @@ import { Status } from "../../models/Status"
 
 
 
-const ItemAddForm = ({ closeModal }: any) => {
+const TaskAddForm = ({ closeModal }: any) => {
 
   const dispatch = useAppDispatch()
   const [body, setBody] = useState('')
   const [deadline, setDeadline] = useState('')
   const [link, setLink] = useState('')
-  const status = useAppSelector(state => state.posts.statusAddPost)
+  const status = useAppSelector(state => state.tasks.statusAddTask)
   const [badges, setBadges] = useState<IBadge[]>([])
   const [startBadges, setStartBadges] = useState(useAppSelector(state => state.badges.badges))
 
@@ -32,7 +32,7 @@ const ItemAddForm = ({ closeModal }: any) => {
 
   const onSubmit = async (e: any) => {
     e.preventDefault()
-    await dispatch(addNewPost({ body, deadline, link, badges }))
+    await dispatch(addNewTask({ body, deadline, link, badges }))
 
     setBody('')
     setDeadline('')
@@ -53,7 +53,7 @@ const ItemAddForm = ({ closeModal }: any) => {
   }
 
   if (status === Status.Loading) {
-    return <Spinner small className="mb-4"/>
+    return <Spinner small className="mb-4" />
   }
 
 
@@ -76,7 +76,7 @@ const ItemAddForm = ({ closeModal }: any) => {
     <form className="form-1">
       <div className="mb-3">
         <label className="form-label">
-          Post description
+          Task description
         </label>
         <textarea
           autoFocus
@@ -113,14 +113,17 @@ const ItemAddForm = ({ closeModal }: any) => {
           onChange={onDeadlineChange}
         />
       </div>
-
-      <ul className="form-control badge-list">
-        {badgesContent}
-      </ul>
-      <ul className="badge-list">
-        {startBadgesContent}
-      </ul>
-
+      <div className="mb-3">
+        <label className="form-label">
+          Select badges
+        </label>
+        <ul className="form-control badge-list">
+          {badgesContent}
+        </ul>
+        <ul className="badge-list">
+          {startBadgesContent}
+        </ul>
+      </div>
 
       <div className="form-footer">
         <button type="submit" className="btn btn-primary" onClick={onSubmit}>
@@ -130,4 +133,4 @@ const ItemAddForm = ({ closeModal }: any) => {
     </form>
   )
 }
-export default ItemAddForm
+export default TaskAddForm

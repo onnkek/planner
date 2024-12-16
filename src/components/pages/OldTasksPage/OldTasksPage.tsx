@@ -1,17 +1,17 @@
 import React, { Component } from "react"
-import "./OldItemsPage.sass"
+import "./OldTasksPage.sass"
 import Search from "../../Search/Search"
-import PostList from "../../PostList/PostList"
+import TaskList from "../../TaskList/TaskList"
 
-const OldItemsPage = () => {
+const OldTasksPage = () => {
 
   return (
     <div className="app-container">
       <div className="search-containter">
         <Search />
       </div>
-      <PostList isNew={false} />
+      <TaskList isNew={false} />
     </div>
   )
 }
-export default OldItemsPage
+export default OldTasksPage

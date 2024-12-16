@@ -1,12 +1,12 @@
-import React, { Component, useState } from "react"
-import "./MainPage.sass"
+import React, { useState } from "react"
+import "./ActualTaskPage.sass"
 import Search from "../../Search/Search"
 import { PlusLg } from "react-bootstrap-icons"
-import PostList from "../../PostList/PostList"
 import Modal from "../../Modal/Modal"
-import ItemAddForm from "../../ItemAddForm/ItemAddForm"
+import TaskAddForm from "../../TaskAddForm/TaskAddForm"
+import TaskList from "../../TaskList/TaskList"
 
-const MainPage = () => {
+const ActualTaskPage = () => {
 
   const [showModal, setShowModal] = useState(false)
 
@@ -18,14 +18,13 @@ const MainPage = () => {
           type="button"
           className="add-button btn btn-primary outline"
           onClick={() => setShowModal(true)}
-
         ><PlusLg size={22} /></button>
       </div>
-      <PostList isNew={true} />
-      <Modal title='Add new post' show={showModal} setShow={setShowModal}>
-        <ItemAddForm closeModal={() => setShowModal(false)}/>
+      <TaskList isNew={true} />
+      <Modal title='Add new task' show={showModal} setShow={setShowModal}>
+        <TaskAddForm closeModal={() => setShowModal(false)} />
       </Modal >
     </div >
   )
 }
-export default MainPage
+export default ActualTaskPage

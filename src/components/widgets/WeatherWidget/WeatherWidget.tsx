@@ -5,11 +5,11 @@ import { useAppDispatch, useAppSelector } from "../../../models/Hook"
 import { getWeather } from "../../../redux/WeatherSlice"
 import Spinner from "../../UI/Spinner/Spinner"
 import { GeoAltFill } from "react-bootstrap-icons"
-
+import { getWeatherIcon } from "../../../utils/iconsSelectors"
 
 const WeatherWidget = React.memo(() => {
   const dispatch = useAppDispatch()
-  const status = useAppSelector(state => state.posts.statusFetchPosts)
+  const status = useAppSelector(state => state.weather.status)
   const weather = useAppSelector(state => state.weather.weather)
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const WeatherWidget = React.memo(() => {
           </div>
           <div className="weatherWidget__body">
             <div className="weatherWidget__left">
-              {weather.weather && weather.weather[0].icon && <img className="weatherWidget__body-icon" src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@4x.png`} />}
+              {weather.weather && weather.weather[0].icon && <img className="weatherWidget__body-icon" src={getWeatherIcon(weather.weather[0].icon)} />}
             </div>
             <div className="weatherWidget__right">
               <div className="weatherWidget__temp-container">

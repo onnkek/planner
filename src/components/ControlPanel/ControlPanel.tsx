@@ -1,13 +1,10 @@
 import React from "react"
 import "./ControlPanel.sass"
 import { NavLink } from "react-router-dom"
-import Modal from "../Modal/Modal"
-import ItemAddForm from "../ItemAddForm/ItemAddForm"
 
 const ControlPanel = () => {
   const setActive = ({ isActive }: any) => (isActive ? "tab active-tab" : "tab")
 
-  // const status = useAppSelector(state => state.posts.statusAddPost)
   return (
     <>
       <div className="control">

@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react"
-import "./Post.sass"
+import "./Task.sass"
 import { CheckLg, Link45deg, Pencil, Trash3 } from "react-bootstrap-icons"
-import { hidePost, removePost, savePost } from "../../redux/PostListSlice"
+import { hideTask, removeTask, saveTask } from "../../redux/TasksSlice"
 import Spinner from "../UI/Spinner/Spinner"
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
 import { getDate, getDeadline, getProgress } from "../../utils/date"
-import IPost from "../../models/Post"
+import IPost from "../../models/Task"
 import Badge from "../UI/Badge/Badge"
 import { Status } from "../../models/Status"
 
-const Post: React.FC<IPost> = (props) => {
+const Task: React.FC<IPost> = (props) => {
 
   const dispatch = useAppDispatch()
-  const status = useAppSelector(state => state.posts.removing)
-  const statusSave = useAppSelector(state => state.posts.statusSavePost)
+  const status = useAppSelector(state => state.tasks.removing)
+  const statusSave = useAppSelector(state => state.tasks.statusSaveTask)
   const [edit, setEdit] = useState(false)
   const [body, setBody] = useState(props.body)
   const [deadline, setDeadline] = useState(props.deadline)
@@ -34,19 +34,19 @@ const Post: React.FC<IPost> = (props) => {
 
   const deleteHandler = () => {
     if (props.visible) {
-      dispatch(hidePost({ id }))
+      dispatch(hideTask({ id }))
     } else {
-      dispatch(removePost({ id }))
+      dispatch(removeTask({ id }))
     }
   }
 
   const editHandler = async () => {
 
-    await dispatch(savePost({ id, body, deadline }))
+    await dispatch(saveTask({ id, body, deadline }))
     setEdit(!edit) 
   }
 
-  const deleteButton = status.some(postId => postId === props.id) ? (
+  const deleteButton = status.some(taskId => taskId === props.id) ? (
     <Spinner className='spinner-small p-spinner' />
   ) : (
     <Trash3 onClick={deleteHandler} className="p-icon icon-trash-3" />
@@ -152,4 +152,4 @@ const Post: React.FC<IPost> = (props) => {
 
 }
 
-export default Post
+export default Task

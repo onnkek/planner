@@ -14,12 +14,14 @@ const SettingsHeader = ({ title }: any) => {
 			<h2 className="settings-header">{title}</h2>
 			<div className="settings-check">
 				{status === Status.Loading && <Spinner className='spinner-small' />}
-				{status === Status.Succeeded && <>
-					<div className="settings-check-icon">
-						<CheckLg className="icon-check" />
-					</div>
-					<span className="settings-check-title">Saved</span>
-				</>}
+				{status === Status.Succeeded &&
+					<>
+						<div className="settings-check-icon">
+							<CheckLg className="icon-check" />
+						</div>
+						<span className="settings-check-title">Saved</span>
+					</>
+				}
 			</div>
 		</div>
 	)

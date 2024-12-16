@@ -3,3 +3,8 @@ declare module '*.svg' {
   const SVG: string | undefined
   export default SVG;
 }
+
+declare module "*.png" {
+  const value: any;
+  export default value;
+}

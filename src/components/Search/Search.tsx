@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './Search.sass'
-import { sortPosts, filterPosts } from '../../redux/PostListSlice'
+import { sortTasks, filterTasks } from '../../redux/TasksSlice'
 import { useAppDispatch } from '../../models/Hook'
 
 const Search = () => {
@@ -17,11 +17,11 @@ const Search = () => {
     switch (type) {
       case ButtonType.Name:
         setSort('Name')
-        dispatch(sortPosts('Name'))
+        dispatch(sortTasks('Name'))
         return
       case ButtonType.Time:
         setSort('Time')
-        dispatch(sortPosts('Time'))
+        dispatch(sortTasks('Time'))
         return
       default:
         return
@@ -30,7 +30,7 @@ const Search = () => {
 
   const onChangeHandler = (e: any) => {
     setFilter(e.target.value)
-    dispatch(filterPosts(e.target.value))
+    dispatch(filterTasks(e.target.value))
   }
 
   return (
@@ -41,7 +41,7 @@ const Search = () => {
           <li><button className="dropdown-item" onClick={() => onClickHandler(ButtonType.Name)}>Name</button></li>
           <li><button className="dropdown-item" onClick={() => onClickHandler(ButtonType.Time)}>Time left</button></li>
         </ul>
-        <input type="text" className="form-control" aria-label="Text input with dropdown button" onChange={onChangeHandler} value={filter}/>
+        <input type="text" className="form-control" aria-label="Text input with dropdown button" onChange={onChangeHandler} value={filter} />
       </div>
     </>
   )

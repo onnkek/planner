@@ -1,60 +1,18 @@
 import React, { MouseEvent, useEffect, useState } from "react"
 import "./Note.sass"
-import lpIcon from '../../assets/icons/lp.svg'
-import testIcon from '../../assets/icons/test.svg'
-import icon1 from '../../assets/icons/icon1.svg'
-import icon2 from '../../assets/icons/icon2.svg'
-import icon3 from '../../assets/icons/icon3.svg'
-import icon4 from '../../assets/icons/icon4.svg'
-import icon5 from '../../assets/icons/icon5.svg'
-import icon6 from '../../assets/icons/icon6.svg'
-import icon7 from '../../assets/icons/icon7.svg'
-import icon8 from '../../assets/icons/icon8.svg'
-import icon9 from '../../assets/icons/icon9.svg'
-import icon10 from '../../assets/icons/icon10.svg'
-import folderIcon from '../../assets/icons/folder.svg'
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
 import { Status } from "../../models/Status"
 import { Spinner } from "reactstrap"
 import { CheckLg, Pencil } from "react-bootstrap-icons"
 import { isNote } from "../TreeViewItem/TreeViewItem"
-import { openIconsMenu, setSelectItem, updateNotes } from "../../redux/NotesSlice"
+import { openIconsMenu, updateNotes } from "../../redux/NotesSlice"
 import IconsMenu from "../IconsMenu/IconsMenu"
 import Editor from "react-simple-code-editor"
 import hljs from "highlight.js"
 import ContentDivider from "../ContentDivider/ContentDivider"
+import { getNotesIcon } from "../../utils/iconsSelectors"
 
 
-export const getIcon = (name: string) => {
-  switch (name) {
-    case "lp":
-      return lpIcon
-    case "test":
-      return testIcon
-    case "icon1":
-      return icon1
-    case "icon2":
-      return icon2
-    case "icon3":
-      return icon3
-    case "icon4":
-      return icon4
-    case "icon5":
-      return icon5
-    case "icon6":
-      return icon6
-    case "icon7":
-      return icon7
-    case "icon8":
-      return icon8
-    case "icon9":
-      return icon9
-    case "icon10":
-      return icon10
-    default:
-      return folderIcon
-  }
-}
 
 const Note = () => {
   const dispatch = useAppDispatch()
@@ -122,9 +80,9 @@ const Note = () => {
           <div className="note-header__left">
             {showIcons && <IconsMenu icon={icon} setIcon={setIcon} />}
             {edit ? <div className="note-header__icon-input" onClick={changeIconHandler}>
-              <img src={getIcon(icon)} className="note-header__icon note-header__icon_edit" />
+              <img src={getNotesIcon(icon)} className="note-header__icon note-header__icon_edit" />
             </div> :
-              <img src={getIcon(select.icon)} className="note-header__icon" />
+              <img src={getNotesIcon(select.icon)} className="note-header__icon" />
             }
             <div className="note-header__title">
               {edit ? (

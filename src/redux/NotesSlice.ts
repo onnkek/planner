@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { IBadge } from "../models/Badge"
 import { RootState } from "./store"
-import JSONBinService from "../services/JSONBinService"
+import PlannerAPIService from "../services/PlannerAPIService"
 import { Status } from "../models/Status"
 import { INote } from "../models/Note"
 import IFolder from "../models/Folder"
@@ -179,7 +179,7 @@ type PayloadType = {
 export const getNotes = createAsyncThunk(
   'notes/getNotes',
   async () => {
-    return await new JSONBinService().getNotes()
+    return await new PlannerAPIService().getNotes()
   })
 
 type AddPayloadType = {
@@ -225,7 +225,7 @@ export const addItem = createAsyncThunk<IFolder, AddPayloadType, { state: RootSt
         }
 
       }
-      const response = await new JSONBinService().updateNote(newNotes)
+      const response = await new PlannerAPIService().updateNote(newNotes)
       if (!response.ok) {
         return rejectWithValue('Can\'t delete post! Server error!')
       }
@@ -255,7 +255,7 @@ export const removeItem = createAsyncThunk<IFolder, AddPayloadType, { state: Roo
         folder.children = [...folder.children.slice(0, index), ...folder.children.slice(index + 1)]
       }
     }
-    const response = await new JSONBinService().updateNote(newNotes)
+    const response = await new PlannerAPIService().updateNote(newNotes)
     if (!response.ok) {
       return rejectWithValue('Can\'t delete post! Server error!')
     }
@@ -298,7 +298,7 @@ export const updateNotes = createAsyncThunk<{ notes: IFolder, select: IFolder | 
     }
 
 
-    const response = await new JSONBinService().updateNote(newNotes)
+    const response = await new PlannerAPIService().updateNote(newNotes)
     if (!response.ok) {
       return rejectWithValue('Can\'t delete post! Server error!')
     }

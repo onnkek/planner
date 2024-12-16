@@ -3,12 +3,9 @@ import './TreeViewItem.sass'
 import { INote } from "../../models/Note"
 import IFolder from "../../models/Folder"
 import TreeView from "../TreeView/TreeView"
-import { getIcon } from "../Note/Note"
-import folderIcon from '../../assets/icons/folder.svg'
-import ContextMenu from "../ContextMenu/ContextMenu"
 import { useAppDispatch, useAppSelector } from "../../models/Hook"
 import { openContextMenu, setSelectItem } from "../../redux/NotesSlice"
-import { Status } from "../../models/Status"
+import { getNotesIcon } from "../../utils/iconsSelectors"
 
 interface TreeViewItemProps {
   itemData: IFolder | INote
@@ -57,7 +54,7 @@ const TreeViewItem = React.memo(({ itemData }: TreeViewItemProps) => {
               </svg>}
               <img
                 className="tree-view-item__icon"
-                src={getIcon(itemData.icon)}
+                src={getNotesIcon(itemData.icon)}
                 alt=""
               />
             </>
@@ -65,7 +62,7 @@ const TreeViewItem = React.memo(({ itemData }: TreeViewItemProps) => {
             <>
               <img
                 className="tree-view-item__icon"
-                src={getIcon(itemData.icon)}
+                src={getNotesIcon(itemData.icon)}
                 alt=""
               />
             </>
