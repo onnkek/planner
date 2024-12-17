@@ -71,7 +71,7 @@ const TasksWidget = React.memo(() => {
   }
 
   return (
-    <div className="tasksWidget">
+    <div className="widget tasksWidget">
       <ul className="tasksWidget__wrapper">
         {renderItems(tasks)}
       </ul>

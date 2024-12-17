@@ -112,7 +112,7 @@ const ClockWidget = React.memo(() => {
   }, [])
 
   return (
-    <div className="clockWidget">
+    <div className="widget clockWidget">
       <svg width={300} height={300}>
         {texts.map(text => <text fill="white" key={text.number} x={text.x} y={text.y} >{text.number}</text>)}
         <line x1={startX} y1={startY} x2={hourPosition.x} y2={hourPosition.y} stroke="white" strokeWidth={4}></line>

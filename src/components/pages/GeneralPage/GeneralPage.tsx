@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { MouseEvent, useEffect, useState } from "react"
 import "./GeneralPage.sass"
 import CalendarWidget from "../../widgets/CalendarWidget/CalendarWidget"
 import ClockWidget from "../../widgets/ClockWidget/ClockWidget"
@@ -9,11 +9,13 @@ import { useAppDispatch, useAppSelector } from "../../../models/Hook"
 import { Status } from "../../../models/Status"
 import { getSettings } from "../../../redux/SettingsSlice"
 import { getWeather } from "../../../redux/WeatherSlice"
+import VacationWidget from "../../widgets/VacationWidget/VacationWidget"
 
 const GeneralPage = () => {
 
   const dispatch = useAppDispatch()
   const status = useAppSelector(state => state.settings.status)
+  const [select, setSelect] = useState<EventTarget | undefined>(undefined)
   useEffect(() => {
     if (status === Status.Idle) {
       dispatch(getSettings())
@@ -21,67 +23,30 @@ const GeneralPage = () => {
     }
   }, [status, dispatch])
 
+  // const mouseDownHandler = (e: MouseEvent<HTMLDivElement>) => {
+  //   // setSelect(e.target)
+  // }
+  // const mouseMoveHandler = (e: MouseEvent<HTMLDivElement>) => {
+  //   // console.log(select)
+  // }
+  // const mouseUpHandler = (e: MouseEvent<HTMLDivElement>) => {
+  //   // setSelect(undefined)
+  // }
+
   return (
-    <div className="general-page">
-      {/* <div className="main">
-        <div className="initial-snow">
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-          <div className="snow">&#10052;</div>
-        </div>
-      </div> */}
+    <div
+      className="general-page"
+      // onMouseDown={mouseDownHandler}
+      // onMouseMove={mouseMoveHandler}
+      // onMouseUp={mouseUpHandler}
+    >
       <CalendarWidget date={new Date().toDateString()} />
       <ClockWidget />
       <NewYearWidget />
+      <VacationWidget />
       <TasksWidget />
       <WeatherWidget />
+      <button className="general-page__edit">Edit</button>
     </div >
   )
 }

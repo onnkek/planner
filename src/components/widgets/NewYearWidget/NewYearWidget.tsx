@@ -6,7 +6,7 @@ const NewYearWidget = React.memo(() => {
 
   const beforeNewYear = 31 - (new Date()).getDate()
   return (
-    <div className="newYearWidget">
+    <div className="widget newYearWidget">
       {beforeNewYear > 0 ? (
         <>
           <div className="newYearWidget__header">Дней до нового года</div>

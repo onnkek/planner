@@ -19,7 +19,7 @@ const WeatherWidget = React.memo(() => {
   }, [status, dispatch])
 
   return (
-    <div className="weatherWidget">
+    <div className="widget weatherWidget">
       {status === Status.Loading && <Spinner />}
       {status === Status.Succeeded && (
         <>
