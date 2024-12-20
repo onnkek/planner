@@ -19,6 +19,7 @@ import icon7 from '../assets/icons/icon7.svg'
 import icon8 from '../assets/icons/icon8.svg'
 import icon9 from '../assets/icons/icon9.svg'
 import icon10 from '../assets/icons/icon10.svg'
+import coffee from '../assets/icons/coffee.svg'
 import folderIcon from '../assets/icons/folder.svg'
 
 export const getWeatherIcon = (iconName: string): string | undefined => {
@@ -82,6 +83,8 @@ export const getNotesIcon = (name: string) => {
       return icon9
     case "icon10":
       return icon10
+    case "coffee":
+      return coffee
     default:
       return folderIcon
   }

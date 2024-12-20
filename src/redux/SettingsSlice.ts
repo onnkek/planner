@@ -4,6 +4,7 @@ import { INote } from "../models/Note"
 import IFolder from "../models/Folder"
 import PlannerAPIService from "../services/PlannerAPIService"
 import { RootState } from "./store"
+import { IWidget } from "./WidgetsSlice"
 
 export interface IWeekend {
   highlight: boolean
@@ -32,10 +33,13 @@ export interface IDate {
   weekend: IWeekend
 }
 
+
+
 interface ISettings {
   date: IDate
   status: Status
   settingStatus: Status
+  position: { x: number, y: number }
   removing: number[]
   addStatus: Status
   statusSavePost: Status
@@ -55,6 +59,7 @@ const initialState: ISettings = {
       highlight: false
     }
   },
+  position: { x: 0, y: 0 },
   status: Status.Idle,
   settingStatus: Status.Idle,
   removing: [],
@@ -334,6 +339,8 @@ export const removeVacation = createAsyncThunk<IVacation[], IVacation, { state: 
     return newVacations
   }
 )
+
+
 export const {
   setSettingStatusIdle
 } = SettingsSlice.actions

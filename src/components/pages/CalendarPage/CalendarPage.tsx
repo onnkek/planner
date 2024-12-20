@@ -1,4 +1,4 @@
-import React, { useEffect} from "react"
+import React, { useEffect } from "react"
 import "./CalendarPage.sass"
 import { useAppDispatch, useAppSelector } from "../../../models/Hook"
 import { getSettings, IDate } from "../../../redux/SettingsSlice"
@@ -13,13 +13,14 @@ const CalendarPage = () => {
   const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   const currentMonth = new Date().getMonth() + 1
   const currentYear = new Date().getFullYear()
-  
+
   const calendarContent = <>
-    <CalendarWidget date={`${currentYear}-${currentMonth}-${1}`} />
+    <CalendarWidget date={`${currentYear}-${currentMonth}-${1}`} id={Math.random()}/>
     {months.map(month =>
       <CalendarWidget
         date={`${currentYear + 1}-${month}-${1}`}
         key={Math.random()}
+        id={Math.random()}
       />
     )}
   </>

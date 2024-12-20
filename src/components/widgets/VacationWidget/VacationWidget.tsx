@@ -24,7 +24,7 @@ const VacationWidget = React.memo(() => {
 
 
   return (
-    <div className="widget vacationWidget">
+    <div className="vacationWidget">
       {status === Status.Loading ? <Spinner /> : vacationContent}
     </div>
   )

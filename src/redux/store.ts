@@ -4,6 +4,7 @@ import BadgesReducer from './BadgesSlice'
 import NotesReducer from './NotesSlice'
 import WeatherReducer from './WeatherSlice'
 import SettingsReducer from './SettingsSlice'
+import WidgetsReducer from './WidgetsSlice'
 
 const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ const store = configureStore({
         badges: BadgesReducer,
         notes: NotesReducer,
         weather: WeatherReducer,
-        settings: SettingsReducer
+        settings: SettingsReducer,
+        widgets: WidgetsReducer
     }
 })
 

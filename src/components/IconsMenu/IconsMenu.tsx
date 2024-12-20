@@ -34,6 +34,7 @@ const IconsMenu = ({ icon, setIcon }: IconsMenuProps) => {
         <img src={getNotesIcon("icon8")} onClick={() => setIcon("icon8")} />
         <img src={getNotesIcon("icon9")} onClick={() => setIcon("icon9")} />
         <img src={getNotesIcon("icon10")} onClick={() => setIcon("icon10")} />
+        <img src={getNotesIcon("coffee")} onClick={() => setIcon("coffee")} />
       </div>
 
 

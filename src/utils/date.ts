@@ -174,9 +174,6 @@ export const getCalendarClasses = (settingsDate: IDate, date: string): string =>
 			classes += " vacation-end"
 		}
 		if (new Date(vacation.end) > new Date(date) && new Date(vacation.start) < new Date(date)) {
-			console.log(new Date(vacation.end))
-			console.log(new Date(date))
-			console.log(new Date(vacation.start))
 			classes += " vacation"
 		}
 	}
@@ -202,4 +199,10 @@ export const getDaysBeforeVacation = (vacations: IVacation[]): number => {
 		return Math.round((vacationDate - currentDate) / 86400000)
 	}
 	return -1
+}
+
+export const getDaysBeforeNewYear = () => {
+	const lastDay: any = new Date(`${new Date().getFullYear()}-12-31`)
+	const current: any = new Date()
+	return Math.round((lastDay - current) / 86400000)
 }

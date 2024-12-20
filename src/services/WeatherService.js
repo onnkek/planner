@@ -7,8 +7,8 @@ export default class WeatherService {
     this._q = "yekaterinburg"
   }
 
-  getWeather = async () => {
-    const response = await fetch(`${this._apiBase}?appid=${this._appid}&q=${this._q}&units=${this._units}`, {
+  getWeather = async (city) => {
+    const response = await fetch(`${this._apiBase}?appid=${this._appid}&q=${city}&units=${this._units}`, {
       method: "GET",
       headers: {
       },

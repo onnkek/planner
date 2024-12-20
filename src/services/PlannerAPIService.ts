@@ -9,6 +9,7 @@ export default class PlannerAPIService {
   _apiBadges: string
   _apiNotes: string
   _apiSettings: string
+  _apiWidgets: string
 
   constructor() {
     this._apiBase = "http://zavgorodinir.oduur.so:8000"
@@ -16,6 +17,7 @@ export default class PlannerAPIService {
     this._apiBadges = "badges"
     this._apiNotes = "notes"
     this._apiSettings = "settings"
+    this._apiWidgets = "widgets"
   }
 
   getTasks = async () => {
@@ -196,4 +198,35 @@ export default class PlannerAPIService {
     return response
   }
 
+  updateSettings = async (data: any) => {
+    const response = await fetch(`${this._apiBase}/${this._apiSettings}/weekend`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    })
+    return response
+  }
+
+  getWidgets = async () => {
+    const response = await fetch(`${this._apiBase}/${this._apiWidgets}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    return await response.json()
+  }
+
+  updateWidgets = async (data: any) => {
+    const response = await fetch(`${this._apiBase}/${this._apiWidgets}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    })
+    return response
+  }
 }

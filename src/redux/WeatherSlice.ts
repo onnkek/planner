@@ -4,9 +4,35 @@ import { INote } from "../models/Note"
 import IFolder from "../models/Folder"
 import WeatherService from "../services/WeatherService"
 
+interface IRainSnow {
+  "1h"?: string
+}
+
+interface IWind {
+  speed: string
+}
+
+interface IClouds {
+  all: string
+}
+
+interface IWeather {
+  name: string
+  snow?: IRainSnow
+  rain?: IRainSnow
+  wind: IWind
+  clouds: IClouds
+  main: {
+    temp: number
+    feels_like: number
+  }
+  weather: {
+    icon: string
+  }[]
+}
 
 interface INotes {
-  weather: any
+  weather: IWeather[]
   status: Status
   removing: number[]
   addStatus: Status
@@ -19,7 +45,7 @@ interface INotes {
 }
 
 const initialState: INotes = {
-  weather: {},
+  weather: [],
   status: Status.Idle,
   removing: [],
   addStatus: Status.Idle,
@@ -44,8 +70,7 @@ const WeatherSlice = createSlice({
       })
       .addCase(getWeather.fulfilled, (state: INotes, action) => {
         state.status = Status.Succeeded
-        state.weather = action.payload
-
+        state.weather.push(action.payload)
       })
       .addCase(getWeather.rejected, (state: INotes, action) => {
         state.status = Status.Failed
@@ -53,10 +78,11 @@ const WeatherSlice = createSlice({
   }
 })
 
+
 export const getWeather = createAsyncThunk(
   'notes/getWeather',
-  async () => {
-    return await new WeatherService().getWeather()
+  async (payload: string) => {
+    return await new WeatherService().getWeather(payload)
   })
 
 export default WeatherSlice.reducer
